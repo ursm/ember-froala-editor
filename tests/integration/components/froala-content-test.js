@@ -13,7 +13,7 @@ test('.fr-view class is applied', function(assert) {
   // .attr('class') revels _only_ the ember-view class,
   // but inspecting in the dummy app shows the fr-view class...
   // TODO: Fix!
-  assert.equal(this.$().hasClass('fr-view'), true, ".hasClass('fr-view')");
+  assert.ok(this.$().hasClass('fr-view'));
 
 });
 
