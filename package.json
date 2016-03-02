@@ -54,6 +54,7 @@
   ],
   "dependencies": {
     "ember-cli-babel": "^5.1.5",
+    "object-assign": "^4.0.1",
     "rsvp": "^3.2.1"
   },
   "ember-addon": {
