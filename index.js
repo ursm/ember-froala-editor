@@ -21,14 +21,22 @@ module.exports = {
 
 
   included: function(app, parentAddon) {
-    // Per the ADDON_HOOKS.md document
-    // https://github.com/ember-cli/ember-cli/blob/master/ADDON_HOOKS.md#included
-    this._super.included.apply(this, arguments);
-
 
     // Per the ember-cli documentation
     // http://ember-cli.com/extending/#broccoli-build-options-for-in-repo-addons
     var target = (parentAddon || app);
+
+
+    // Ensure the Babel polyfill is imported
+    // http://ember-cli.com/extending/#broccoli-build-options-for-in-repo-addons
+    target.options       = target.options       || {};
+    target.options.babel = target.options.babel || {};
+    target.options.babel.includePolyfill = true;
+
+
+    // Per the ADDON_HOOKS.md document
+    // https://github.com/ember-cli/ember-cli/blob/master/ADDON_HOOKS.md#included
+    this._super.included.apply(this, arguments);
 
 
     // Build options hash by merging default build options
