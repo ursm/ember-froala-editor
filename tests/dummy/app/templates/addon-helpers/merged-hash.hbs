@@ -1,0 +1,32 @@
+<section class="panel panel-default">
+  <div class="panel-body">
+
+
+    <div class="page-header"><h1 class="h3">
+      (merged-hash)
+      <small>Helper</small>
+    </h1></div>
+
+
+    <p class="lead">
+      This helper is a little out-of-scope for this addon, but can be very useful when you need to use a combination of "options". It allows you to use an object / hash property but also add other or override options. Ex:
+    </p>
+
+
+    <pre>&#123;&#123;froala-editor options=<strong>(merged-hash controllerOptions heightMin=400)</strong>&#125;&#125;</pre>
+
+
+    <p>
+      The helper assumes all parameters are objects, and then uses <code>Object.assign()</code> to merge everything together. Each parameter takes priority on the previous, with the "hash" being the final. So you can merge multiple "levels" of options. Ex:
+    </p>
+
+
+    <pre>(merged-hash
+  applicationOptions
+  controllerOptions
+  pastePlain=true
+  placeholderText="Only plain text can go here...")</pre>
+
+
+  </div>{{!-- .panel-body --}}
+</section>{{!-- .panel --}}

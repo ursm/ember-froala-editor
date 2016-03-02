@@ -1,0 +1,257 @@
+<section class="panel panel-default">
+  <div class="panel-body">
+
+
+    <div class="page-header"><h1 class="h3">
+      &#123;&#123;froala-editor&#125;&#125;
+      <small>Component</small>
+    </h1></div>
+
+
+    <p class="lead">
+      This is why you're using the addon, to use the actual Froala Editor in an Ember project. The <code>&#123;&#123;froala-editor&#125;&#125;</code> component exposes many aspects of the Froala Editor in "Ember ways" and uses the <code>&lt;div contenteditable&gt;</code> version of the editor (not <code>&lt;textarea&gt;</code>). And since the Froala Editor is technically a jQuery plugin, this component will handle proper setup and teardown.
+    </p>
+
+
+    <p>
+      Security note: Since this editor generates HTML, this component treats the 'content' as "HTML safe" and will output the value <em>unescaped</em>. It is up to you to properly sanitize the content, safeguarding against XXS.
+    </p>
+
+
+  </div>{{!-- .panel-body --}}
+</section>{{!-- .panel --}}
+
+
+
+
+<section class="panel panel-default" id="attributes">
+
+
+  <div class="panel-body">
+    <h2 class="h4">Component Attributes</h2>
+    <p>
+      There are several attributes which can be used to adjust functionality. Mainly, the <code>content</code> and <code>options</code> will be the mostly used attributes. Ex: <code>&#123;&#123;froala-editor content=parentProperty options=(hash heightMin=200)&#125;&#125;</code>
+    </p>
+  </div>
+
+
+  <div class="table-responsive"><table class="table">
+    <thead><tr>
+      <th scope="col">Attribute</th>
+      <th scope="col">Type</th>
+      <th scope="col">Default</th>
+      <th scope="col">Description</th>
+    </tr></thead>
+    <tbody>
+      <tr>
+        <th scope="row">content</th>
+        <td>string | <a href="http://emberjs.com/api/classes/Ember.String.html#method_htmlSafe" target="_blank">SafeString</a></td>
+        <td><code>undefined</code></td>
+        <td>
+          String of HTML for the editor to use, typically a bound property
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">contentBindingEvent</th>
+        <td>string</td>
+        <td><code>'contentChanged'</code></td>
+        <td><a href="https://www.froala.com/wysiwyg-editor/docs/events" target="_blank">Froala Editor event name</a> to trigger the 'content' attribute to be updated. Note: Using key events, such as <code>'keypress'</code> will miss formatting changes, such as Bolding</td>
+      </tr>
+      <tr>
+        <th scope="row">defaultContent</th>
+        <td>string</td>
+        <td><code>'&lt;p&gt;&lt;br&gt;&lt;/p&gt;'</code></td>
+        <td>String of HTML used when 'content' <a href="http://emberjs.com/api/#method_isPresent" target="_blank">is <em>not</em> present</a></td>
+      </tr>
+      <tr>
+        <th scope="row">on-*</th>
+        <td>action</td>
+        <td><code>undefined</code></td>
+        <td>Froala Editor event handlers as Ember actions, see the {{link-to "event actions" (query-params section="events")}} for details</td>
+      </tr>
+      <tr>
+        <th scope="row">on-*-getHtml</th>
+        <td>action</td>
+        <td><code>undefined</code></td>
+        <td>Froala Editor event handlers as Ember actions but with the first argument as the editors current content/HTML, see the {{link-to "event actions" (query-params section="events")}} for details</td>
+      </tr>
+      <tr>
+        <th scope="row">options</th>
+        <td>object / hash</td>
+        <td><code>{}</code></td>
+        <td>Options hash passed to the Froala Editor, look at the <a href="https://www.froala.com/wysiwyg-editor/docs/options" target="_blank">Froala Editor options documentation</a> for details</td>
+      </tr>
+    </tbody>
+  </table></div>
+
+
+  <div class="panel-body">
+    <p>
+      Note: The <em>only</em> attributes that support being changed after initialization are <code>content</code> and <code>options</code>. Changing any other attribute may inadvertently cause the editor to re-initialize.
+    </p>
+  </div>
+
+
+</section>{{!-- .panel --}}
+
+
+
+
+<section class="panel panel-default" id="events">
+  <div class="panel-body">
+
+
+    <h2 class="h4">Event Actions</h2>
+
+
+    <p>
+      The <a href="https://www.froala.com/wysiwyg-editor/docs/events" target="_blank">Froala Editor events</a> are exposed as <a href="https://guides.emberjs.com/v2.3.0/components/triggering-changes-with-actions/" target="_blank">Ember Actions</a>. You can capture an editor event by passing in an action for the attribute named as the editor event and prefixed with 'on-'. Ex: <code>&#123;&#123;froala-editor on-blur=(action "parentActionName")&#125;&#125;</code> And if the event name contains a period, replace it with a dash. Ex: "charCounter.exceeded" becomes <code>&#123;&#123;froala-editor on-charCounter-exceeded=(action "parentActionName")&#125;&#125;</code>
+    </p>
+
+
+    <p>
+      Optionally, you may append '-getHtml' at the end of the attribute name to get the editors current content / HTML as the first argument.  This is very useful when combined with the <a href="http://emberjs.com/api/classes/Ember.Templates.helpers.html#method_mut" target="_blank"><code>(mut)</code> helper</a>. Ex: <code>&#123;&#123;froala-editor on-blur-getHtml=(mut someContent)&#125;&#125;</code>
+    </p>
+
+
+    <p>
+      Actions will receive the same arguments that the <a href="https://www.froala.com/wysiwyg-editor/docs/events" target="_blank">Froala Editor docs</a> mention, with the exception of the <code>editor</code> (the second argument) which will instead be an instance of the component. The actual <code>editor</code> instance is available from the 'editor' property. Ex: <code>component.get('editor')</code>
+    </p>
+
+
+    <div class="row">
+      <div class="col-md-6">
+
+
+        <h3 class="h6">on-image-beforeUpload=(action "foobar")</h3>
+          <pre>import Ember from 'ember';
+
+export default Ember.Controller.extend({
+  actions: {
+
+    foobar( <strong>event, component, images</strong> ) {
+      // If you need the editor instance...
+      let editor = component.get('editor');
+      // Your code...
+    } // foobar()
+
+  } // :actions
+}); // export default</pre>
+
+
+      </div>
+      <div class="col-md-6">
+
+
+        <h3 class="h6">on-image-beforeUpload-getHtml=(action "foobar")</h3>
+        <pre>import Ember from 'ember';
+
+export default Ember.Controller.extend({
+  actions: {
+
+    foobar( <strong>html, event, component, images</strong> ) {
+      // If you need the editor for some reason...
+      let editor = component.get('editor');
+      // Your code...
+    } // foobar()
+
+  } // :actions
+}); // export default</pre>
+
+
+      </div>
+    </div>
+
+
+    <p>
+      Note: Some of the events allow you to <code>return false;</code> from the event handler to cancel the event. You can do the same from the action, just be sure you are using the <code>(action)</code> helper instead of a string of the action name. Ex: <code>on-image-beforeUpload=(action "actionName")</code> vs <code>on-image-beforeUpload="actionName"</code>
+    </p>
+
+
+  </div>{{!-- .panel-body --}}
+</section>{{!-- .panel --}}
+
+
+
+
+<section class="panel panel-default" id="methods">
+  <div class="panel-body">
+
+
+    <h2 class="h4">Editor Methods</h2>
+
+
+    <p>
+      The <a href="https://www.froala.com/wysiwyg-editor/docs/methods" target="_blank">Froala Editor methods</a> are exposed as a Component action (<code>component.send('method', 'method.name')</code>) and/or a Component function (<code>component.method('method.name')</code>). The benefit of calling the Component function directly is that it will return the value from the editor method, such as <a href="https://www.froala.com/wysiwyg-editor/docs/methods#snapshot.get" target="_blank">'snapshot.get'</a>, whereas sending an action will not. Either way will require access to the Component instance, so you'll need to use an {{link-to "event handler" (query-params section="events")}}.
+    </p>
+
+
+    <pre>&#123;&#123;froala-editor on-paste-after=(action "doSomething")&#125;&#125;</pre>
+
+
+    <div class="row">
+      <div class="col-md-6">
+
+
+        <h3 class="h6">Sending an Action</h3>
+          <pre>import Ember from 'ember';
+
+export default Ember.Controller.extend({
+  actions: {
+    doSomething( event, component ) {
+
+      <strong>// Won't work!
+      let snapshot = component.send(
+        'method', 'snapshot.get'
+      );
+
+      // No pasting!
+      component.send(
+        'method', 'commands.undo'
+      );</strong>
+
+    } // doSomething()
+  } // :actions
+}); // export default</pre>
+
+
+      </div>
+      <div class="col-md-6">
+
+
+        <h3 class="h6">Calling the Function</h3>
+        <pre>import Ember from 'ember';
+
+export default Ember.Controller.extend({
+  actions: {
+    doSomething( event, component ) {
+
+      <strong>// Works
+      let snapshot = component.method(
+        'snapshot.get'
+      );
+
+      // No pasting!
+      component.method(
+        'commands.undo'
+      );</strong>
+
+    } // doSomething()
+  } // :actions
+}); // export default</pre>
+
+
+      </div>
+    </div>
+
+
+    <p>
+      Alternately, look at the {{link-to "(froala-method) helper" "addon-helpers.froala-method"}} if you <em>only</em> need to call an/one editor method based on an editor event. Here is a similar, short-hand version of the example above.
+    </p>
+
+
+    <pre>&#123;&#123;froala-editor on-paste-after=(froala-method "commands.undo")&#125;&#125;</pre>
+
+
+  </div>{{!-- .panel-body --}}
+</section>{{!-- .panel --}}

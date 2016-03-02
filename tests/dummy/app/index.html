@@ -3,23 +3,29 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Dummy</title>
-    <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ember Froala Editor Addon</title>
+    <meta name="description" content="An ember-cli addon that properly wraps the Froala WYSIWYG Editor for use in Ember.js">
 
-    {{content-for "head"}}
+    {{content-for 'head'}}
 
     <link rel="stylesheet" href="assets/vendor.css">
     <link rel="stylesheet" href="assets/dummy.css">
 
-    {{content-for "head-footer"}}
+    {{content-for 'head-footer'}}
   </head>
   <body>
-    {{content-for "body"}}
+
+    <div id="app-loading" class="text-center">
+      <i class="fa fa-3x fa-circle-o-notch fa-spin"></i>
+      <div>Loading...</div>
+    </div>
+
+    {{content-for 'body'}}
 
     <script src="assets/vendor.js"></script>
     <script src="assets/dummy.js"></script>
 
-    {{content-for "body-footer"}}
+    {{content-for 'body-footer'}}
   </body>
 </html>

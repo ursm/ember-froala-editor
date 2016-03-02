@@ -1,0 +1,53 @@
+<section class="panel panel-default">
+  <div class="panel-body">
+
+
+    <div class="page-header"><h1 class="h3">
+      (froala-method)
+      <small>Helper</small>
+    </h1></div>
+
+
+    <p class="lead">
+      This helper creates an <code>(action)</code> like closure that will call an <a href="https://www.froala.com/wysiwyg-editor/docs/methods" target="_blank">editor method</a> when executed. It is meant to replace an {{link-to "event action" "addon-components.froala-editor" (query-params section="events")}} on the <code>&#123;&#123;froala-editor&#125;&#125;</code> component. Simply specify the method name as the first parameter of the helper.
+    </p>
+
+    <pre>&#123;&#123;froala-editor on-paste-after=<strong>(froala-method "commands.undo")</strong>&#125;&#125;</pre>
+
+
+  </div>{{!-- .panel-body --}}
+</section>{{!-- .panel --}}
+
+
+
+
+<section class="panel panel-default">
+  <div class="panel-body">
+
+
+    <h2 class="h4">Method Arguments</h2>
+
+
+    <p>
+      The helpers first parameter will be used as the editor method to be called, and the remaining parameters will be used for method arguments. So you can pass in the proper arguments as documented, an they will be <em>spread</em> out when called. Ex:
+    </p>
+
+
+    <pre>(froala-method "align.apply" "right")</pre>
+
+
+    <p>
+      In addition, you can use values from the event handler and "proxy" them to the method. First, define a parameter in the position which the argument should be passed in (<em>to</em>). Then define a hash with the same name and an integer of the position (1 indexed) which the argument would have been received (<em>from</em>). Ex:
+    </p>
+
+
+    <pre>&#123;&#123;froala-editor on-save-error=(froala-method "html.insert" "message" message=3)&#125;&#125;</pre>
+
+
+    <p>
+      In the above example, the "on-save-error" action/handler would have received <code>(event, component, error)</code>. In the "(froala-method)" helper we defined a "message" and told it to use the third argument, which is <code>error</code>.
+    </p>
+
+
+  </div>{{!-- .panel-body --}}
+</section>{{!-- .panel --}}

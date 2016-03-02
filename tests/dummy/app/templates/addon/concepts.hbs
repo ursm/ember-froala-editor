@@ -1,0 +1,335 @@
+<section class="panel panel-default">
+  <div class="panel-body">
+
+
+    <div class="page-header"><h1 class="h3">
+      Addon Concepts
+    </h1></div>
+
+
+    <p class="lead">
+      In addition to ember-froala-editor specific concepts, this page explains how some of the <a href="https://www.froala.com/wysiwyg-editor/docs/concepts" target="_blank">Froala Editor concepts docs</a> would be applied in ember land.
+    </p>
+
+
+    <h3 class="h5">Concepts</h3>
+    <div class="row lead">
+      <ul class="col-sm-6 list-unstyled">
+        <li>{{link-to "Apply editor key" (query-params section="key")}}</li>
+        <li>{{link-to "Autosave" (query-params section="autosave")}}</li>
+        <li>{{link-to "Changing options" (query-params section="options")}}</li>
+        <li>{{link-to "Custom Buttons, Plugins, etc." (query-params section="custom")}}</li>
+      </ul>
+      <ul class="col-sm-6 list-unstyled">
+        <li>{{link-to "Defaults" (query-params section="defaults")}}</li>
+        <li>{{link-to "Image Uploading / Deleting" (query-params section="image")}}</li>
+        <li>{{link-to "Hide on-blur" (query-params section="hide")}}</li>
+      </ul>
+    </div>
+
+
+  </div>{{!-- .panel-body --}}
+</section>{{!-- .panel --}}
+
+
+
+
+<section class="panel panel-default" id="key">
+  <div class="panel-body">
+
+
+    <h2 class="h4">
+      Apply editor key
+    </h2>
+
+
+    <p>
+      Since Froala WYSIWYG Editor is a paid product, there is an <a href="https://www.froala.com/wysiwyg-editor/faq#activation-key" target="_blank">activation key</a> that must be applied when using the editor. The best way to apply the key is using the {{link-to "defaults concept" (query-params section="defaults")}}. <code>ember g component froala-editor</code>
+    </p>
+
+
+    <h4 class="h6">app/components/froala-editor.js</h4>
+    <pre>import FroalaEditorComponent from 'ember-froala-editor/components/froala-editor';
+
+export default FroalaEditorComponent.extend({
+
+  defaultOptions : {
+    key   : '_YOUR_KEY_HERE_'
+  }
+
+});</pre>
+
+
+  </div>{{!-- .panel-body --}}
+</section>{{!-- .panel --}}
+
+
+
+
+<section class="panel panel-default" id="autosave">
+  <div class="panel-body">
+
+
+    <h2 class="h4">
+      Autosave
+    </h2>
+
+
+    <p>
+      <a href="https://www.froala.com/wysiwyg-editor/docs/concepts/autosave" target="_blank">Auto-saving</a> in ember is very much dependent on each use case. However, below is a rough overview on one possible solution using ember-data and a debounced save method. It will <code>.save()</code> the model 3 seconds after the content last changed. <a href="http://emberjs.com/api/classes/Ember.run.html#method_debounce" target="_blank">Debounce</a> is important here, since you could overload the server if saved for <em>every</em> content change.
+    </p>
+
+
+    <h4 class="h6">app/controllers/foobar.js</h4>
+    <pre>import Ember from 'ember';
+
+export default Ember.Controller.extend({
+
+  getModelSave() {
+    this.get('model').save();
+  },
+
+  actions: {
+    saveModel() {
+      Ember.run.debounce(
+        this,
+        this.getModelSave,
+        3000 // 3 seconds
+      ); // debounce()
+    } // saveModel()
+  } // :actions
+
+});</pre>
+
+
+    <h4 class="h6">app/templates/foobar.hbs</h4>
+    <pre>&#123;&#123;froala-editor content=model.someProp on-contentChanged=(action "saveModel")&#125;&#125;</pre>
+
+
+  </div>{{!-- .panel-body --}}
+</section>{{!-- .panel --}}
+
+
+
+
+<section class="panel panel-default" id="options">
+  <div class="panel-body">
+
+
+    <h2 class="h4">
+      Changing options
+    </h2>
+
+
+    <p>
+      While the Froala Editor itself does not support changing <code>options</code> after initialization, the <code>&#123;&#123;froala-editor&#125;&#125;</code> component does by re-initializing the editor all together. The component utilizes the <code>didUpdateAttrs()</code> hook, so the component will only know when options change via the attribute binding <code>&#123;&#123;froala-editor options=thisProp&#125;&#125;</code>. There are a few nuances to be aware of when changing options because of this;
+    </p>
+
+
+    <ol>
+      <li>Since <a href="https://ember-twiddle.com/f1740177799321f88eda?numColumns=1&openFiles=application.controller.js%2C" target="_blank">changing an object property <em>value</em> does not trigger observers of the object (eg: <code>didUpdateAttrs()</code>)</a>, you might need to <code>this.notifyPropertyChange('thisProp')</code> from within the controller or parent component after changing an option</li>
+      <li>Changing an option <em>within</em> an event handler could be handled by changing the option in the component itself and triggering the <code>optionsDidChange()</code> handler. Ex; <code>this.set('options.theme', 'red'); this.optionsDidChange();</code></li>
+      <li>In addition, changing the <code>content</code> <em>within</em> an event handler will not properly update the editor, you'll need to manually call the <code>contentDidChange()</code> handler</li>
+    </ol>
+
+
+    <p>Note: Because the editor will be re-initialized, it is not performant to change options, and the undo/redo stack will be lost.</p>
+
+
+  </div>{{!-- .panel-body --}}
+</section>{{!-- .panel --}}
+
+
+
+
+<section class="panel panel-default" id="custom">
+  <div class="panel-body">
+
+
+    <h2 class="h4">
+      Custom Buttons, Plugins, etc.
+    </h2>
+
+
+    <p>
+      <a href="https://www.froala.com/wysiwyg-editor/docs/concepts/create-plugin" target="_blank">Custom plugins</a>, <a href="https://www.froala.com/wysiwyg-editor/docs/concepts/custom-button" target="_blank">custom buttons</a>, <a href="https://www.froala.com/wysiwyg-editor/docs/concepts/custom-dropdown" target="_blank">custom dropdowns</a>, <a href="https://www.froala.com/wysiwyg-editor/docs/concepts/custom-icon" target="_blank">custom icons</a>, <a href="https://www.froala.com/wysiwyg-editor/docs/concepts/custom-popup" target="_blank">custom popups</a>, <a href="https://www.froala.com/wysiwyg-editor/docs/concepts/custom-shortcut" target="_blank">custom shortcuts</a> (Froala has many <a href="https://www.froala.com/wysiwyg-editor/docs/examples" target="_blank">examples</a>, search for "custom") should all be placed in an <a href="https://guides.emberjs.com/v2.3.0/applications/initializers/#toc_application-initializers" target="_blank">ember application initializer</a>. Just be sure to <code>import</code> Ember and apply everything on <a href="http://emberjs.com/api/#method__" target="_blank">embers alias for jQuery</a>, or else you'll get linting errors. By using an initializer, these customizations will be properly applied once, and available to all <code>&#123;&#123;froala-editor&#125;&#125;</code>'s in your project.
+    </p>
+
+
+    <h4 class="h6">app/initializers/froala-custom.js</h4>
+    <pre>import Ember from 'ember';
+
+export function initialize(application) {
+
+  // custom plugins
+  (function ($) {
+    // your custom plugin code here
+  })(Ember.$);
+
+  // custom icons
+  Ember.$.FroalaEditor.DefineIcon('buttonIcon', { NAME: 'star'});
+
+  // custom buttons
+  Ember.$.FroalaEditor.RegisterCommand('myButton', {
+    // your custom button code here
+  });
+
+  // you get the idea...
+
+};
+
+export default {
+  name: 'froala-custom',
+  initialize: initialize
+};</pre>
+
+
+    <p>Note: You can split each customization up between multiple initializers, the example above is just a general overview.</p>
+
+
+  </div>{{!-- .panel-body --}}
+</section>{{!-- .panel --}}
+
+
+
+
+<section class="panel panel-default" id="defaults">
+  <div class="panel-body">
+
+
+    <h2 class="h4">
+      Defaults
+    </h2>
+
+
+    <p>
+      The {{link-to "froala-editor component" "addon-components.froala-editor"}} was created with extending and applying defaults in mind. You can simply <code>ember g component froala-editor</code> and <code>.extend()</code> this addons version to override it, providing "default" properties. That way you can still use the same component name in your templates, <code>&#123;&#123;froala-editor&#125;&#125;</code>. You would just define the <code>defaultOptions</code>, {{link-to "event handlers" "addon-components.froala-editor" (query-params section="events")}}, or other {{link-to "component attributes" "addon-components.froala-editor" (query-params section="attributes")}} as properties. This is a great way to define a common theme and even your Froala Editor key!
+    </p>
+
+
+    <h4 class="h6">app/components/froala-editor.js</h4>
+    <pre>import FroalaEditorComponent from 'ember-froala-editor/components/froala-editor';
+
+export default FroalaEditorComponent.extend({
+
+  defaultOptions : {
+    key   : '_YOUR_KEY_HERE_',
+    theme : 'red'
+  },
+
+  'on-blur' : function() {
+    // maybe a default save action
+  }
+
+});</pre>
+
+
+    <p>
+      Note: Specific <code>&#123;&#123;froala-editor&#125;&#125;</code> instances can still override defaults provided this way. For example, let's say you want <em>one</em> editor to use a different theme: <code>&#123;&#123;froala-editor options=(hash theme="royal")&#125;&#125;</code> The <code>options</code> are <a href="http://emberjs.com/api/#method_assign" target="_blank">merged</a> with <code>defaultOptions</code>.
+    </p>
+
+
+    <p>
+      Note: This is <em>not</em> a deep merge, only the first level of properties override their values. Therefore, editor options with sub object hashes or arrays will be completely overridden by <code>&#123;&#123;froala-editor&#125;&#125;</code> instances.
+    </p>
+
+
+  </div>{{!-- .panel-body --}}
+</section>{{!-- .panel --}}
+
+
+
+
+<section class="panel panel-default" id="image">
+  <div class="panel-body">
+
+
+    <h2 class="h4">
+      Image Uploading / Deleting
+    </h2>
+
+
+    <p>
+      <a href="https://www.froala.com/wysiwyg-editor/docs/concepts/image-upload" target="_blank">Image uploading</a> and <a href="https://www.froala.com/wysiwyg-editor/docs/concepts/delete-image" target="_blank">image deleting</a> could be a combination of {{link-to "event actions" "addon-components.froala-editor" (query-params section="events")}} and <a href="https://github.com/ember-cli/ember-ajax" target="_blank">ember-ajax</a>. In addition, you could define these for <em>all</em> <code>&#123;&#123;froala-editor&#125;&#125;</code> instances by using the {{link-to "defaults concept" (query-params section="defaults")}}. While uploading an image could be handled with the built-in Froala Editor options, here is an example of deleting an image from the server.
+    </p>
+
+
+    <h4 class="h6">app/controllers/foobar.js</h4>
+    <pre>import Ember from 'ember';
+
+export default Ember.Controller.extend({
+
+  ajax: Ember.inject.service(),
+
+  actions: {
+    deleteImage( event, component, $img ) {
+      this.get('ajax').post(
+        '/image_delete',
+        { data: {
+          src: $img.attr('src')
+        } }
+      ); // post()
+    } // deleteImage()
+  } // :actions
+
+});</pre>
+
+
+    <h4 class="h6">app/templates/foobar.hbs</h4>
+    <pre>&#123;&#123;froala-editor on-image-removed=(action "deleteImage")&#125;&#125;</pre>
+
+
+  </div>{{!-- .panel-body --}}
+</section>{{!-- .panel --}}
+
+
+
+
+<section class="panel panel-default" id="hide">
+  <div class="panel-body">
+
+
+    <h2 class="h4">
+      Hide on-blur
+    </h2>
+
+
+    <p>
+      You can create a neat effect where the editor is "shown" only when it is used. It takes a combination of the <a href="https://www.froala.com/wysiwyg-editor/docs/options#initOnClick" target="_blank">initOnClick option</a>, <a href="https://www.froala.com/wysiwyg-editor/docs/events#blur" target="_blank">on-blur event</a>, and <code>reinit()</code> method. Note: You will lose the undo/redo stack however.
+    </p>
+
+
+    {{froala-editor
+      content="<p>Click here for an example...</p>"
+      options=(hash initOnClick=true height=50 toolbarButtons="bold italic undo redo")
+      on-focus=(froala-method "html.set" "<p>Now click away...</p>")
+      on-blur=(froala-method "reinit")}}
+
+
+    <h4 class="h6">app/templates/foobar.hbs</h4>
+    <pre>&#123;&#123;froala-editor options=(hash initOnClick=true) on-blur=(froala-method "reinit")&#125;&#125;</pre>
+
+
+    <p>
+      Or, you can make this a {{link-to "default effect" (query-params section="defaults")}} by extending the froala-editor component and calling the internal <code>reinitEditor()</code> method.
+    </p>
+
+
+    <h4 class="h6">app/components/froala-editor.js</h4>
+    <pre>import FroalaEditorComponent from 'ember-froala-editor/components/froala-editor';
+
+export default FroalaEditorComponent.extend({
+
+  options : {
+    initOnClick: true
+  },
+
+  'on-blur' : function() {
+    this.reinitEditor();
+  }
+
+});</pre>
+
+
+  </div>{{!-- .panel-body --}}
+</section>{{!-- .panel --}}

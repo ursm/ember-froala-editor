@@ -1,0 +1,256 @@
+/* Match Froala's background and add margin for fixed navbar */
+body {
+  background-color: #efefef;
+  margin-top: 64px;
+}
+
+
+/** application loading & spinner in the index.html */
+div#app-loading {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 140px;
+  height: 150px;
+  margin-top: -75px;
+  margin-left: -70px;
+  z-index: 1000;
+  color: #b8312f;
+  font-size: x-large;
+}
+
+
+/* Adjust the padding for the "main" container */
+body.ember-application > div.ember-view > div.container {
+  padding: 15px;
+}
+
+
+/* Reduce the gutter between columns */
+/* Note: Docs only use 2-column rows... */
+@media (min-width: 768px) {
+  div.row > *[class*='col-sm-']:nth-child(1) {
+    padding-right: 7px;
+  }
+  div.row > *[class*='col-sm-']:nth-child(2) {
+    padding-left: 7px;
+  }
+}
+@media (min-width: 992px) {
+  div.row > *[class*='col-md-']:nth-child(1) {
+    padding-right: 7px;
+  }
+  div.row > *[class*='col-md-']:nth-child(2) {
+    padding-left: 7px;
+  }
+}
+
+
+/* Reduce the "gutter" between panels */
+section.panel {
+  margin-bottom: 14px;
+}
+
+
+/* Fix the navbar brand to show logo's properly */
+a.navbar-brand {
+  padding: 0;
+}
+a.navbar-brand img {
+  display: inline-block;
+}
+a.navbar-brand span {
+  color: #000000;
+}
+
+
+/* Fix th navbar links to line up properly */
+/* Use negative margins to pull everything back into the navbar's height */
+a.navbar-link i.fa {
+  font-size: 2.6em;
+  margin: -7px 0;
+  vertical-align: middle;
+}
+a.navbar-link img {
+  margin: -5px 0;
+}
+
+
+/* Just simulate the affix'ed position, since the sidebar should always remain fixed */
+/* This way we don't need to bring in the affix JavaScript */
+aside > div.affix {
+  position: fixed;
+  top: 79px;
+}
+@media (min-width: 768px) {
+  aside > div.affix {
+    width: 228px;
+  }
+}
+@media (min-width: 992px) {
+  aside > div.affix {
+    width: 220.5px;
+  }
+}
+@media (min-width: 1200px) {
+  aside > div.affix {
+    width: 270.5px;
+  }
+}
+
+
+/* Remove special hover animations for navbar links */
+header.navbar-default a.navbar-link {
+  color: #000000;
+}
+a.navbar-link:hover {
+  text-decoration: none;
+}
+
+
+/* Make panel headers "Froala like" */
+section.panel hgroup.panel-heading {
+  background-color: #b8312f;
+  color: #ffffff;
+}
+
+
+/* Match the Froala list links text styling */
+section.panel hgroup.panel-heading h3.panel-title {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 22.5px;
+}
+nav.list-group a.list-group-item {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 22.5px;
+  padding: 10px 15px;
+}
+nav.list-group a.list-group-item code {
+  color: inherit;
+  background-color: inherit;
+  padding: 0;
+}
+
+
+/* Make the .active list links more "Froala like" */
+nav.list-group a.list-group-item.active {
+  background-color: #ffffff;
+  border-color: #dddddd;
+  border-left: 3px solid #b8312f !important;
+  color: #b8312f;
+  padding-left: 12px;
+}
+nav.list-group a.active:hover {
+  background-color: #f5f5f5;
+  border-color: #dddddd;
+  color: #b8312f;
+}
+
+
+/* Buttons to navigate "back" or scroll to the top */
+a#top-button,
+a#back-button {
+  position: fixed;
+  bottom: 15px;
+}
+a#top-button {
+  right: 15px;
+}
+a#back-button {
+  left: 15px;
+}
+
+
+/* http://stackoverflow.com/questions/19601245/create-a-circular-button-in-bs3 */
+.btn-lg.btn-circle {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  padding: 7px 0;
+  font-size: 20px;
+  line-height: 1.42;
+  border-radius: 20px;
+}
+
+
+.btn.btn-danger {
+  background-color: #b8312f;
+}
+
+
+/* http://www.the-art-of-web.com/css/css-animation/#section_2 */
+a.btn-circle {
+  -webkit-transition: 0.5s ease-in-out;
+  -moz-transition: 0.5s ease-in-out;
+  -o-transition: 0.5s ease-in-out;
+  transition: 0.5s ease-in-out;
+}
+a.btn-circle.invisible {
+  -webkit-transform: rotate(360deg) scale(0);
+  -moz-transform: rotate(360deg) scale(0);
+  -o-transform: rotate(360deg) scale(0);
+  -ms-transform: rotate(360deg) scale(0);
+  transform: rotate(360deg) scale(0);
+}
+
+
+/* fist header inside panel should be right at the top */
+section.panel div.panel-body h1:first-child,
+section.panel div.panel-body h2:first-child,
+section.panel div.panel-body h3:first-child,
+section.panel div.panel-body h4:first-child,
+section.panel div.panel-body h5:first-child,
+section.panel div.panel-body h6:first-child,
+section.panel div.panel-body div.page-header {
+  margin-top: 0;
+}
+section.panel div.panel-body div.page-header h1,
+section.panel div.panel-body div.page-header h2,
+section.panel div.panel-body div.page-header h3,
+section.panel div.panel-body div.page-header h4,
+section.panel div.panel-body div.page-header h5,
+section.panel div.panel-body div.page-header h6 {
+  margin-bottom: 0;
+}
+
+
+/* bring table padding in line with panel padding */
+section.panel > table.table tr *:first-child,
+section.panel > div.table-responsive > table.table tr > *:first-child {
+  padding-left: 15px;
+}
+section.panel > table.table tr *:last-child,
+section.panel > div.table-responsive > table.table tr > *:last-child {
+  padding-rigth: 15px;
+}
+
+
+/* Customizations to the code examples */
+code, pre {
+  color: #b8312f;
+}
+pre {
+  line-height: 1.5;
+}
+
+
+/* column lists of links should appear together on xs */
+@media (max-width: 768px) {
+  div.row > ul:first-child {
+    margin-bottom: 0;
+  }
+  div.row > ul:not(:first-child):not(:last-child) {
+    margin-bottom: 0;
+    margin-top: 0;
+  }
+  div.row > ul:last-child {
+    margin-top: 0;
+  }
+}
+
+
+footer {
+ line-height: 1.1;
+}

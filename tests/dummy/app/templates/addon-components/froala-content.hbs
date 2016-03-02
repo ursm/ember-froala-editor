@@ -1,0 +1,95 @@
+<section class="panel panel-default">
+  <div class="panel-body">
+
+
+    <div class="page-header"><h1 class="h3">
+      &#123;&#123;froala-content&#125;&#125;
+      <small>Component</small>
+    </h1></div>
+
+
+    <p class="lead">
+      According to the
+      <a href="https://www.froala.com/wysiwyg-editor/docs#frontend" target="_blank">
+        Froala Editor documentation</a>,
+      content created from the editor should be contained
+      within an element with the <code>.fr-view</code> class.
+      This is simply a component that applies the class.
+    </p>
+
+
+    <div class="row">
+      <div class="col-sm-6">
+
+
+        <h3 class="h5">Handlebars Template</h3>
+          <pre>&#123;&#123;#froala-content&#125;&#125;
+  &#123;&#123;someFroalaContent&#125;&#125;
+&#123;&#123;/froala-content&#125;&#125;</pre>
+
+
+      </div>
+      <div class="col-sm-6">
+
+
+        <h3 class="h5">Generates HTML</h3>
+        <pre>&lt;div class="fr-view"&gt;
+  &lt;p&gt;Some Froala Editor content...&lt;/p&gt;
+&lt;/div&gt;</pre>
+
+
+      </div>
+    </div>
+
+
+  </div>{{!-- .panel-body --}}
+</section>{{!-- .panel --}}
+
+
+
+
+<section class="panel panel-default">
+  <div class="panel-body">
+
+
+    <h2 class="h4">
+      Usages
+    </h2>
+
+
+    <p class="lead">
+      This component is very basic, mainly just a wrapper for the class.
+      However, you can use it either inline or as a block. Both will
+      produce the same result.
+    </p>
+
+
+    <div class="row">
+      <div class="col-sm-6">
+
+
+        <h3 class="h5">Inline</h3>
+          <pre>&#123;&#123;froala-content content=someFroalaContent&#125;&#125;</pre>
+
+
+      </div>
+      <div class="col-sm-6">
+
+
+        <h3 class="h5">Block</h3>
+          <pre>&#123;&#123;#froala-content&#125;&#125;
+  &#123;&#123;someFroalaContent&#125;&#125;
+&#123;&#123;/froala-content&#125;&#125;</pre>
+
+
+      </div>
+    </div>
+
+
+    <p>
+      Note: You can also change the element type by adjusting the <a href="https://guides.emberjs.com/v2.3.0/components/customizing-a-components-element/#toc_customizing-the-element" target="_blank">Ember Components tagName property</a>. Ex: <code>&#123;&#123;froala-content tagName="main"&#125;&#125;</code>
+    </p>
+
+
+  </div>{{!-- .panel-body --}}
+</section>{{!-- .panel --}}
