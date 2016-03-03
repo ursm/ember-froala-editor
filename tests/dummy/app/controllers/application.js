@@ -6,6 +6,20 @@ export default Ember.Controller.extend({
 
   // Grab the current version to show what
   // version the documentation was generated for
-  addonVersion: config.APP.version
+  addonVersion: Ember.computed({
+    get() {
+      let version = config.APP.version;
+
+      // remove the sha (if there is one)
+      version = version.split('+')[0];
+
+      // ensure there is a "v" prefix
+      if ( !version.startsWith('v') ) {
+        version = `v${version}`;
+      }
+
+      return version;
+    }
+  })
 
 });
