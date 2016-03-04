@@ -16,6 +16,7 @@ export default Ember.Component.extend({
     'btn-lg',
     'btn-danger',
     'btn-circle',
+    'hidden-print',
     'visible-xs-inline-block'
   ], // :classNames
 

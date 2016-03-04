@@ -5,6 +5,16 @@ body {
 }
 
 
+/* print-friendly adjustments */
+@media print {
+  body,
+  body.ember-application > div.ember-view > div.container {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+}
+
+
 /** application loading & spinner in the index.html */
 div#app-loading {
   position: fixed;
