@@ -54,7 +54,7 @@ module.exports = {
     if ( !fs.existsSync( froalaPath ) ) {
       throw new Error(
         this.name + ': Froala Editor is not available from bower (' + froalaPath + '), ' +
-        'install into your project by `bower install froala-wysiwyg-editor --save`'
+        'install into your project by running `bower install froala-wysiwyg-editor --save`'
       );
     }
 
