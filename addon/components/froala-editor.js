@@ -436,18 +436,18 @@ export default Ember.Component.extend({
     this.set( '_editorInitialized' , true   );
     this.set( '_editor'            , editor );
 
-    // Re-initialize the editor if the options
-    // changed _during_ initialization...
-    if ( this.get('_shouldReinitEditor') ) {
-      this.set( '_shouldReinitEditor', false );
-      this.reinitEditor();
-    }
-
     // Set the editor html if the bound content
     // changed _during_ initialization...
     if (this.get( '_shouldSetHtml' )) {
       this.set( '_shouldSetHtml', false );
       editor.html.set( this.get('_content') );
+    }
+
+    // Re-initialize the editor if the options
+    // changed _during_ initialization...
+    if ( this.get('_shouldReinitEditor') ) {
+      this.set( '_shouldReinitEditor', false );
+      this.reinitEditor();
     }
 
   }, // didInitEditor()
@@ -463,6 +463,10 @@ export default Ember.Component.extend({
     this.set( '_editorInitialized', false );
     // No need for '_editorDestroyed', the Computed
     // Property 'editorDestroyed' fills that need
+
+    // Update the template variables in case the editor is initialized again
+    this.set( '_templateContent', this.get('_content')   );
+    this.set( '_hasContent',      this.get('hasContent') );
   }, // didDestroyEditor()
 
 
