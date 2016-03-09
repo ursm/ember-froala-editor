@@ -164,6 +164,11 @@ export default Ember.Controller.extend({
 
 
     <p>
+      Note: For the Froala Editor <a href="https://www.froala.com/wysiwyg-editor/docs/events#popups.hide.[id]" target="_blank"><code>popups.hide.[id]</code> event</a>, "<a href="http://emberjs.com/api/classes/Ember.String.html#method_dasherize" target="_blank">dasherize</a>" the event name (including the id). Ex: <code>popups.hide.[foobar]</code> would become <code>on-popups-hide-foobar</code>.
+    </p>
+
+
+    <p>
       Note: Some of the events allow you to <code>return false;</code> from the event handler to cancel the event. You can do the same from the action, just be sure you are using the <code>(action)</code> helper instead of a string of the action name. Ex: <code>on-image-beforeUpload=(action "actionName")</code> vs <code>on-image-beforeUpload="actionName"</code>
     </p>
 

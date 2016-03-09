@@ -355,7 +355,8 @@ export default Ember.Component.extend({
 
     // Regex's used for replacing things in the property name
     const regexOnOrHtml = /(^on\-|\-getHtml$)/;
-    const regexHyphens   = /\-/g;
+    const regexHyphens  = /\-/g;
+    const regexDots     = /\./g;
 
 
     // Technically the event type, but Froala Editor uses this
@@ -379,7 +380,16 @@ export default Ember.Component.extend({
       let eventName = propName;
       eventName = eventName.replace( regexOnOrHtml, '' );
       eventName = eventName.replace( regexHyphens , '.');
-      eventName = eventPrefix + eventName;
+
+
+      // Special use case for the 'popups.hide.[id]' event
+      // Ember usage would be 'on-popups-hide-id=(action)'
+      // https://www.froala.com/wysiwyg-editor/docs/events#popups.hide.[id]
+      if ( eventName.startsWith('popups.hide.') ) {
+        let id = eventName.replace( 'popups.hide.', '' );
+        id = id.replace( regexDots, '-' ); // Convert back to hyphens
+        eventName = `popups.hide.[${id}]`;
+      }
 
 
       // Attach the appropriate event handler
