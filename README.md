@@ -87,7 +87,8 @@ _Notes to self_ really...
 3. `git push origin --tags` - Pushes the new version tag to Github
 4. Update the new tag on the [Github Releases page](https://github.com/Panman8201/ember-froala-editor/releases)
 5. `npm run deploy` - Deploys the docs to `gh-pages` using [ember-cli-github-pages](https://github.com/poetic/ember-cli-github-pages#how-can-i-create-an-automated-deploy-script)
-6. `npm publish` - Release the new version to the world!
+6. `git checkout master` - Need to switch back to `master` after deploying the docs..
+7. `npm publish` - Release the new version to the world!
 
 
 For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).
