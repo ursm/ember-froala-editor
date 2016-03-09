@@ -166,12 +166,12 @@ export default Ember.Component.extend({
 
   // Use the didRender() hook instead of didInsertElement()
   // for Fastboot compatibility. Uses the '_hasRendered' flag to
-  // call didRenderElement() the _first_ time it is rendered
+  // call didInitialRender() the _first_ time it is rendered
   didRender() {
     this._super( ...arguments );
     if ( !this.get('_hasRendered') ) {
       this.set( '_hasRendered', true );
-      this.didRenderElement();
+      this.didInitialRender();
     }
   }, // didRender()
 
@@ -180,10 +180,10 @@ export default Ember.Component.extend({
 
   // Start the setup...
   // Simulates the didInsertElement() hook but is Fastboot compatible
-  didRenderElement() {
+  didInitialRender() {
     this.attachEventListeners();
     this.initEditor();
-  }, // didRenderElement()
+  }, // didInitialRender()
 
 
 
