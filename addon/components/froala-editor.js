@@ -619,7 +619,7 @@ export default Ember.Component.extend({
   didEditorEventReturnHtml( event, editor, ...params ) {
 
     // Get the HTML to return as the first argument
-    let html = editor.get.html();
+    let html = editor.html.get();
 
 
     // SafeString in = SafeString out..
