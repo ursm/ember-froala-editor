@@ -14,7 +14,8 @@ export default Ember.Controller.extend({
       version = version.split('+')[0];
 
       // ensure there is a "v" prefix
-      if ( !version.startsWith('v') ) {
+      // if ( !version.startsWith('v') ) // ES2015 (requires polyfill)
+      if ( version.indexOf('v') !== 0 ) {
         version = `v${version}`;
       }
 

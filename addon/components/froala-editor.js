@@ -85,11 +85,23 @@ export default Ember.Component.extend({
 
   _options: Ember.computed('defaultOptions', 'options', {
     get() {
-      return Object.assign(
-        {},
-        this.get('defaultOptions'),
-        this.get('options')
-      );
+      let mergedOptions = {};
+
+      // Use Ember.assign() if available (added in ember v2.5)
+      if ( Ember.assign ) {
+        mergedOptions = Ember.assign(
+          mergedOptions,
+          this.get('defaultOptions'),
+          this.get('options')
+        );
+
+      // Fall back to Ember.merge() (depreciated as of ember v2.5)
+      } else {
+        mergedOptions = Ember.merge( mergedOptions, this.get('defaultOptions') );
+        mergedOptions = Ember.merge( mergedOptions, this.get('options')        );
+      }
+
+      return mergedOptions;
     }
   }),
 
@@ -371,7 +383,8 @@ export default Ember.Component.extend({
 
 
       // Just need on-* properties...
-      if ( !propName.startsWith('on-') ) {
+      // if ( !propName.startsWith('on-') ) // ES2015 (requires polyfill)
+      if ( propName.indexOf('on-') !== 0 ) {
         continue;
       }
 
@@ -385,7 +398,8 @@ export default Ember.Component.extend({
       // Special use case for the 'popups.hide.[id]' event
       // Ember usage would be 'on-popups-hide-id=(action)'
       // https://www.froala.com/wysiwyg-editor/docs/events#popups.hide.[id]
-      if ( eventName.startsWith('popups.hide.') ) {
+      // if ( eventName.startsWith('popups.hide.') ) // ES2016 (requires polyfill)
+      if ( eventName.indexOf('popups.hide.') === 0 ) {
         let id = eventName.replace( 'popups.hide.', '' );
         id = id.replace( regexDots, '-' ); // Convert back to hyphens
         eventName = `popups.hide.[${id}]`;
@@ -393,7 +407,9 @@ export default Ember.Component.extend({
 
 
       // Attach the appropriate event handler
-      if ( propName.endsWith('-getHtml') ) {
+      // if ( propName.endsWith('-getHtml') ) // ES2016 (requires polyfill)
+      let getHtmlPos = propName.indexOf('-getHtml', -8);
+      if ( getHtmlPos !== -1 && getHtmlPos === propName.length - 8 ) {
         $element.on(
           eventPrefix + eventName,
           { propertyName:propName },

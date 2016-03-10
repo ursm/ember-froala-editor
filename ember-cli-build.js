@@ -5,11 +5,6 @@ var EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 module.exports = function(defaults) {
   var app = new EmberAddon(defaults, {
 
-    // Babel polyfill required for Object.assign()
-    babel: {
-      includePolyfill: true
-    },
-
     // Import _all_ Froala Editor files
     // for the "dummy" app
     'ember-froala-editor': {
