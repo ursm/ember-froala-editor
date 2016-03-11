@@ -2,8 +2,8 @@
   "name": "ember-froala-editor",
   "version": "1.0.0-alpha.2",
   "description": "An ember-cli addon that properly wraps the Froala WYSIWYG Editor for use in Ember.js",
-  "homepage": "http://panman8201.github.io/ember-froala-editor/",
-  "bugs": "https://github.com/Panman8201/ember-froala-editor/issues",
+  "homepage": "http://froala.github.io/ember-froala-editor/",
+  "bugs": "https://github.com/froala/ember-froala-editor/issues",
   "directories": {
     "doc": "doc",
     "test": "tests"
@@ -14,11 +14,32 @@
     "test": "ember try:testall",
     "deploy": "ember github-pages:commit --message \"Deploy gh-pages from commit $(git rev-parse HEAD)\"; git push; git checkout -"
   },
-  "repository": "Panman8201/ember-froala-editor",
+  "repository": "froala/ember-froala-editor",
   "engines": {
     "node": ">= 0.10.0"
   },
-  "author": "Ryan Panning <panman82@gmail.com>",
+  "contributors": [
+    {
+      "name": "Stefan Neculai",
+      "email": "stefan@froala.com"
+    },
+    {
+      "name": "Maulik Bengali",
+      "email": "maulik@ajackus.com"
+    },
+    {
+      "name": "Jignesh Chudasma",
+      "email": "jignesh@ajackus.com"
+    },
+    {
+      "name": "Mark Campbell",
+      "email": "mark@shopredberry.com"
+    },
+    {
+      "name": "Ryan Panning",
+      "email": "froala@gmail.com"
+    }
+  ],
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.2.0",
@@ -63,6 +84,6 @@
   },
   "ember-addon": {
     "configPath": "tests/dummy/config",
-    "demoURL": "http://panman8201.github.io/ember-froala-editor/"
+    "demoURL": "http://froala.github.io/ember-froala-editor/"
   }
 }

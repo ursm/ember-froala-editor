@@ -3,7 +3,7 @@
 Bring the [Froala WYSIWYG Editor](https://www.froala.com/wysiwyg-editor)
 into an ember-cli project with this addon. Besides importing the required
 Froala Editor files, the _main_ part of this addon is the `{{froala-editor}}`
-component. Checkout the [documentation Website](http://panman8201.github.io/ember-froala-editor/)
+component. Checkout the [documentation Website](http://froala.github.io/ember-froala-editor/)
 for installation, configuration, and usage details.
 
 
@@ -21,7 +21,7 @@ ember install ember-froala-editor
 
 ## Configuration
 
-Take a look at the [configuration documentation page](http://panman8201.github.io/ember-froala-editor/#addon/configuration)
+Take a look at the [configuration documentation page](http://froala.github.io/ember-froala-editor/#addon/configuration)
 for details on the exact configuration options. But basically you add
 `'ember-froala-editor':{}` within your `ember-cli-build.js` file and adjust
 the available configuration options. Ex:
@@ -42,7 +42,7 @@ the available configuration options. Ex:
 
 ## Usage
 
-Take a look at the [documentation Website](http://panman8201.github.io/ember-froala-editor/)
+Take a look at the [documentation Website](http://froala.github.io/ember-froala-editor/)
 for full usage details. But basically this addon comes with a few Ember
 Components and Helpers to use within your project templates.
 
@@ -85,7 +85,7 @@ _Notes to self_ really...
 1. `npm version x.y.z` - Updates the version in `package.json` and tags in git
 2. `git push origin master` - Pushes any changes up to Github
 3. `git push origin --tags` - Pushes the new version tag to Github
-4. Update the new tag on the [Github Releases page](https://github.com/Panman8201/ember-froala-editor/releases)
+4. Update the new tag on the [Github Releases page](https://github.com/froala/ember-froala-editor/releases)
 5. `npm run deploy` - Deploys the docs to `gh-pages` using [ember-cli-github-pages](https://github.com/poetic/ember-cli-github-pages#how-can-i-create-an-automated-deploy-script)
 6. `git checkout master` - Need to switch back to `master` after deploying the docs..
 7. `npm publish` - Release the new version to the world!
