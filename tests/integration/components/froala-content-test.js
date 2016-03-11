@@ -9,11 +9,7 @@ test('.fr-view class is applied', function(assert) {
 
   this.render(hbs`{{froala-content}}`);
 
-  // Ug! This isn't working properly,
-  // .attr('class') revels _only_ the ember-view class,
-  // but inspecting in the dummy app shows the fr-view class...
-  // TODO: Fix!
-  assert.ok(this.$().hasClass('fr-view'));
+  assert.ok(this.$().find('.fr-view').length);
 
 });
 
