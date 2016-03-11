@@ -389,6 +389,13 @@ export default Ember.Component.extend({
       }
 
 
+      // Initialization events will be handled by the `didInitEditor()` hook,
+      // that way the component is setup before calling the event action
+      if ( propName.indexOf('on-initialized') === 0 ) {
+        continue;
+      }
+
+
       // Convert the property name to what the event name would be
       let eventName = propName;
       eventName = eventName.replace( regexOnOrHtml, '' );
@@ -457,7 +464,7 @@ export default Ember.Component.extend({
   // Triggered by the 'froalaEditor.initialized' event, updates
   // component state flags and properly updates the editor
   // if 'options' or 'content' changed _during_ initialization
-  didInitEditor( event, editor ) {
+  didInitEditor( event, editor, ...params ) {
     this.set( '_editorInitializing', false  );
     this.set( '_editorInitialized' , true   );
     this.set( '_editor'            , editor );
@@ -476,12 +483,24 @@ export default Ember.Component.extend({
       this.reinitEditor();
     }
 
+
+    // Fire the "initialized" event actions (if defined)
+    event.data = event.data || {};
+    if ( this.get('on-initialized') ) {
+      event.data.propertyName = 'on-initialized';
+      this.didEditorEvent( event, editor, ...params );
+    }
+    if ( this.get('on-initialized-getHtml') ) {
+      event.data.propertyName = 'on-initialized-getHtml';
+      this.didEditorEventReturnHtml( event, editor, ...params );
+    }
+
   }, // didInitEditor()
 
 
 
 
-  // Triggered by the 'froalaEditor.destroyed' event,
+  // Triggered by the 'froalaEditor.destroy' event,
   // updates component state flags
   didDestroyEditor() {
     this.set( '_editor'           , null  );
