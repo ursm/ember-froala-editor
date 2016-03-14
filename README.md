@@ -1,5 +1,7 @@
 # Ember Froala Editor Addon [![Ember Observer Score](http://emberobserver.com/badges/ember-froala-editor.svg)](http://emberobserver.com/addons/ember-froala-editor)
 
+[![Join the chat at https://gitter.im/froala/ember-froala-editor](https://badges.gitter.im/froala/ember-froala-editor.svg)](https://gitter.im/froala/ember-froala-editor?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Bring the [Froala WYSIWYG Editor](https://www.froala.com/wysiwyg-editor)
 into an ember-cli project with this addon. Besides importing the required
 Froala Editor files, the _main_ part of this addon is the `{{froala-editor}}`
