@@ -127,13 +127,21 @@ export default Ember.Controller.extend({
 
 
     <ol>
-      <li>Since <a href="https://ember-twiddle.com/f1740177799321f88eda?numColumns=1&openFiles=application.controller.js%2C" target="_blank">changing an object property <em>value</em> does not trigger observers of the object (eg: <code>didUpdateAttrs()</code>)</a>, you might need to <code>this.notifyPropertyChange('thisProp')</code> from within the controller or parent component after changing an option</li>
-      <li>Changing an option <em>within</em> an event handler could be handled by changing the option in the component itself and triggering the <code>optionsDidChange()</code> handler. Ex; <code>this.set('options.theme', 'red'); this.optionsDidChange();</code></li>
-      <li>In addition, changing the <code>content</code> <em>within</em> an event handler will not properly update the editor, you'll need to manually call the <code>contentDidChange()</code> handler</li>
+      <li>
+        Since <a href="https://ember-twiddle.com/f1740177799321f88eda?numColumns=1&openFiles=application.controller.js%2C" target="_blank">changing an object property <em>value</em> does not trigger observers of the object (eg: <code>didUpdateAttrs()</code>)</a>, you might need to <code>this.notifyPropertyChange('thisProp')</code> from within the controller or parent component after changing an option
+      </li>
+      <li>
+        Changing an option <em>within</em> an event handler could be handled by changing the option in the component itself and triggering the <code>optionsDidChange()</code> handler. Ex; <code>this.set('options.theme', 'red'); this.optionsDidChange();</code>
+      </li>
+      <li>
+        In addition, changing the <code>content</code> <em>within</em> an event handler will not properly update the editor, you'll need to manually call the <code>contentDidChange()</code> handler
+      </li>
     </ol>
 
 
-    <p>Note: Because the editor will be re-initialized, it is not performant to change options, and the undo/redo stack will be lost.</p>
+    <p>
+      Note: Because the editor will be re-initialized, it is not performant to change options, and the undo/redo stack will be lost.
+    </p>
 
 
   </div>{{!-- .panel-body --}}
