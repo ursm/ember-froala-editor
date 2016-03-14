@@ -94,3 +94,10 @@ _Notes to self_ really...
 
 
 For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).
+
+## License
+
+The `ember-froala-editor` project is under MIT license. However, in order to use Froala WYSIWYG HTML Editor plugin you should purchase a license for it.
+
+Froala Editor has [3 different licenses](http://froala.com/wysiwyg-editor/pricing) for commercial use.
+For details please see [License Agreement](http://froala.com/wysiwyg-editor/terms).
