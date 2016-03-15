@@ -366,7 +366,7 @@ export default Ember.Component.extend({
 
 
     // Regex's used for replacing things in the property name
-    const regexOnOrHtml = /(^on\-|\-getHtml$)/;
+    const regexOnOrHtml = /(^on\-|\-getHtml$)/g;
     const regexHyphens  = /\-/g;
     const regexDots     = /\./g;
 
