@@ -277,7 +277,7 @@ export default Ember.Component.extend({
     // to know when initialization has finished, updating state flags
     $element.one(
       eventPrefix + 'initialized',
-      this.didInitEditor.bind(this)
+      Ember.run.bind(this, 'didInitEditor')
     );
 
 
@@ -290,7 +290,7 @@ export default Ember.Component.extend({
     if ( contentBindingEvent && this.get('content') !== undefined ) {
       $element.on(
         eventPrefix + contentBindingEvent,
-        this.htmlDidChange.bind(this)
+        Ember.run.bind(this, 'htmlDidChange')
       );
     }
 
@@ -335,7 +335,7 @@ export default Ember.Component.extend({
     if ( contentBindingEvent && this.get('content') !== undefined ) {
       $element.off(
         eventPrefix + contentBindingEvent,
-        this.htmlDidChange.bind(this)
+        Ember.run.bind(this, 'htmlDidChange')
       );
     }
 
@@ -344,7 +344,7 @@ export default Ember.Component.extend({
     // to know when destruction has finished, updating state flags
     $element.one(
       eventPrefix + 'destroy',
-      this.didDestroyEditor.bind(this)
+      Ember.run.bind(this, 'didDestroyEditor')
     );
 
 
@@ -420,13 +420,13 @@ export default Ember.Component.extend({
         $element.on(
           eventPrefix + eventName,
           { propertyName:propName },
-          this.didEditorEventReturnHtml.bind(this)
+          Ember.run.bind(this, 'didEditorEventReturnHtml')
         );
       } else {
         $element.on(
           eventPrefix + eventName,
           { propertyName:propName },
-          this.didEditorEvent.bind(this)
+          Ember.run.bind(this, 'didEditorEvent')
         );
       }
 
