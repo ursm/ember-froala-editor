@@ -95,7 +95,8 @@ _Notes to self_ really...
 8. `npm publish` - Release the new version to the world!
 
 
-For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).
+For more information on using ember-cli, visit [http://ember-cli.com/](http://ember-cli.com/).
+
 
 ## License
 
