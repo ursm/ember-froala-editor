@@ -1,0 +1,86 @@
+{{#header-navbar}}
+
+
+  <div class="navbar-header">
+
+
+    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse" aria-expanded="false">
+      <span class="sr-only">Toggle Navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+
+
+    {{#link-to "index" class="navbar-brand"}}
+      <img src="ember-icon.png"  alt="Ember.js Logo" width="40"  height="64" class="visible-xs-inline-block" />
+      <img src="ember-logo.png"  alt="Ember.js Logo" width="155" height="64" class="hidden-xs" />
+      <img src="froala-logo.png" alt="Froala Logo"   width="174" height="64" />
+      <span>Editor</span>
+    {{/link-to}}
+
+
+  </div>{{!-- .navbar-header --}}
+
+
+  <div class="navbar-collapse collapse" id="app-navbar-collapse">
+
+
+    <ul class="navbar-nav nav visible-xs-block">
+      <li>{{link-to "Addon Information" "addon.index"}}</li>
+      <li>{{link-to "Included Components" "addon-components.index"}}</li>
+      <li>{{link-to "Included Helpers" "addon-helpers.index"}}</li>
+    </ul>
+
+
+    <p class="navbar-text navbar-right hidden-xs">
+      {{addonVersion}}
+      <a href="https://github.com/froala/ember-froala-editor" target="_blank" class="navbar-link">
+        <i class="fa fa-github-square"></i>
+      </a>
+      <a href="https://www.froala.com/wysiwyg-editor/" target="_blank" class="navbar-link">
+        <img src="froala-icon.jpg" alt="Froala Icon" width="30" height="30" class="img-rounded" />
+      </a>
+    </p>
+
+
+  </div>{{!-- .navbar-collapse --}}
+
+
+{{/header-navbar}}
+
+
+<div class="container">
+  <div class="row">
+
+
+    {{!-- Left side bar for navigation on tablets+ --}}
+    <aside class="col-sm-4 col-md-3 hidden-xs"><div class="affix">
+      {{partial "addon/index"}}
+      {{partial "addon-components/index"}}
+      {{partial "addon-helpers/index"}}
+    </div></aside>
+
+
+    <main class="col-sm-8 col-md-9">
+      {{liquid-outlet}}
+    </main>
+
+
+  </div>{{!-- .row --}}
+
+
+  <footer class="text-center">
+    <small class="text-muted">
+      Ember logo's are registered trademarks of Tilde Inc.
+      <span class="visible-xs-inline"><br /></span>
+      Froala logo's are owned by Froala Labs SRL.
+    </small>
+  </footer>
+
+
+</div>{{!-- .container --}}
+
+
+{{back-button}}
+{{top-button}}

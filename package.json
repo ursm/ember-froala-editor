@@ -1,0 +1,88 @@
+{
+  "name": "ember-froala-editor",
+  "version": "2.2.4",
+  "description": "An ember-cli addon that properly wraps the Froala WYSIWYG Editor for use in Ember.js",
+  "homepage": "https://froala.com/wysiwyg-editor",
+  "bugs": "https://github.com/froala/ember-froala-editor/issues",
+  "directories": {
+    "doc": "doc",
+    "test": "tests"
+  },
+  "scripts": {
+    "build": "ember build",
+    "start": "ember server",
+    "test": "ember try:testall",
+    "deploy": "ember github-pages:commit --message \"Deploy gh-pages from commit $(git rev-parse HEAD)\"; git push; git checkout -"
+  },
+  "repository": "froala/ember-froala-editor",
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "contributors": [
+    {
+      "name": "Stefan Neculai",
+      "email": "stefan@froala.com"
+    },
+    {
+      "name": "Maulik Bengali",
+      "email": "maulik@ajackus.com"
+    },
+    {
+      "name": "Jignesh Chudasma",
+      "email": "jignesh@ajackus.com"
+    },
+    {
+      "name": "Mark Campbell",
+      "email": "mark@shopredberry.com"
+    },
+    {
+      "name": "Ryan Panning",
+      "email": "panman82@gmail.com"
+    }
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "broccoli-asset-rev": "^2.4.2",
+    "ember-ajax": "0.7.1",
+    "ember-cli": "2.4.3",
+    "ember-cli-app-version": "^1.0.0",
+    "ember-cli-bootswatch": "1.13.2",
+    "ember-cli-dependency-checker": "^1.2.0",
+    "ember-cli-font-awesome": "^1.5.0",
+    "ember-cli-github-pages": "0.0.8",
+    "ember-cli-htmlbars-inline-precompile": "^0.3.1",
+    "ember-cli-inject-live-reload": "^1.4.0",
+    "ember-cli-qunit": "^1.4.0",
+    "ember-cli-release": "0.2.8",
+    "ember-cli-sri": "^2.1.0",
+    "ember-cli-uglify": "^1.2.0",
+    "ember-disable-prototype-extensions": "^1.1.0",
+    "ember-export-application-global": "^1.0.5",
+    "ember-load-initializers": "^0.5.1",
+    "ember-resolver": "^2.0.3",
+    "ember-try": "^0.2.2",
+    "liquid-fire": "0.23.0",
+    "loader.js": "^4.0.1"
+  },
+  "keywords": [
+    "ember-addon",
+    "froala",
+    "froala-editor",
+    "froala-wysiwyg",
+    "froala-wysiwyg-editor",
+    "html",
+    "text",
+    "editor",
+    "wysiwyg"
+  ],
+  "dependencies": {
+    "ember-cli-babel": "^5.1.6",
+    "ember-cli-htmlbars": "^1.0.3",
+    "object-assign": "^4.0.1",
+    "rsvp": "^3.2.1"
+  },
+  "ember-addon": {
+    "configPath": "tests/dummy/config",
+    "demoURL": "http://froala.github.io/ember-froala-editor/"
+  }
+}
