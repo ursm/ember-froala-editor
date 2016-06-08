@@ -10,6 +10,6 @@
     "bootstrap": "^3.3.6",
     "bootswatch": "^3.3.6",
     "font-awesome": "~4.5.0",
-    "froala-wysiwyg-editor": "~2.3.1"
+    "froala-wysiwyg-editor": "~2.3.2"
   }
 }
