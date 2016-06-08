@@ -596,8 +596,10 @@ export default Ember.Component.extend({
     // wrapped in a run-loop, or else Ember will eagerly
     // reset it back to `false` before the contentDidChange()
     // hook has had a chance to run.
-    Ember.run.next( this, function(){
-      this.set( '_isSettingContent', false );
+    Ember.run.next( this, function() {
+      if (!this.isDestroying) {
+        this.set( '_isSettingContent', false );
+      }
     });
 
   }, // htmlDidChange()
