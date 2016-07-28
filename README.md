@@ -1,9 +1,7 @@
-# Ember Froala Editor Addon
+# Ember Froala Editor Addon  [![Ember Observer Score](http://emberobserver.com/badges/ember-froala-editor.svg)](http://emberobserver.com/addons/ember-froala-editor) [![Join the chat at https://gitter.im/froala/ember-froala-editor](https://badges.gitter.im/froala/ember-froala-editor.svg)](https://gitter.im/froala/ember-froala-editor?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-[![Ember Observer Score](http://emberobserver.com/badges/ember-froala-editor.svg)](http://emberobserver.com/addons/ember-froala-editor)
-[![Join the chat at https://gitter.im/froala/ember-froala-editor](https://badges.gitter.im/froala/ember-froala-editor.svg)](https://gitter.im/froala/ember-froala-editor?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Bring the [Froala WYSIWYG Editor](https://www.froala.com/wysiwyg-editor)
+>Bring the [Froala WYSIWYG Editor](https://www.froala.com/wysiwyg-editor)
 into an ember-cli project with this addon. Besides importing the required
 Froala Editor files, the _main_ part of this addon is the `{{froala-editor}}`
 component. Checkout the [documentation Website](http://froala.github.io/ember-froala-editor/)
@@ -14,13 +12,11 @@ for installation, configuration, and usage details.
 
 ember and ember-cli 1.13+ (including 2.x)
 
-
 ## Installation
 
 ```bash
 ember install ember-froala-editor
 ```
-
 
 ## Configuration
 
