@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import layout from '../templates/components/froala-editor';
+import isHTMLSafe from 'ember-string-ishtmlsafe-polyfill';
 
 
 export default Ember.Component.extend({
@@ -54,7 +55,7 @@ export default Ember.Component.extend({
   // Mainly an internal Computed Property to determine if the
   // current 'content' is actually a SafeString object
   isSafeString: Ember.computed('content', function(){
-    return this.get('content') instanceof Ember.Handlebars.SafeString;
+    return isHTMLSafe(this.get('content'));
   }),
 
 
@@ -209,10 +210,10 @@ export default Ember.Component.extend({
 
 
     // Convert SafeStrings to actual strings
-    if ( oldContent instanceof Ember.Handlebars.SafeString ) {
+    if ( isHTMLSafe(oldContent) ) {
       oldContent = oldContent.toString();
     }
-    if ( newContent instanceof Ember.Handlebars.SafeString ) {
+    if ( isHTMLSafe(newContent) ) {
       newContent = newContent.toString();
     }
 
