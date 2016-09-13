@@ -172,6 +172,7 @@ export default Ember.Component.extend({
     this.set( '_isSettingContent'  , false ); // No public API, internal state only
     this.set( '_shouldReinitEditor', false ); // No public API, internal state only
     this.set( '_shouldSetHtml'     , false ); // No public API, internal state only
+    this._oldContent = this.get( 'content' ); // No public API, internal state only
   }, // init()
 
 
@@ -202,11 +203,11 @@ export default Ember.Component.extend({
 
 
   // Trigger the proper "observer" when its related attribute value has changed
-  didUpdateAttrs({ oldAttrs, newAttrs }) {
+  didUpdateAttrs() {
 
-    // Get the values directly from the attrs
-    let oldContent = this.getAttrFor( oldAttrs, 'content' );
-    let newContent = this.getAttrFor( newAttrs, 'content' );
+    // Get the old and new values
+    let oldContent = this._oldContent;
+    let newContent = this.get( 'content' );
 
 
     // Convert SafeStrings to actual strings
@@ -226,6 +227,10 @@ export default Ember.Component.extend({
     } else {
       this.optionsDidChange();
     }
+
+
+    // Update _oldContent
+    this._oldContent = newContent;
 
   }, // didUpdateAttrs()
 
