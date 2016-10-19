@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import layout from '../templates/components/froala-editor';
+import isHTMLSafe from 'ember-string-ishtmlsafe-polyfill';
 
 
 export default Ember.Component.extend({
@@ -54,7 +55,7 @@ export default Ember.Component.extend({
   // Mainly an internal Computed Property to determine if the
   // current 'content' is actually a SafeString object
   isSafeString: Ember.computed('content', function(){
-    return this.get('content') instanceof Ember.Handlebars.SafeString;
+    return isHTMLSafe(this.get('content'));
   }),
 
 
@@ -171,6 +172,7 @@ export default Ember.Component.extend({
     this.set( '_isSettingContent'  , false ); // No public API, internal state only
     this.set( '_shouldReinitEditor', false ); // No public API, internal state only
     this.set( '_shouldSetHtml'     , false ); // No public API, internal state only
+    this._oldContent = this.get( 'content' ); // No public API, internal state only
   }, // init()
 
 
@@ -201,18 +203,18 @@ export default Ember.Component.extend({
 
 
   // Trigger the proper "observer" when its related attribute value has changed
-  didUpdateAttrs({ oldAttrs, newAttrs }) {
+  didUpdateAttrs() {
 
-    // Get the values directly from the attrs
-    let oldContent = this.getAttrFor( oldAttrs, 'content' );
-    let newContent = this.getAttrFor( newAttrs, 'content' );
+    // Get the old and new values
+    let oldContent = this._oldContent;
+    let newContent = this.get( 'content' );
 
 
     // Convert SafeStrings to actual strings
-    if ( oldContent instanceof Ember.Handlebars.SafeString ) {
+    if ( isHTMLSafe(oldContent) ) {
       oldContent = oldContent.toString();
     }
-    if ( newContent instanceof Ember.Handlebars.SafeString ) {
+    if ( isHTMLSafe(newContent) ) {
       newContent = newContent.toString();
     }
 
@@ -225,6 +227,10 @@ export default Ember.Component.extend({
     } else {
       this.optionsDidChange();
     }
+
+
+    // Update _oldContent
+    this._oldContent = newContent;
 
   }, // didUpdateAttrs()
 

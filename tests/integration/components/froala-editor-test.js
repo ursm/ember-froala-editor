@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import isHTMLSafe from 'ember-string-ishtmlsafe-polyfill';
 
 moduleForComponent('froala-editor', 'Integration | Component | froala editor', {
   integration: true
@@ -47,7 +48,7 @@ test('content attribute is set as editor content', function(assert) {
 test('SafeString in, SafeString out (via *-getHtml event handler)', function(assert) {
 
   this.set('runAsserts', html => {
-    assert.ok(html instanceof Ember.Handlebars.SafeString);
+    assert.ok(isHTMLSafe(html));
   });
 
   this.set('safestring', Ember.String.htmlSafe('<p>This is safe!</p>'));
