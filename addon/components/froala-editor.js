@@ -3,7 +3,7 @@ import layout from '../templates/components/froala-editor';
 import isHTMLSafe from 'ember-string-ishtmlsafe-polyfill';
 
 
-export default Ember.Component.extend({
+const FroalaEditorComponent = Ember.Component.extend({
   layout,
 
 
@@ -757,4 +757,12 @@ export default Ember.Component.extend({
   } // :actions
 
 
-}); // export default
+}); // Ember.Component.extend()
+
+
+FroalaEditorComponent.reopenClass({
+  positionalParams: ['content', 'on-contentChanged-getHtml', 'options']
+});
+
+
+export default FroalaEditorComponent;

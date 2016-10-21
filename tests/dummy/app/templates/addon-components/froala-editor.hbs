@@ -86,10 +86,21 @@
 
 
   <div class="panel-body">
+
+
+    <h3 class="h6">Positional Params</h3>
+    <p>
+      This component supports three <a href="https://guides.emberjs.com/v2.8.0/components/passing-properties-to-a-component/#toc_positional-params" target="_blank">positional params</a>; <code>content</code>, <code>on-contentChanged-getHtml</code>, and <code>options</code>. Ex:
+    </p>
+    <pre>&#123;&#123;froala-editor myProperty (action (mut myProperty)) (hash heightMin=200)&#125;&#125;</pre>
+
+
     <p>
       Note: The <em>only</em> attributes that support being changed after initialization are <code>content</code> and <code>options</code>. Changing any other attribute may inadvertently cause the editor to re-initialize.
     </p>
-  </div>
+
+
+  </div>{{!-- .panel-body --}}
 
 
 </section>{{!-- .panel --}}
