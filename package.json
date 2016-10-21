@@ -41,6 +41,17 @@
     }
   ],
   "license": "MIT",
+  "keywords": [
+    "ember-addon",
+    "froala",
+    "froala-editor",
+    "froala-wysiwyg",
+    "froala-wysiwyg-editor",
+    "html",
+    "text",
+    "editor",
+    "wysiwyg"
+  ],
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.2",
     "ember-ajax": "0.7.1",
@@ -64,17 +75,6 @@
     "liquid-fire": "0.23.0",
     "loader.js": "^4.0.1"
   },
-  "keywords": [
-    "ember-addon",
-    "froala",
-    "froala-editor",
-    "froala-wysiwyg",
-    "froala-wysiwyg-editor",
-    "html",
-    "text",
-    "editor",
-    "wysiwyg"
-  ],
   "dependencies": {
     "ember-cli-babel": "^5.1.6",
     "ember-cli-htmlbars": "^1.0.3",
