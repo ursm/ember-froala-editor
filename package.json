@@ -77,6 +77,7 @@
     "loader.js": "^4.0.10"
   },
   "dependencies": {
+    "ember-assign-polyfill": "^1.0.0",
     "ember-cli-babel": "^5.1.7",
     "ember-cli-htmlbars": "^1.0.10",
     "ember-string-ishtmlsafe-polyfill": "^1.0.1",

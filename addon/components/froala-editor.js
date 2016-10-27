@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import layout from '../templates/components/froala-editor';
 import isHTMLSafe from 'ember-string-ishtmlsafe-polyfill';
+import assign from 'ember-assign-polyfill';
 
 
 const FroalaEditorComponent = Ember.Component.extend({
@@ -86,23 +87,11 @@ const FroalaEditorComponent = Ember.Component.extend({
 
   _options: Ember.computed('defaultOptions', 'options', {
     get() {
-      let mergedOptions = {};
-
-      // Use Ember.assign() if available (added in ember v2.5)
-      if ( Ember.assign ) {
-        mergedOptions = Ember.assign(
-          mergedOptions,
-          this.get('defaultOptions'),
-          this.get('options')
-        );
-
-      // Fall back to Ember.merge() (depreciated as of ember v2.5)
-      } else {
-        mergedOptions = Ember.merge( mergedOptions, this.get('defaultOptions') );
-        mergedOptions = Ember.merge( mergedOptions, this.get('options')        );
-      }
-
-      return mergedOptions;
+      return assign(
+        {},
+        this.get('defaultOptions'),
+        this.get('options')
+      );
     }
   }),
 
