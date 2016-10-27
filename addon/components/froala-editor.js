@@ -128,7 +128,6 @@ const FroalaEditorComponent = Ember.Component.extend({
 
   // Public facing API's for editor instance and state information
   // Note: The referenced properties are .set() on the init() hook
-  hasRendered       : Ember.computed.readOnly( '_hasRendered'        ),
   editor            : Ember.computed.readOnly( '_editor'             ),
   editorInitializing: Ember.computed.readOnly( '_editorInitializing' ),
   editorInitialized : Ember.computed.readOnly( '_editorInitialized'  ),
@@ -153,7 +152,6 @@ const FroalaEditorComponent = Ember.Component.extend({
   // https://guides.emberjs.com/v2.3.0/object-model/classes-and-instances/#toc_initializing-instances
   init() {
     this._super( ...arguments );
-    this.set( '_hasRendered'       , false );
     this.set( '_editor'            , null  );
     this.set( '_editorInitializing', false );
     this.set( '_editorInitialized' , false );
@@ -167,26 +165,11 @@ const FroalaEditorComponent = Ember.Component.extend({
 
 
 
-  // Use the didRender() hook instead of didInsertElement()
-  // for Fastboot compatibility. Uses the '_hasRendered' flag to
-  // call didInitialRender() the _first_ time it is rendered
-  didRender() {
-    this._super( ...arguments );
-    if ( !this.get('_hasRendered') ) {
-      this.set( '_hasRendered', true );
-      this.didInitialRender();
-    }
-  }, // didRender()
-
-
-
-
   // Start the setup...
-  // Simulates the didInsertElement() hook but is Fastboot compatible
-  didInitialRender() {
+  didInsertElement() {
     this.attachEventListeners();
     this.initEditor();
-  }, // didInitialRender()
+  }, // didInsertElement()
 
 
 
