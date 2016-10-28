@@ -310,6 +310,7 @@ const FroalaEditorComponent = Ember.Component.extend({
   // Note: This is mainly for the optionsDidChange() handler
   reinitEditor() {
     this.destroyEditor();
+    this.attachEventListeners();
     this.initEditor();
   }, // reinitEditor()
 
