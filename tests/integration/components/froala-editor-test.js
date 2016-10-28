@@ -25,7 +25,7 @@ test('content attribute is set as editor content', function(assert) {
 
   let foobar = '<p>Foobar</p>';
 
-  this.set('runAsserts', (event, component) => {
+  this.set('runAsserts', component => {
     assert.equal(component.get('editor').html.get(), foobar);
   });
 

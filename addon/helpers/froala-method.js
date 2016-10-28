@@ -8,12 +8,12 @@ export function froalaMethod( helperParams, helperHash ) {
 
 
   // Create a closure to pass back as the "action" to be triggered
-  return function froalaMethodClosure( event, component ){
+  return function froalaMethodClosure( component ){
 
 
     // The helper hash can be used to "replace" the param
     // values with params received from the event...
-    for (let propName in helperHash) {
+    for ( let propName in helperHash ) {
 
 
       // Determine the positions within each params arrays
