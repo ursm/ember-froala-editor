@@ -16,7 +16,7 @@
   },
   "repository": "froala/ember-froala-editor",
   "engines": {
-    "node": ">= 0.12.0"
+    "node": ">= 4.0.0"
   },
   "contributors": [
     {
@@ -81,7 +81,6 @@
     "ember-cli-babel": "^5.1.7",
     "ember-cli-htmlbars": "^1.0.10",
     "ember-string-ishtmlsafe-polyfill": "^1.0.1",
-    "object-assign": "^4.1.0",
     "rsvp": "^3.3.3"
   },
   "ember-addon": {
