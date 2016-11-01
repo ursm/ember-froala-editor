@@ -10,7 +10,30 @@ for installation, configuration, and usage details.
 
 ## Compatibility
 
-ember and ember-cli 1.13+ (including 2.x)
+ember and ember-cli 2.3+
+
+### Breaking changes between v2.3.5 and v2.3.6!!!
+
+Because the version of this addon aligns with the froala-editor version,
+we could not release a new major version "out-of-line". Please note the
+following _breaking_ changes to the `{{froala-editor}}` component;
+
+* `content` is no longer updated by the editor, instead use an action to update the value. Ex:
+  * From: `{{froala-editor content=myProp}}`
+  * To: `{{froala-editor content=myProp on-contentChanged-getHtml=(action (mut myProp))}}`
+  * Alternate, "new" positional params option: `{{froala-editor myProp (action (mut myProp))}}`
+* `options` changed post-initialization no longer updates the editor, instead use the related [froala-editor methods](https://www.froala.com/wysiwyg-editor/docs/methods)
+* Event handlers/actions `on-*=(action)` no longer receive an "event" object as the first arg, due to a change in event management. Change your action signatures;
+  * From: `function( eventObject, editorComponenet, ...params ){}`
+  * To: `function( editorComponenet, ...params ){}`
+  * Similarly for the `on-*-getHtml` actions, but the `eventObject` is the second argument
+* `contentBindingEvent` option has been removed, in related to the above `content` change
+* `defaultContent` option has been removed, it was deemed unneeded and content is now set directly on the editor
+* Previously unpublished `isSafeString` option was renamed to `returnSafeString`
+
+`content` mutation was removed because it better aligns with ember's direction for "data down, actions up"
+(similar to [`ember-one-way-controls`](https://github.com/DockYard/ember-one-way-controls)).
+This and unmutable `options` also removed the need to maintain other complex state management.
 
 ## Installation
 
