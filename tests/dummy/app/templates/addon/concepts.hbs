@@ -8,7 +8,7 @@
 
 
     <p class="lead">
-      In addition to ember-froala-editor specific concepts, this page explains how some of the <a href="https://www.froala.com/wysiwyg-editor/docs/concepts" target="_blank">Froala Editor concepts docs</a> would be applied in ember land.
+      In addition to ember-froala-editor specific concepts, this page explains how some of the Froala Editor concepts would be applied in ember land.
     </p>
 
 
@@ -17,7 +17,6 @@
       <ul class="col-sm-6 list-unstyled">
         <li>{{link-to "Apply editor key" (query-params section="key")}}</li>
         <li>{{link-to "Autosave" (query-params section="autosave")}}</li>
-        <li>{{link-to "Changing options" (query-params section="options")}}</li>
         <li>{{link-to "Custom Buttons, Plugins, etc." (query-params section="custom")}}</li>
       </ul>
       <ul class="col-sm-6 list-unstyled">
@@ -53,8 +52,8 @@
 
 export default FroalaEditorComponent.extend({
 
-  defaultOptions : {
-    key   : '_YOUR_KEY_HERE_'
+  defaultOptions: {
+    key: '_YOUR_KEY_HERE_'
   }
 
 });</pre>
@@ -76,7 +75,7 @@ export default FroalaEditorComponent.extend({
 
 
     <p>
-      <a href="https://www.froala.com/wysiwyg-editor/docs/concepts/autosave" target="_blank">Auto-saving</a> in ember is very much dependent on each use case. However, below is a rough overview on one possible solution using ember-data and a debounced save method. It will <code>.save()</code> the model 3 seconds after the content last changed. <a href="http://emberjs.com/api/classes/Ember.run.html#method_debounce" target="_blank">Debounce</a> is important here, since you could overload the server if saved for <em>every</em> content change.
+      <a href="https://www.froala.com/wysiwyg-editor/docs/concepts/save/autosave" target="_blank">Auto-saving</a> in ember is very much dependent on each use case. However, below is a rough overview on one possible solution using ember-data and a debounced save method. It will <code>.save()</code> the model 3 seconds after the content last changed. <a href="http://emberjs.com/api/classes/Ember.run.html#method_debounce" target="_blank">Debounce</a> is important here, since you could overload the server if saved for <em>every</em> content change.
     </p>
 
 
@@ -90,58 +89,24 @@ export default Ember.Controller.extend({
   },
 
   actions: {
-    saveModel() {
+    setAndSave( html ) {
+      this.set('model.someProp', html);
       Ember.run.debounce(
         this,
         this.getModelSave,
         3000 // 3 seconds
       ); // debounce()
-    } // saveModel()
+    } // setAndSave()
   } // :actions
 
 });</pre>
 
 
     <h4 class="h6">app/templates/foobar.hbs</h4>
-    <pre>&#123;&#123;froala-editor content=model.someProp on-contentChanged=(action "saveModel")&#125;&#125;</pre>
-
-
-  </div>{{!-- .panel-body --}}
-</section>{{!-- .panel --}}
-
-
-
-
-<section class="panel panel-default" id="options">
-  <div class="panel-body">
-
-
-    <h2 class="h4">
-      Changing options
-    </h2>
-
-
-    <p>
-      While the Froala Editor itself does not support changing <code>options</code> after initialization, the <code>&#123;&#123;froala-editor&#125;&#125;</code> component does by re-initializing the editor all together. The component utilizes the <code>didUpdateAttrs()</code> hook, so the component will only know when options change via the attribute binding <code>&#123;&#123;froala-editor options=thisProp&#125;&#125;</code>. There are a few nuances to be aware of when changing options because of this;
-    </p>
-
-
-    <ol>
-      <li>
-        Since <a href="https://ember-twiddle.com/f1740177799321f88eda?numColumns=1&openFiles=application.controller.js%2C" target="_blank">changing an object property <em>value</em> does not trigger observers of the object (eg: <code>didUpdateAttrs()</code>)</a>, you might need to <code>this.notifyPropertyChange('thisProp')</code> from within the controller or parent component after changing an option
-      </li>
-      <li>
-        Changing an option <em>within</em> an event handler could be handled by changing the option in the component itself and triggering the <code>optionsDidChange()</code> handler. Ex; <code>this.set('options.theme', 'red'); this.optionsDidChange();</code>
-      </li>
-      <li>
-        In addition, changing the <code>content</code> <em>within</em> an event handler will not properly update the editor, you'll need to manually call the <code>contentDidChange()</code> handler
-      </li>
-    </ol>
-
-
-    <p>
-      Note: Because the editor will be re-initialized, it is not performant to change options, and the undo/redo stack will be lost.
-    </p>
+    <pre>&#123;&#123;froala-editor
+  content=model.someProp
+  on-contentChanged-getHtml=(action "setAndSave")
+&#125;&#125;</pre>
 
 
   </div>{{!-- .panel-body --}}
@@ -160,7 +125,7 @@ export default Ember.Controller.extend({
 
 
     <p>
-      <a href="https://www.froala.com/wysiwyg-editor/docs/concepts/create-plugin" target="_blank">Custom plugins</a>, <a href="https://www.froala.com/wysiwyg-editor/docs/concepts/custom-button" target="_blank">custom buttons</a>, <a href="https://www.froala.com/wysiwyg-editor/docs/concepts/custom-dropdown" target="_blank">custom dropdowns</a>, <a href="https://www.froala.com/wysiwyg-editor/docs/concepts/custom-icon" target="_blank">custom icons</a>, <a href="https://www.froala.com/wysiwyg-editor/docs/concepts/custom-popup" target="_blank">custom popups</a>, <a href="https://www.froala.com/wysiwyg-editor/docs/concepts/custom-shortcut" target="_blank">custom shortcuts</a> (Froala has many <a href="https://www.froala.com/wysiwyg-editor/docs/examples" target="_blank">examples</a>, search for "custom") should all be placed in an <a href="https://guides.emberjs.com/v2.3.0/applications/initializers/#toc_application-initializers" target="_blank">ember application initializer</a>. Just be sure to <code>import</code> Ember and apply everything on <a href="http://emberjs.com/api/#method__" target="_blank">embers alias for jQuery</a>, or else you'll get linting errors. By using an initializer, these customizations will be properly applied once, and available to all <code>&#123;&#123;froala-editor&#125;&#125;</code>'s in your project.
+      <a href="https://www.froala.com/wysiwyg-editor/docs/concepts/custom/plugin" target="_blank">Custom plugins</a>, <a href="https://www.froala.com/wysiwyg-editor/docs/concepts/custom/button" target="_blank">custom buttons</a>, <a href="https://www.froala.com/wysiwyg-editor/docs/concepts/custom/dropdown" target="_blank">custom dropdowns</a>, <a href="https://www.froala.com/wysiwyg-editor/docs/concepts/custom/icon" target="_blank">custom icons</a>, <a href="https://www.froala.com/wysiwyg-editor/docs/concepts/custom/popup" target="_blank">custom popups</a>, <a href="https://www.froala.com/wysiwyg-editor/docs/concepts/custom/shortcut" target="_blank">custom shortcuts</a> (Froala has many <a href="https://www.froala.com/wysiwyg-editor/docs/examples" target="_blank">examples</a>, search for "custom") should all be placed in an <a href="https://guides.emberjs.com/v2.9.0/applications/initializers/#toc_application-initializers" target="_blank">ember application initializer</a>. Just be sure to <code>import</code> Ember and apply everything on <a href="http://emberjs.com/api/#method__" target="_blank">embers alias for jQuery</a>, or else you'll get linting errors. By using an initializer, these customizations will be properly applied once, and available to all <code>&#123;&#123;froala-editor&#125;&#125;</code>'s in your project.
     </p>
 
 
@@ -258,7 +223,7 @@ export default FroalaEditorComponent.extend({
 
 
     <p>
-      <a href="https://www.froala.com/wysiwyg-editor/docs/concepts/image-upload" target="_blank">Image uploading</a> and <a href="https://www.froala.com/wysiwyg-editor/docs/concepts/delete-image" target="_blank">image deleting</a> could be a combination of {{link-to "event actions" "addon-components.froala-editor" (query-params section="events")}} and <a href="https://github.com/ember-cli/ember-ajax" target="_blank">ember-ajax</a>. In addition, you could define these for <em>all</em> <code>&#123;&#123;froala-editor&#125;&#125;</code> instances by using the {{link-to "defaults concept" (query-params section="defaults")}}. While uploading an image could be handled with the built-in Froala Editor options, here is an example of deleting an image from the server.
+      <a href="https://www.froala.com/wysiwyg-editor/docs/concepts/image/upload" target="_blank">Image uploading</a> and <a href="https://www.froala.com/wysiwyg-editor/docs/concepts/image/delete" target="_blank">image deleting</a> could be a combination of {{link-to "event actions" "addon-components.froala-editor" (query-params section="events")}} and <a href="https://github.com/ember-cli/ember-ajax" target="_blank">ember-ajax</a>. In addition, you could define these for <em>all</em> <code>&#123;&#123;froala-editor&#125;&#125;</code> instances by using the {{link-to "defaults concept" (query-params section="defaults")}}. While uploading an image could be handled with the built-in Froala Editor options, here is an example of deleting an image from the server.
     </p>
 
 
@@ -270,7 +235,7 @@ export default Ember.Controller.extend({
   ajax: Ember.inject.service(),
 
   actions: {
-    deleteImage( event, component, $img ) {
+    deleteImage( component, $img ) {
       this.get('ajax').post(
         '/image_delete',
         { data: {
@@ -328,7 +293,7 @@ export default Ember.Controller.extend({
 
 export default FroalaEditorComponent.extend({
 
-  options : {
+  defaultOptions : {
     initOnClick: true
   },
 
