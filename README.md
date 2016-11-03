@@ -29,7 +29,7 @@ following _breaking_ changes to the `{{froala-editor}}` component;
   * Similarly for the `on-*-getHtml` actions, but the `eventObject` is the second argument
 * `contentBindingEvent` option has been removed, in related to the above `content` change
 * `defaultContent` option has been removed, it was deemed unneeded and content is now set directly on the editor
-* Previously unpublished `isSafeString` option was renamed to `returnSafeString`
+* Previously undocumented `isSafeString` option was renamed to `returnSafeString`
 
 `content` mutation was removed because it better aligns with ember's direction for "data down, actions up"
 (similar to [`ember-one-way-controls`](https://github.com/DockYard/ember-one-way-controls)).
