@@ -105,7 +105,7 @@ export default Ember.Controller.extend({
     <h4 class="h6">app/templates/foobar.hbs</h4>
     <pre>&#123;&#123;froala-editor
   content=model.someProp
-  on-contentChanged-getHtml=(action "setAndSave")
+  update=(action "setAndSave")
 &#125;&#125;</pre>
 
 

@@ -30,7 +30,7 @@
   <div class="panel-body">
     <h2 class="h4">Component Attributes</h2>
     <p>
-      There are several attributes which can be used to adjust functionality. Mainly, the <code>content</code>, <code>on-contentChanged-getHtml</code>, and <code>options</code> will be the mostly used attributes. Ex: <code>&#123;&#123;froala-editor content=myProperty on-contentChanged-getHtml=(action (mut myProperty)) options=(hash heightMin=200)&#125;&#125;</code>
+      There are several attributes which can be used to adjust functionality. Mainly, the <code>content</code>, <code>update</code>, and <code>options</code> will be the mostly used attributes. Ex: <code>&#123;&#123;froala-editor content=myProperty update=(action (mut myProperty)) options=(hash heightMin=200)&#125;&#125;</code>
     </p>
   </div>
 
@@ -71,7 +71,19 @@
         <th scope="row">returnSafeString</th>
         <td>boolean</td>
         <td><code>isHTMLSafe(content)</code></td>
-        <td>Used with the <code>on-*-getHtml</code> event handlers when returning the editors content/HTML</td>
+        <td>Used with <code>update</code> and the <code>on-*-getHtml</code> event handlers when returning the editors content/HTML</td>
+      </tr>
+      <tr>
+        <th scope="row">update</th>
+        <td>action</td>
+        <td><code>undefined</code></td>
+        <td>An action called when the <code>updateEvent</code> is triggered, passing the editors current content/HTML as the first argument</td>
+      </tr>
+      <tr>
+        <th scope="row">updateEvent</th>
+        <td>string</td>
+        <td><code>'contentChanged'</code></td>
+        <td><a href="https://www.froala.com/wysiwyg-editor/docs/events" target="_blank">Froala Editor event</a> to trigger the <code>update</code> action</td>
       </tr>
     </tbody>
   </table></div>
@@ -85,9 +97,9 @@
     </p>
 
 
-    <h3 class="h6">Positional Params</h3>
+    <h3 class="h5">Positional Params</h3>
     <p>
-      This component supports three <a href="https://guides.emberjs.com/v2.9.0/components/passing-properties-to-a-component/#toc_positional-params" target="_blank">positional params</a>; <code>content</code>, <code>on-contentChanged-getHtml</code>, and <code>options</code>. Ex:
+      This component supports three <a href="https://guides.emberjs.com/v2.9.0/components/passing-properties-to-a-component/#toc_positional-params" target="_blank">positional params</a>; <code>content</code>, <code>update</code>, and <code>options</code>. Ex:
     </p>
     <pre>&#123;&#123;froala-editor myProperty (action (mut myProperty)) (hash heightMin=200)&#125;&#125;</pre>
 

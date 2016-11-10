@@ -20,7 +20,7 @@ following _breaking_ changes to the `{{froala-editor}}` component;
 
 * `content` is no longer updated by the editor, instead use an action to update the value. Ex:
   * From: `{{froala-editor content=myProp}}`
-  * To: `{{froala-editor content=myProp on-contentChanged-getHtml=(action (mut myProp))}}`
+  * To: `{{froala-editor content=myProp update=(action (mut myProp))}}`
   * Alternate, "new" positional params option: `{{froala-editor myProp (action (mut myProp))}}`
 * `options` changed post-initialization no longer updates the editor, instead use the related [froala-editor methods](https://www.froala.com/wysiwyg-editor/docs/methods)
 * Event handlers/actions `on-*=(action)` no longer receive an "event" object as the first arg, due to a change in event management. Change your action signatures;

@@ -36,6 +36,14 @@ const FroalaEditorComponent = Ember.Component.extend({
 
 
 
+  // Froala Editor event name that will trigger the
+  // `update` action, mainly used to update the `content` value
+  // and takes a cue from ember-one-way-controls
+  updateEvent: 'contentChanged',
+
+
+
+
   // Option to return a SafeString when using on-*-getHtml event actions
   // By default, look at the current type of `content`
   returnSafeString: Ember.computed('content', function(){
@@ -318,6 +326,22 @@ const FroalaEditorComponent = Ember.Component.extend({
     } // for ()
 
 
+    // Get the update action and event name
+    let update      = this.get('update');
+    let updateEvent = this.get('updateEvent');
+
+
+    // If there is an update action and event,
+    // then bind an event handler to get the html
+    if ( update && updateEvent ) {
+      editor.events.on(
+        updateEvent,
+        Ember.run.bind( this, this.didEditorEventReturnHtml, 'update', editor ),
+        true
+      );
+    }
+
+
     // Add the destroy event handler
     // Run _after_ any other destroy handler
     editor.events.on(
@@ -497,7 +521,7 @@ const FroalaEditorComponent = Ember.Component.extend({
 
 
 FroalaEditorComponent.reopenClass({
-  positionalParams: ['content', 'on-contentChanged-getHtml', 'options']
+  positionalParams: ['content', 'update', 'options']
 });
 
 
