@@ -53,6 +53,40 @@ const FroalaEditorComponent = Ember.Component.extend({
 
 
 
+  // Few depreciations to help with the 2.3.5 to 2.3.6 transition
+  contentBindingEvent: Ember.computed.deprecatingAlias('updateEvent', {
+    id    : 'ember-froala-editor.contentBindingEvent',
+    until : '2.3.7',
+    url   : 'https://github.com/froala/ember-froala-editor/releases/tag/v2.3.6-beta.1'
+  }),
+  isSafeString: Ember.computed.deprecatingAlias('returnSafeString', {
+    id    : 'ember-froala-editor.isSafeString',
+    until : '2.3.7',
+    url   : 'https://github.com/froala/ember-froala-editor/releases/tag/v2.3.6-beta.1'
+  }),
+  _optionsChanged: Ember.computed('options', {
+    get() {
+      // Skip the first "get" from the `init()` hook
+      if ( !this.get('_optionsChangedFirst') ) {
+        this.set('_optionsChangedFirst', true);
+      } else {
+        Ember.deprecate(
+          "froala-editor 'options' changed post-initialization no longer updates the editor, instead use the related froala-editor methods",
+          this.get('_optionsChangedWarned'),
+          {
+            id    : 'ember-froala-editor.optionsChanged',
+            until : '2.3.7',
+            url   : 'https://github.com/froala/ember-froala-editor/releases/tag/v2.3.6-beta.1'
+          }
+        );
+        this.set('_optionsChangedWarned', true);
+      }
+    }
+  }),
+
+
+
+
   // Private, internal Computed Property to handle SafeString support
   // and it will always return a string, even if `content` is null or undefined
   // Note: Both Strings and SafeStrings have a .toString() function
@@ -114,6 +148,7 @@ const FroalaEditorComponent = Ember.Component.extend({
     this.set( '_editorInitializing', false );
     this.set( '_editorInitialized' , false );
     this.set( '_editorDestroying'  , false );
+    this.get( '_optionsChanged' ); // To monitor changes for depreciation notices
   }, // init()
 
 
