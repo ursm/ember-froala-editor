@@ -12,7 +12,7 @@ for installation, configuration, and usage details.
 
 ember and ember-cli 2.3+
 
-### Breaking changes between v2.3.5 and v2.3.6!!!
+### Breaking changes between v2.3.5 and v2.4.0!!!
 
 Because the version of this addon aligns with the froala-editor version,
 we could not release a new major version "out-of-line". Please note the

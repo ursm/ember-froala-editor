@@ -53,16 +53,16 @@ const FroalaEditorComponent = Ember.Component.extend({
 
 
 
-  // Few depreciations to help with the 2.3.5 to 2.3.6 transition
+  // Few depreciations to help with the 2.3.5 to 2.4.0 transition
   contentBindingEvent: Ember.computed.deprecatingAlias('updateEvent', {
     id    : 'ember-froala-editor.contentBindingEvent',
     until : '2.3.7',
-    url   : 'https://github.com/froala/ember-froala-editor/releases/tag/v2.3.6-beta.1'
+    url   : 'https://github.com/froala/ember-froala-editor/releases/tag/v2.4.0-rc.1'
   }),
   isSafeString: Ember.computed.deprecatingAlias('returnSafeString', {
     id    : 'ember-froala-editor.isSafeString',
     until : '2.3.7',
-    url   : 'https://github.com/froala/ember-froala-editor/releases/tag/v2.3.6-beta.1'
+    url   : 'https://github.com/froala/ember-froala-editor/releases/tag/v2.4.0-rc.1'
   }),
   _optionsChanged: Ember.computed('options', {
     get() {
@@ -76,7 +76,7 @@ const FroalaEditorComponent = Ember.Component.extend({
           {
             id    : 'ember-froala-editor.optionsChanged',
             until : '2.3.7',
-            url   : 'https://github.com/froala/ember-froala-editor/releases/tag/v2.3.6-beta.1'
+            url   : 'https://github.com/froala/ember-froala-editor/releases/tag/v2.4.0-rc.1'
           }
         );
         this.set('_optionsChangedWarned', true);
