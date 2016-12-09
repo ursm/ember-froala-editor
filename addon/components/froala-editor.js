@@ -1,15 +1,16 @@
 import Ember from 'ember';
 import layout from '../templates/components/froala-editor';
 import isHTMLSafe from 'ember-string-ishtmlsafe-polyfill';
+import assign from 'ember-assign-polyfill';
 
 
-export default Ember.Component.extend({
+const FroalaEditorComponent = Ember.Component.extend({
   layout,
 
 
 
 
-  // Enable the ability the .extend() this Component
+  // Enable the ability to .extend() this Component
   // to define "default" options that will get merged
   // with any options passed in as an attribute
   mergedProperties: [
@@ -26,23 +27,6 @@ export default Ember.Component.extend({
 
 
 
-  // If there is no 'content' present then this is the
-  // default content used when creating the editor
-  // Note: This is the standard, "blank" Froala Editor content
-  defaultContent: '<p><br></p>',
-
-
-
-
-  // Froala Editor technically does not keep the original
-  // content updated. Therefore, by specifying a Froala Editor
-  // event here, 'content' will be updated when the event fires.
-  // To disable content binding, pass in a falsy content such as `false`.
-  contentBindingEvent: 'contentChanged',
-
-
-
-
   // Froala Editor prefixes all event names,
   // which is technically NOT a namespace,
   // and should be used when attaching event handlers
@@ -52,86 +36,83 @@ export default Ember.Component.extend({
 
 
 
-  // Mainly an internal Computed Property to determine if the
-  // current 'content' is actually a SafeString object
-  isSafeString: Ember.computed('content', function(){
-    return isHTMLSafe(this.get('content'));
+  // Froala Editor event name that will trigger the
+  // `update` action, mainly used to update the `content` value
+  // and takes a cue from ember-one-way-controls
+  updateEvent: 'contentChanged',
+
+
+
+
+  // Option to return a SafeString when using on-*-getHtml event actions
+  // By default, look at the current type of `content`
+  returnSafeString: Ember.computed('content', function(){
+    return isHTMLSafe( this.get('content') );
+  }),
+
+
+
+
+  // Few depreciations to help with the 2.3.5 to 2.4.0 transition
+  contentBindingEvent: Ember.computed.deprecatingAlias('updateEvent', {
+    id    : 'ember-froala-editor.contentBindingEvent',
+    until : '2.3.7',
+    url   : 'https://github.com/froala/ember-froala-editor/releases/tag/v2.4.0-rc.1'
+  }),
+  isSafeString: Ember.computed.deprecatingAlias('returnSafeString', {
+    id    : 'ember-froala-editor.isSafeString',
+    until : '2.3.7',
+    url   : 'https://github.com/froala/ember-froala-editor/releases/tag/v2.4.0-rc.1'
+  }),
+  _optionsChanged: Ember.computed('options', {
+    get() {
+      // Skip the first "get" from the `init()` hook
+      if ( !this.get('_optionsChangedFirst') ) {
+        this.set('_optionsChangedFirst', true);
+      } else {
+        Ember.deprecate(
+          "froala-editor 'options' changed post-initialization no longer updates the editor, instead use the related froala-editor methods",
+          this.get('_optionsChangedWarned'),
+          {
+            id    : 'ember-froala-editor.optionsChanged',
+            until : '2.3.7',
+            url   : 'https://github.com/froala/ember-froala-editor/releases/tag/v2.4.0-rc.1'
+          }
+        );
+        this.set('_optionsChangedWarned', true);
+      }
+    }
   }),
 
 
 
 
   // Private, internal Computed Property to handle SafeString support
-  // It converts SafeStrings to/from actual strings used by the editor
+  // and it will always return a string, even if `content` is null or undefined
+  // Note: Both Strings and SafeStrings have a .toString() function
   _content: Ember.computed('content', {
     get() {
-      if ( this.get('isSafeString') ) {
-        return this.get('content').toString();
-      } else {
-        return this.get('content');
-      }
-    },
-    set(key, value) {
-      if ( this.get('isSafeString') ) {
-        this.set( 'content', Ember.String.htmlSafe(value) );
-      } else {
-        this.set( 'content', value );
-      }
-      return value;
+      let content = this.get('content');
+      return (
+        content && typeof content.toString === 'function' ?
+        content.toString() :
+        ''
+      );
     }
   }),
 
 
 
 
+  // Private, internal Computed Property to merge all the possible "options"
   _options: Ember.computed('defaultOptions', 'options', {
     get() {
-      let mergedOptions = {};
-
-      // Use Ember.assign() if available (added in ember v2.5)
-      if ( Ember.assign ) {
-        mergedOptions = Ember.assign(
-          mergedOptions,
-          this.get('defaultOptions'),
-          this.get('options')
-        );
-
-      // Fall back to Ember.merge() (depreciated as of ember v2.5)
-      } else {
-        mergedOptions = Ember.merge( mergedOptions, this.get('defaultOptions') );
-        mergedOptions = Ember.merge( mergedOptions, this.get('options')        );
-      }
-
-      return mergedOptions;
+      return assign(
+        {},
+        this.getWithDefault('defaultOptions', {}),
+        this.getWithDefault('options', {})
+      );
     }
-  }),
-
-
-
-
-  // Because the Froala Editor itself will change the DOM,
-  // we don't want this components template to also change
-  // the DOM at the same time (may cause conflicts). So, these
-  // are intermediate buckets that are updated by the
-  // 'contentDidChange()' hook only when the editor is NOT initialized
-  // Note: These properties are ONLY used in the template
-  _templateContent: Ember.computed(function(){
-    return this.get('_content');
-  }),
-  _hasContent: Ember.computed(function(){
-    return this.get('hasContent');
-  }),
-  _defaultContent: Ember.computed(function(){
-    return this.get('defaultContent');
-  }),
-
-
-
-
-  // Computed property used in the template to determine if the 'content'
-  // contains anything and should be output
-  hasContent: Ember.computed('_content', function(){
-    return Ember.isPresent( this.get('_content') );
   }),
 
 
@@ -139,7 +120,6 @@ export default Ember.Component.extend({
 
   // Public facing API's for editor instance and state information
   // Note: The referenced properties are .set() on the init() hook
-  hasRendered       : Ember.computed.readOnly( '_hasRendered'        ),
   editor            : Ember.computed.readOnly( '_editor'             ),
   editorInitializing: Ember.computed.readOnly( '_editorInitializing' ),
   editorInitialized : Ember.computed.readOnly( '_editorInitialized'  ),
@@ -152,7 +132,7 @@ export default Ember.Component.extend({
   /**********
    * Ember Lifecycle Hooks
    *
-   * These will basically get everything going, setup and tear down.
+   * These will basically get everything going, from setup to tear down.
    * They are listed in the order they are typically called.
    **********/
 
@@ -161,76 +141,39 @@ export default Ember.Component.extend({
 
   // Initialize the per-instance property defaults,
   // mainly for internal state flags and details.
-  // https://guides.emberjs.com/v2.3.0/object-model/classes-and-instances/#toc_initializing-instances
+  // https://guides.emberjs.com/v2.9.0/object-model/classes-and-instances/#toc_initializing-instances
   init() {
     this._super( ...arguments );
-    this.set( '_hasRendered'       , false );
     this.set( '_editor'            , null  );
     this.set( '_editorInitializing', false );
     this.set( '_editorInitialized' , false );
     this.set( '_editorDestroying'  , false );
-    this.set( '_isSettingContent'  , false ); // No public API, internal state only
-    this.set( '_shouldReinitEditor', false ); // No public API, internal state only
-    this.set( '_shouldSetHtml'     , false ); // No public API, internal state only
-    this._oldContent = this.get( 'content' ); // No public API, internal state only
+    this.get( '_optionsChanged' ); // To monitor changes for depreciation notices
   }, // init()
 
 
 
 
-  // Use the didRender() hook instead of didInsertElement()
-  // for Fastboot compatibility. Uses the '_hasRendered' flag to
-  // call didInitialRender() the _first_ time it is rendered
-  didRender() {
-    this._super( ...arguments );
-    if ( !this.get('_hasRendered') ) {
-      this.set( '_hasRendered', true );
-      this.didInitialRender();
-    }
-  }, // didRender()
-
-
-
-
   // Start the setup...
-  // Simulates the didInsertElement() hook but is Fastboot compatible
-  didInitialRender() {
-    this.attachEventListeners();
-    this.initEditor();
-  }, // didInitialRender()
+  didInsertElement() {
+    this._super( ...arguments );
+    Ember.run.schedule( 'afterRender', this, this.initEditor );
+  }, // didInsertElement()
 
 
 
 
-  // Trigger the proper "observer" when its related attribute value has changed
+  // Look for changes in `content`
+  // and update directly on the editor
   didUpdateAttrs() {
+    this._super( ...arguments );
 
-    // Get the old and new values
-    let oldContent = this._oldContent;
-    let newContent = this.get( 'content' );
+    let editor  = this.get('_editor');
+    let content = this.get('_content');
 
-
-    // Convert SafeStrings to actual strings
-    if ( isHTMLSafe(oldContent) ) {
-      oldContent = oldContent.toString();
+    if ( editor && editor.html.get() !== content ) {
+      editor.html.set( content );
     }
-    if ( isHTMLSafe(newContent) ) {
-      newContent = newContent.toString();
-    }
-
-
-    // Only look for a 'content' difference, else assume the options changed
-    // because this hook may have initially been missed when _an_ option was changed
-    // https://ember-twiddle.com/f1740177799321f88eda
-    if ( oldContent !== newContent ) {
-      this.contentDidChange();
-    } else {
-      this.optionsDidChange();
-    }
-
-
-    // Update _oldContent
-    this._oldContent = newContent;
 
   }, // didUpdateAttrs()
 
@@ -241,7 +184,6 @@ export default Ember.Component.extend({
   willDestroyElement() {
     this._super( ...arguments );
     this.destroyEditor();
-    this.removeEventListeners();
   }, // willDestroyElement()
 
 
@@ -250,10 +192,9 @@ export default Ember.Component.extend({
   /**********
    * Froala Editor Lifecycle Methods
    *
-   * The following are methods used to setup and tear down the Froala Editor
-   * and event listeners. The Ember Lifecycle hooks and event handlers will
-   * typically call these methods, although they _could_ be called in a custom
-   * event handler.
+   * The following are methods used to setup and tear down the Froala Editor.
+   * The Ember Lifecycle hooks will typically call these methods,
+   * although they _could_ be called in a custom event handler.
    **********/
 
 
@@ -273,32 +214,22 @@ export default Ember.Component.extend({
     this.set( '_editorInitializing', true );
 
 
-    // Required variables...
-    let   $element            = this.$();
-    const eventPrefix         = this.get('eventPrefix');
-    const contentBindingEvent = this.get('contentBindingEvent');
+    // Init jQuery once...
+    let $element = this.$();
 
 
     // Attach a one time 'froalaEditor.initialized' event handler
     // to know when initialization has finished, updating state flags
+    // Note: Cannot be done via editor.events.on()
+    //       since access to `editor` is not available yet
     $element.one(
-      eventPrefix + 'initialized',
+      this.get('eventPrefix') + 'initialized',
       Ember.run.bind(this, 'didInitEditor')
     );
 
 
     // Actual initialization of the Froala Editor
     $element.froalaEditor( this.get('_options') );
-
-
-    // Attach an event handler to update the 'content' property when
-    // the event occurs, but only if the 'content' property is used
-    if ( contentBindingEvent && this.get('content') !== undefined ) {
-      $element.on(
-        eventPrefix + contentBindingEvent,
-        Ember.run.bind(this, 'htmlDidChange')
-      );
-    }
 
   }, // initEditor()
 
@@ -307,7 +238,6 @@ export default Ember.Component.extend({
 
   // Just a quick method to destroy then initialize the editor,
   // the called methods will properly handle the current state
-  // Note: This is mainly for the optionsDidChange() handler
   reinitEditor() {
     this.destroyEditor();
     this.initEditor();
@@ -331,44 +261,39 @@ export default Ember.Component.extend({
     this.set( '_editorDestroying', true );
 
 
-    // Required variables...
-    let   $element            = this.$();
-    const eventPrefix         = this.get('eventPrefix');
-    const contentBindingEvent = this.get('contentBindingEvent');
-
-
-    // Remove the event handler to update 'content' as the editor html changed
-    if ( contentBindingEvent && this.get('content') !== undefined ) {
-      $element.off(
-        eventPrefix + contentBindingEvent,
-        Ember.run.bind(this, 'htmlDidChange')
-      );
-    }
-
-
-    // Attach a one time 'froalaEditor.destroy' event handler
-    // to know when destruction has finished, updating state flags
-    $element.one(
-      eventPrefix + 'destroy',
-      Ember.run.bind(this, 'didDestroyEditor')
-    );
+    // Note: Destroy event handler added in didInitEditor()
 
 
     // Actual destruction of the Froala Editor
-    $element.froalaEditor( 'destroy' );
+    this.$().froalaEditor( 'destroy' );
 
   }, // destroyEditor()
 
 
 
 
-  // Looks for all "on-*" properties to attached the proper editor event listener,
-  // which will then call the property action when the event is triggered
-  attachEventListeners() {
+  /**********
+   * Froala Editor Event Handlers
+   *
+   * Callbacks for event listeners setup by the
+   * Froala Editor Lifecycle Methods above and
+   * any event callbacks added by didInitEditor()
+   **********/
 
-    // Save the jQuery instance
-    // to be reused in the for loop
-    let $element = this.$();
+
+
+
+  // Triggered by the 'froalaEditor.initialized' event, updates
+  // component state flags, sets the original html/content, and
+  // attaches event handlers directly to the editor
+  didInitEditor( event, editor, ...params ) {
+    this.set( '_editorInitializing', false  );
+    this.set( '_editorInitialized' , true   );
+    this.set( '_editor'            , editor );
+
+
+    // Set the initial HTML content
+    editor.html.set( this.get('_content') );
 
 
     // Regex's used for replacing things in the property name
@@ -377,33 +302,29 @@ export default Ember.Component.extend({
     const regexDots     = /\./g;
 
 
-    // Technically the event type, but Froala Editor uses this
-    // as a prefix for all of its events
-    const eventPrefix = this.get('eventPrefix');
-
-
     // Go through all the property names looking for event handlers, on-*
     // Note: Use a for-in loop here over Object.keys() to get _all_ properties
     //       up the proto-chain, specifically needed when .extend()ing
-    for ( let propName in this ) {
+    for ( let propertyName in this ) {
 
 
       // Just need on-* properties...
-      // if ( !propName.startsWith('on-') ) // ES2015 (requires polyfill)
-      if ( propName.indexOf('on-') !== 0 ) {
+      // if ( !propertyName.startsWith('on-') ) // ES2015 (requires polyfill)
+      if ( propertyName.indexOf('on-') !== 0 ) {
         continue;
       }
 
 
-      // Initialization events will be handled by the `didInitEditor()` hook,
+      // Initialization actions will be triggered later,
       // that way the component is setup before calling the event action
-      if ( propName.indexOf('on-initialized') === 0 ) {
+      // if ( propertyName.startsWith('on-initialized') ) // ES2015 (requires polyfill)
+      if ( propertyName.indexOf('on-initialized') === 0 ) {
         continue;
       }
 
 
       // Convert the property name to what the event name would be
-      let eventName = propName;
+      let eventName = propertyName;
       eventName = eventName.replace( regexOnOrHtml, '' );
       eventName = eventName.replace( regexHyphens , '.');
 
@@ -420,85 +341,57 @@ export default Ember.Component.extend({
 
 
       // Attach the appropriate event handler
-      // if ( propName.endsWith('-getHtml') ) // ES2016 (requires polyfill)
-      let getHtmlPos = propName.indexOf('-getHtml', -8);
-      if ( getHtmlPos !== -1 && getHtmlPos === propName.length - 8 ) {
-        $element.on(
-          eventPrefix + eventName,
-          { propertyName:propName },
-          Ember.run.bind(this, 'didEditorEventReturnHtml')
+      // if ( propertyName.endsWith('-getHtml') ) // ES2016 (requires polyfill)
+      let getHtmlPos = propertyName.indexOf('-getHtml', -8);
+      if ( getHtmlPos !== -1 && getHtmlPos === propertyName.length - 8 ) {
+        editor.events.on(
+          eventName,
+          Ember.run.bind( this, this.didEditorEventReturnHtml, propertyName, editor ),
+          true
         );
       } else {
-        $element.on(
-          eventPrefix + eventName,
-          { propertyName:propName },
-          Ember.run.bind(this, 'didEditorEvent')
+        editor.events.on(
+          eventName,
+          Ember.run.bind( this, this.didEditorEvent, propertyName ),
+          true
         );
       }
 
 
     } // for ()
 
-  }, // attachEventListeners()
+
+    // Get the update action and event name
+    let update      = this.get('update');
+    let updateEvent = this.get('updateEvent');
 
 
+    // If there is an update action and event,
+    // then bind an event handler to get the html
+    if ( update && updateEvent ) {
+      editor.events.on(
+        updateEvent,
+        Ember.run.bind( this, this.didEditorEventReturnHtml, 'update', editor ),
+        true
+      );
+    }
 
 
-  // Simply remove all attached event listeners
-  // for the editors "namespace" / event type
-  removeEventListeners() {
-    const eventPrefix = this.get('eventPrefix');
-    this.$().off(
-      // Get just the event name, basically removing the dot
-      eventPrefix.slice( 0, eventPrefix.indexOf('.') )
+    // Add the destroy event handler
+    // Run _after_ any other destroy handler
+    editor.events.on(
+      'destroy',
+      Ember.run.bind( this, this.didDestroyEditor, editor ),
+      false
     );
-  }, // removeEventListeners()
-
-
-
-
-  /**********
-   * Froala Editor Event Handlers
-   *
-   * Handlers for event listeners and observers setup by the
-   * Froala Editor Lifecycle Methods above.
-   **********/
-
-
-
-
-  // Triggered by the 'froalaEditor.initialized' event, updates
-  // component state flags and properly updates the editor
-  // if 'options' or 'content' changed _during_ initialization
-  didInitEditor( event, editor, ...params ) {
-    this.set( '_editorInitializing', false  );
-    this.set( '_editorInitialized' , true   );
-    this.set( '_editor'            , editor );
-
-    // Set the editor html if the bound content
-    // changed _during_ initialization...
-    if (this.get( '_shouldSetHtml' )) {
-      this.set( '_shouldSetHtml', false );
-      editor.html.set( this.get('_content') );
-    }
-
-    // Re-initialize the editor if the options
-    // changed _during_ initialization...
-    if ( this.get('_shouldReinitEditor') ) {
-      this.set( '_shouldReinitEditor', false );
-      this.reinitEditor();
-    }
 
 
     // Fire the "initialized" event actions (if defined)
-    event.data = event.data || {};
     if ( this.get('on-initialized') ) {
-      event.data.propertyName = 'on-initialized';
-      this.didEditorEvent( event, editor, ...params );
+      this.didEditorEvent( 'on-initialized', ...params );
     }
     if ( this.get('on-initialized-getHtml') ) {
-      event.data.propertyName = 'on-initialized-getHtml';
-      this.didEditorEventReturnHtml( event, editor, ...params );
+      this.didEditorEventReturnHtml( 'on-initialized-getHtml', editor, ...params );
     }
 
   }, // didInitEditor()
@@ -514,101 +407,7 @@ export default Ember.Component.extend({
     this.set( '_editorInitialized', false );
     // No need for '_editorDestroyed', the Computed
     // Property 'editorDestroyed' fills that need
-
-    // Update the template variables in case the editor is initialized again
-    this.set( '_templateContent', this.get('_content')   );
-    this.set( '_hasContent',      this.get('hasContent') );
   }, // didDestroyEditor()
-
-
-
-
-  // Triggered by the 'options' observer,
-  // will properly update the editor by reinitializing it...
-  optionsDidChange() {
-
-    const debugMessage = 'froala-editor: ' +
-      'Changing Froala Editor options after initialization is NOT performant! ' +
-      'Technically the editor does not support changing options but the Ember ' +
-      'Component will destroy the editor and re-initialize it to support this ' +
-      'use case.'
-    ;
-
-
-    // If the editor has initialized already (most common),
-    // just re-initialize the editor
-    if ( this.get('_editorInitialized') ) {
-      Ember.debug( debugMessage );
-      this.reinitEditor();
-
-
-    // If the editor is still initializing (less likely),
-    // set a flag for didInitEditor
-    } else if ( this.get('_editorInitializing') ) {
-      Ember.debug( debugMessage );
-      this.set( '_shouldReinitEditor', true );
-    }
-
-
-    // Else no need to worry if the editor has not been initialized at all,
-    // it will pick-up the most current 'options' when initialized next time
-
-
-  }, // optionsDidChange()
-
-
-
-
-  // Triggered by the 'content' observer,
-  // will properly update the editor html
-  contentDidChange() {
-
-    // The htmlDidChange() event hander, which .set()'s the content, will
-    // inadvertently trigger this hook, the '_isSettingContent' flag is
-    // our way to know when that is occurring and avoid creating a loop
-    if ( this.get('_isSettingContent') ) {
-      return;
-    }
-
-
-    // Properly update the editors html,
-    // depending on the current state
-    if ( this.get('_editorInitialized') ) {
-      this._editor.html.set( this.get('_content') );
-    } else if ( this.get('_editorInitializing') ) {
-      this.set( '_shouldSetHtml', true );
-    } else {
-      this.set( '_templateContent', this.get('_content')   );
-      this.set( '_hasContent',      this.get('hasContent') );
-    }
-
-  }, // contentDidChange()
-
-
-
-
-  // Triggered by the 'contentBindingEvent',
-  // will properly update the 'content' property
-  // with the editors current html
-  htmlDidChange( event, editor ) {
-    this.set( '_isSettingContent', true );
-
-
-    // Copy the editors new html to the components 'content'
-    this.set( '_content', editor.html.get() );
-
-
-    // Setting the flag back to `false` needs to be
-    // wrapped in a run-loop, or else Ember will eagerly
-    // reset it back to `false` before the contentDidChange()
-    // hook has had a chance to run.
-    Ember.run.next( this, function() {
-      if (!this.isDestroying) {
-        this.set( '_isSettingContent', false );
-      }
-    });
-
-  }, // htmlDidChange()
 
 
 
@@ -618,17 +417,15 @@ export default Ember.Component.extend({
   // this allows support of "canceling" a Froala Editor event.
   // Note: This function is only triggered for Froala Editor events
   //       that have a related 'on-*' property defined for Ember actions
-  didEditorEvent( event, editor, ...params ) {
-    if ( typeof this[ event.data.propertyName ] === 'function' ) {
-      return this[ event.data.propertyName ](
-        event,
+  didEditorEvent( propertyName, ...params ) {
+    if ( typeof this[ propertyName ] === 'function' ) {
+      return this[ propertyName ](
         this,
         ...params
       );
     } else {
       this.sendAction(
-        event.data.propertyName,
-        event,
+        propertyName,
         this,
         ...params
       );
@@ -643,32 +440,30 @@ export default Ember.Component.extend({
   // This is mainly useful when combined with the (mut) helper
   // Note: This function is only triggered for Froala Editor events
   //       that have a related 'on-*-getHtml' property defined for Ember actions
-  didEditorEventReturnHtml( event, editor, ...params ) {
+  didEditorEventReturnHtml( propertyName, editor, ...params ) {
 
     // Get the HTML to return as the first argument
     let html = editor.html.get();
 
 
     // SafeString in = SafeString out..
-    if ( this.get('isSafeString') ) {
+    if ( this.get('returnSafeString') ) {
       html = Ember.String.htmlSafe( html );
     }
 
 
     // When the action is a function, return the handlers returned value back to the editor,
     // this allows support of "canceling" a Froala Editor event.
-    if ( typeof this[ event.data.propertyName ] === 'function' ) {
-      return this[ event.data.propertyName ](
+    if ( typeof this[ propertyName ] === 'function' ) {
+      return this[ propertyName ](
         html,
-        event,
         this,
         ...params
       );
     } else {
       this.sendAction(
-        event.data.propertyName,
+        propertyName,
         html,
-        event,
         this,
         ...params
       );
@@ -757,4 +552,12 @@ export default Ember.Component.extend({
   } // :actions
 
 
-}); // export default
+}); // Ember.Component.extend()
+
+
+FroalaEditorComponent.reopenClass({
+  positionalParams: ['content', 'update', 'options']
+});
+
+
+export default FroalaEditorComponent;

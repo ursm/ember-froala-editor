@@ -3,9 +3,8 @@
 
 
 // Module requirements
-var fs           = require('fs');
-var path         = require('path');
-var objectAssign = require('object-assign');
+var fs   = require('fs');
+var path = require('path');
 
 
 module.exports = {
@@ -23,20 +22,19 @@ module.exports = {
   included: function(app, parentAddon) {
 
     // Per the ADDON_HOOKS.md document
-    // https://github.com/ember-cli/ember-cli/blob/master/ADDON_HOOKS.md#included
+    // https://github.com/ember-cli/ember-cli/blob/v2.6.0/ADDON_HOOKS.md#included
     this._super.included.apply(this, arguments);
 
 
     // Per the ember-cli documentation
-    // http://ember-cli.com/extending/#broccoli-build-options-for-in-repo-addons
+    // http://ember-cli.com/extending/#addon-entry-point
     var target = (parentAddon || app);
 
 
     // Build options hash by merging default build options
     // with the apps ember-cli-build.js options
     var buildOptions = target.options[ this.name ] || {};
-    var options      = objectAssign( this.defaultOptions, buildOptions );
-    // var options   = Object.assign( this.defaultOptions, buildOptions ); // ES2015
+    var options      = Object.assign( this.defaultOptions, buildOptions );
 
 
     // Bower path to use while importing

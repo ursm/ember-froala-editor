@@ -10,7 +10,30 @@ for installation, configuration, and usage details.
 
 ## Compatibility
 
-ember and ember-cli 1.13+ (including 2.x)
+ember and ember-cli 2.3+
+
+### Breaking changes between v2.3.5 and v2.4.0!!!
+
+Because the version of this addon aligns with the froala-editor version,
+we could not release a new major version "out-of-line". Please note the
+following _breaking_ changes to the `{{froala-editor}}` component;
+
+* `content` is no longer updated by the editor, instead use an action to update the value. Ex:
+  * From: `{{froala-editor content=myProp}}`
+  * To: `{{froala-editor content=myProp update=(action (mut myProp))}}`
+  * Alternate, "new" positional params option: `{{froala-editor myProp (action (mut myProp))}}`
+* `options` changed post-initialization no longer updates the editor, instead use the related [froala-editor methods](https://www.froala.com/wysiwyg-editor/docs/methods)
+* Event handlers/actions `on-*=(action)` no longer receive an "event" object as the first arg, due to a change in event management. Change your action signatures;
+  * From: `function( eventObject, editorComponenet, ...params ){}`
+  * To: `function( editorComponenet, ...params ){}`
+  * Similarly for the `on-*-getHtml` actions, but the `eventObject` is the second argument
+* `contentBindingEvent` option has been removed, in related to the above `content` change
+* `defaultContent` option has been removed, it was deemed unneeded and content is now set directly on the editor
+* Previously undocumented `isSafeString` option was renamed to `returnSafeString`
+
+`content` mutation was removed because it better aligns with ember's direction for "data down, actions up"
+(similar to [`ember-one-way-controls`](https://github.com/DockYard/ember-one-way-controls)).
+This and unmutable `options` also removed the need to maintain other complex state management.
 
 ## Installation
 
@@ -83,12 +106,12 @@ _Notes to self_ really...
 
 1. If bumping the `froala-wysiwyg-editor` version, update both `bower.json` and `blueprints/ember-froala-editor/index.json`
 2. `npm version x.y.z` - Updates the version in `package.json` and tags in git
-3. `git push origin master` - Pushes any changes up to Github
-4. `git push origin --tags` - Pushes the new version tag to Github
-5. Update the new tag on the [Github Releases page](https://github.com/froala/ember-froala-editor/releases)
-6. `npm run deploy` - Deploys the docs to `gh-pages` using [ember-cli-github-pages](https://github.com/poetic/ember-cli-github-pages#how-can-i-create-an-automated-deploy-script)
-7. `git checkout master` - Need to switch back to `master` after deploying the docs..
-8. `npm publish` - Release the new version to the world!
+3. `git push origin master --follow-tags` - Pushes any changes and the new version tag up to Github
+4. Update the new tag on the [Github Releases page](https://github.com/froala/ember-froala-editor/releases)
+5. `npm run deploy` - Deploys the docs to `gh-pages` using [ember-cli-github-pages](https://github.com/poetic/ember-cli-github-pages#how-can-i-create-an-automated-deploy-script)
+  - May need to `git push`, deploy will say if this is needed
+6. `git checkout master` - Need to switch back to `master` after deploying the docs..
+7. `npm publish` - Release the new version to the world!
 
 
 For more information on using ember-cli, visit [http://ember-cli.com/](http://ember-cli.com/).

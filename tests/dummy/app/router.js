@@ -3,6 +3,7 @@ import config from './config/environment';
 
 const Router = Ember.Router.extend({
   location: config.locationType,
+  rootURL: config.rootURL,
 
 
   // The following will maintain scroll position for each URL

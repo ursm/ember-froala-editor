@@ -29,7 +29,7 @@
 
 
     <p>
-      The helpers first parameter will be used as the editor method to be called, and the remaining parameters will be used for method arguments. So you can pass in the proper arguments as documented, an they will be <em>spread</em> out when called. Ex:
+      The helpers first parameter will be used as the editor method to be called, and the remaining parameters will be used for method arguments. So you can pass in the proper arguments as documented, and they will be <em>spread</em> out when called. Ex:
     </p>
 
 
@@ -41,11 +41,11 @@
     </p>
 
 
-    <pre>&#123;&#123;froala-editor on-save-error=(froala-method "html.insert" "message" message=3)&#125;&#125;</pre>
+    <pre>&#123;&#123;froala-editor on-save-error=(froala-method "html.insert" "message" message=2)&#125;&#125;</pre>
 
 
     <p>
-      In the above example, the "on-save-error" action/handler would have received <code>(event, component, error)</code>. In the "(froala-method)" helper we defined a "message" and told it to use the third argument, which is <code>error</code>.
+      In the above example, the "on-save-error" action/handler would have received <code>(component, error)</code>. In the "(froala-method)" helper we defined a "message" and told it to use the second argument, which is <code>error</code>.
     </p>
 
 
