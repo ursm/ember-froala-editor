@@ -218,7 +218,7 @@ export default Ember.Controller.extend({
 
 export default Ember.Controller.extend({
   actions: {
-    doSomething( event, component ) {
+    doSomething( component ) {
 
       <strong>// Won't work!
       let snapshot = component.send(
@@ -244,7 +244,7 @@ export default Ember.Controller.extend({
 
 export default Ember.Controller.extend({
   actions: {
-    doSomething( event, component ) {
+    doSomething( component ) {
 
       <strong>// Works
       let snapshot = component.method(
