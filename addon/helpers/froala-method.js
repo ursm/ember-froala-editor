@@ -1,11 +1,7 @@
 import Ember from 'ember';
 
 
-export function froalaMethod( helperParams, helperHash ) {
-
-  // Froala Editor method name should be the first param
-  const methodName = helperParams.shift();
-
+export function froalaMethod([ methodName, ...helperParams ], helperHash ) {
 
   // Create a closure to pass back as the "action" to be triggered
   return function froalaMethodClosure( component ){
