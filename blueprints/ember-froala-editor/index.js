@@ -12,7 +12,7 @@ module.exports = {
 
   afterInstall: function() {
     return RSVP.all([
-      this.addBowerPackageToProject( 'froala-wysiwyg-editor',  '~2.4.0' ),
+      this.addBowerPackageToProject( 'froala-wysiwyg-editor',  '~2.4.1' ),
       this.addAddonToProject(        'ember-font-awesome', '^2.2.0' )
     ]);
   } // :afterInstall
