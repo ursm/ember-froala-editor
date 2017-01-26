@@ -43,8 +43,36 @@
 
 
     <p>
-      Since Froala WYSIWYG Editor is a paid product, there is an <a href="https://www.froala.com/wysiwyg-editor/faq#activation-key" target="_blank">activation key</a> that must be applied when using the editor. The best way to apply the key is using the {{link-to "defaults concept" (query-params section="defaults")}}. <code>ember g component froala-editor</code>
+      Since Froala WYSIWYG Editor is a paid product, there is an <a href="https://www.froala.com/wysiwyg-editor/faq#activation-key" target="_blank">activation key</a> that must be applied when using the editor. There are a couple ways to apply the key to all <code>&#123;&#123;froala-editor&#125;&#125;</code> instances.
     </p>
+
+
+    <h3 class="h5">A. Environment Config File</h3>
+    <p>Within the <code>config/environment.js</code> <code>ENV</code> object/hash, define a <code>'ember-froala-editor'</code> object/hash and add the <code>key</code> there. Note: This is NOT the same location where you put {{link-to "build-time configuration options" "addon.configuration"}} (AKA <code>ember-cli-build.js</code>).</p>
+
+
+    <h4 class="h6">config/environment.js</h4>
+    <pre>/* eslint-env node */
+
+module.exports = function(environment) {
+  var ENV = {
+
+    // (other default code snipped...)
+
+    <strong>'ember-froala-editor': {
+      key: '_YOUR_KEY_HERE_'
+    }</strong>
+
+  };
+
+  // ... (other default code snipped...)
+
+  return ENV;
+};</pre>
+
+
+    <h3 class="h5">B. Defaults Concept</h3>
+    <p>The other way is to apply the key is using the {{link-to "defaults concept" (query-params section="defaults")}}. This is a good choice if you plan on changing other options for all <code>&#123;&#123;froala-editor&#125;&#125;</code> instances. <code>ember g component froala-editor</code></p>
 
 
     <h4 class="h6">app/components/froala-editor.js</h4>
@@ -52,9 +80,9 @@
 
 export default FroalaEditorComponent.extend({
 
-  defaultOptions: {
+  <strong>defaultOptions: {
     key: '_YOUR_KEY_HERE_'
-  }
+  }</strong>
 
 });</pre>
 

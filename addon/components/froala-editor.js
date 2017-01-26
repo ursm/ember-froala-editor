@@ -2,6 +2,7 @@ import Ember from 'ember';
 import layout from '../templates/components/froala-editor';
 import isHTMLSafe from 'ember-string-ishtmlsafe-polyfill';
 import assign from 'ember-assign-polyfill';
+import config from 'ember-get-config';
 
 
 const FroalaEditorComponent = Ember.Component.extend({
@@ -122,6 +123,7 @@ const FroalaEditorComponent = Ember.Component.extend({
     get() {
       return assign(
         {},
+        Ember.getWithDefault(config, 'ember-froala-editor', {}),
         this.getWithDefault('defaultOptions', {}),
         this.getWithDefault('options', {})
       );
