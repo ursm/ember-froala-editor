@@ -54,15 +54,28 @@ const FroalaEditorComponent = Ember.Component.extend({
 
 
   // Few depreciations to help with the 2.3.5 to 2.4.0 transition
+  // These can be removed for 2.5.0
+  update(){
+    Ember.deprecate(
+      "froala-editor 'content' will no longer be updated by the component (two way bound), instead use the 'update' event action to '(mut)' the original property",
+      this.get('_updateActionWarned'),
+      {
+        id    : 'ember-froala-editor.updateAction',
+        until : '2.5.0',
+        url   : 'https://github.com/froala/ember-froala-editor/releases/tag/2.4.0'
+      }
+    );
+    this.set('_updateActionWarned', true);
+  },
   contentBindingEvent: Ember.computed.deprecatingAlias('updateEvent', {
     id    : 'ember-froala-editor.contentBindingEvent',
-    until : '2.3.7',
-    url   : 'https://github.com/froala/ember-froala-editor/releases/tag/v2.4.0-rc.1'
+    until : '2.5.0',
+    url   : 'https://github.com/froala/ember-froala-editor/releases/tag/2.4.0'
   }),
   isSafeString: Ember.computed.deprecatingAlias('returnSafeString', {
     id    : 'ember-froala-editor.isSafeString',
-    until : '2.3.7',
-    url   : 'https://github.com/froala/ember-froala-editor/releases/tag/v2.4.0-rc.1'
+    until : '2.5.5',
+    url   : 'https://github.com/froala/ember-froala-editor/releases/tag/2.4.0'
   }),
   _optionsChanged: Ember.computed('options', {
     get() {
@@ -75,8 +88,8 @@ const FroalaEditorComponent = Ember.Component.extend({
           this.get('_optionsChangedWarned'),
           {
             id    : 'ember-froala-editor.optionsChanged',
-            until : '2.3.7',
-            url   : 'https://github.com/froala/ember-froala-editor/releases/tag/v2.4.0-rc.1'
+            until : '2.5.0',
+            url   : 'https://github.com/froala/ember-froala-editor/releases/tag/2.4.0'
           }
         );
         this.set('_optionsChangedWarned', true);
@@ -141,7 +154,7 @@ const FroalaEditorComponent = Ember.Component.extend({
 
   // Initialize the per-instance property defaults,
   // mainly for internal state flags and details.
-  // https://guides.emberjs.com/v2.9.0/object-model/classes-and-instances/#toc_initializing-instances
+  // https://guides.emberjs.com/v2.11.0/object-model/classes-and-instances/#toc_initializing-instances
   init() {
     this._super( ...arguments );
     this.set( '_editor'            , null  );
