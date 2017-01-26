@@ -7,9 +7,9 @@ moduleForComponent('froala-content', 'Integration | Component | froala content',
 
 test('.fr-view class is applied', function(assert) {
 
-  this.render(hbs`{{froala-content}}`);
+  this.render(hbs`{{froala-content elementId="editor"}}`);
 
-  assert.ok(this.$().find('.fr-view').length);
+  assert.ok(this.$('#editor').hasClass('fr-view'));
 
 });
 
@@ -17,6 +17,15 @@ test('.fr-view class is applied', function(assert) {
 test("'content' is output inside the block", function(assert) {
 
   this.render(hbs`{{froala-content content="foobar"}}`);
+
+  assert.equal(this.$().text().trim(), 'foobar');
+
+});
+
+
+test("positional param 'content' is output inside the block", function(assert) {
+
+  this.render(hbs`{{froala-content "foobar"}}`);
 
   assert.equal(this.$().text().trim(), 'foobar');
 
