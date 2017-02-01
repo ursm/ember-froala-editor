@@ -56,9 +56,10 @@
     "ember-assign-polyfill": "^1.0.0",
     "ember-cli-babel": "^5.1.7",
     "ember-cli-htmlbars": "^1.1.1",
+    "ember-cli-node-assets": "^0.1.6",
     "ember-get-config": "^0.2.0",
     "ember-string-ishtmlsafe-polyfill": "^1.0.1",
-    "rsvp": "^3.3.3"
+    "froala-editor": "^2.4.1"
   },
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.5",

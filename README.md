@@ -104,7 +104,7 @@ Components and Helpers to use within your project templates.
 
 _Notes to self_ really...
 
-1. If bumping the `froala-wysiwyg-editor` version, update both `bower.json` and `blueprints/ember-froala-editor/index.json`
+1. If needed, bump the `froala-editor` version in `package.json` dependencies
 2. `npm version x.y.z` - Updates the version in `package.json` and tags in git
 3. `git push origin master --follow-tags` - Pushes any changes and the new version tag up to Github
 4. Update the new tag on the [Github Releases page](https://github.com/froala/ember-froala-editor/releases)
