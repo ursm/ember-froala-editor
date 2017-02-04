@@ -120,7 +120,20 @@ test("'theme' option applies the proper class", function(assert) {
     assert.ok(component.$().hasClass('red-theme'));
   });
 
-  this.render(hbs`{{froala-editor on-initialized=(action runAssert) options=(hash theme="red")}}`);
+  this.render(hbs`{{froala-editor options=(hash theme="red") on-initialized=(action runAssert)}}`);
+
+});
+
+
+
+test("'theme' attribute applies the proper class", function(assert) {
+
+  this.set('runAssert', component => {
+    // This is brittle, find a better way to detect that an option has been applied
+    assert.ok(component.$().hasClass('red-theme'));
+  });
+
+  this.render(hbs`{{froala-editor theme="red" on-initialized=(action runAssert)}}`);
 
 });
 

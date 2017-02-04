@@ -112,6 +112,137 @@
 
 
 
+<section class="panel panel-default" id="options">
+  <div class="panel-body">
+
+
+    <h2 class="h4">Editor Options</h2>
+
+
+    <p>
+      The <a href="https://www.froala.com/wysiwyg-editor/docs/options" target="_blank">Froala Editor options</a> can be applied to the <code>&#123;&#123;froala-editor&#125;&#125;</code> in a couple ways; <code>options</code> object/hash or as individual attributes.
+    </p>
+
+
+    <div class="row">
+      <div class="col-md-6">
+
+
+        <h3 class="h6">options object/hash</h3>
+        <pre>&#123;&#123;froala-editor
+  options=(hash
+    theme="royal"
+    charCounterCount=false
+    heightMin=200
+  )
+&#125;&#125;</pre>
+
+
+      </div>{{!-- .col --}}
+      <div class="col-md-6">
+
+
+        <h3 class="h6">individual attributes</h3>
+        <pre>&#123;&#123;froala-editor
+  theme="royal"
+  charCounterCount=false
+  heightMin=200
+&#125;&#125;</pre>
+
+
+      </div>{{!-- .col --}}
+    </div>{{!-- .row --}}
+
+
+    <p>
+      Reminder, if the option has nested objects for values, you must use the <a href="http://emberjs.com/api/classes/Ember.Templates.helpers.html#method_hash" target="_blank"><code>(hash)</code> helper</a>. Same goes for arrays, use the <a href="https://github.com/DockYard/ember-composable-helpers#array" target="_blank"><code>(array)</code> helper</a> from the <code>ember-composable-helpers</code> addon.
+    </p>
+
+
+    <div class="row">
+      <div class="col-md-6">
+
+
+        <pre>&#123;&#123;froala-editor
+  options=(hash
+    paragraphFormat=(hash
+      N="Normal"
+      H1="Heading 1"
+      H2="Heading 2"
+    )
+  )
+&#125;&#125;</pre>
+
+
+      </div>{{!-- .col --}}
+      <div class="col-md-6">
+
+
+        <pre>&#123;&#123;froala-editor
+  toolbarButtons=(array
+    "bold"
+    "italic"
+    "strikeThrough"
+    "formatOL"
+    "formatUL"
+  )
+&#125;&#125;</pre>
+
+
+      </div>{{!-- .col --}}
+    </div>{{!-- .row --}}
+
+
+    <p>
+      Of course you can always pass in a property for the values as well. This works well when you have a complex set of options, they can be defined in JavaScript on the parent context (controller or component).
+    </p>
+
+
+    <div class="row">
+      <div class="col-md-6">
+
+
+        <pre>import Ember from 'ember';
+export default Ember.Controller.extend({
+  formatList: {
+    N: "Normal",
+    H1: "Heading 1",
+    H2: "Heading 2"
+  } // :formatList
+}); // export default</pre>
+
+
+      </div>{{!-- .col --}}
+      <div class="col-md-6">
+
+
+        <pre>&#123;&#123;froala-editor
+  paragraphFormat=formatList
+&#125;&#125;</pre>
+
+
+      </div>{{!-- .col --}}
+    </div>{{!-- .row --}}
+
+
+    <p>
+      Also see the {{link-to "Defaults Concept" "addon.concepts" (query-params section="defaults")}} to apply the same set of options across all of your <code>&#123;&#123;froala-editor&#125;&#125;</code> instances. And you can always mix-n-match passing in the options in different ways. Ex: <code>&#123;&#123;froala-editor theme="royal" options=complexOptions&#125;&#125;</code> In that case, the following is the order in which options take precedence (#1 being the highest);
+    </p>
+
+
+    <ol>
+      <li>Attribute options <code>&#123;&#123;froala-editor theme="red"&#125;&#125;</code></li>
+      <li>Options object/hash <code>&#123;&#123;froala-editor options=(hash theme="red")&#125;&#125;</code></li>
+      <li>Defaults concept <code>defaultOptions: { theme:"red" }</code></li>
+    </ol>
+
+
+  </div>{{!-- .panel-body --}}
+</section>{{!-- .panel --}}
+
+
+
+
 <section class="panel panel-default" id="events">
   <div class="panel-body">
 
@@ -139,7 +270,7 @@
 
 
         <h3 class="h6">on-image-beforeUpload=(action "foobar")</h3>
-          <pre>import Ember from 'ember';
+        <pre>import Ember from 'ember';
 
 export default Ember.Controller.extend({
   actions: {
@@ -154,7 +285,7 @@ export default Ember.Controller.extend({
 }); // export default</pre>
 
 
-      </div>
+      </div>{{!-- .col --}}
       <div class="col-md-6">
 
 
@@ -174,8 +305,8 @@ export default Ember.Controller.extend({
 }); // export default</pre>
 
 
-      </div>
-    </div>
+      </div>{{!-- .col --}}
+    </div>{{!-- .row --}}
 
 
     <p>
@@ -235,7 +366,7 @@ export default Ember.Controller.extend({
 }); // export default</pre>
 
 
-      </div>
+      </div>{{!-- .col --}}
       <div class="col-md-6">
 
 
@@ -261,8 +392,8 @@ export default Ember.Controller.extend({
 }); // export default</pre>
 
 
-      </div>
-    </div>
+      </div>{{!-- .col --}}
+    </div>{{!-- .row --}}
 
 
     <p>

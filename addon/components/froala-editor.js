@@ -119,16 +119,41 @@ const FroalaEditorComponent = Ember.Component.extend({
 
 
   // Private, internal Computed Property to merge all the possible "options"
-  _options: Ember.computed('defaultOptions', 'options', {
+  _options: Ember.computed('defaultOptions', 'options', '_attributeOptions', {
     get() {
       return assign(
         {},
         Ember.getWithDefault(config, 'ember-froala-editor', {}),
         this.getWithDefault('defaultOptions', {}),
-        this.getWithDefault('options', {})
+        this.getWithDefault('options', {}),
+        this.get('_attributeOptions')
       );
     }
   }),
+
+
+
+
+  // Private, internal Computed Property to gather all the Froala Editor options
+  // that are set as individual attributes. Ex: `{{froala-editor theme="red"}}`
+  _attributeOptions: Ember.computed({
+    get() {
+      let attributeOptions = {};
+
+      // Note: Use a for-in loop here over Object.keys() to get _all_ properties
+      //       up the proto-chain, specifically needed when .extend()ing
+      for ( let propertyName in this ) {
+
+        // Verify that the property name aligns with a Froala Editor option name
+        if ( Ember.$.FroalaEditor.DEFAULTS.hasOwnProperty( propertyName ) ) {
+          attributeOptions[ propertyName ] = this.get( propertyName );
+        }
+
+      } // for ()
+
+      return attributeOptions;
+    } // get()
+  }), // :_attributeOptions
 
 
 
@@ -188,6 +213,9 @@ const FroalaEditorComponent = Ember.Component.extend({
 
     if ( editor && editor.html.get() !== content ) {
       editor.html.set( content );
+    } else {
+      // Note: _attributeOptions will only re-calc if editor is reinit'ed
+      this.notifyPropertyChange('_attributeOptions');
     }
 
   }, // didUpdateAttrs()

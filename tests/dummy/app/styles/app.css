@@ -248,6 +248,12 @@ pre {
 }
 
 
+/* remove list bottom margin if it's the last thing */
+section.panel > div.panel-body > ol:last-child {
+  margin-bottom: 0;
+}
+
+
 footer {
  line-height: 1.1;
 }
