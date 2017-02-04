@@ -47,9 +47,11 @@ const FroalaEditorComponent = Ember.Component.extend({
 
   // Option to return a SafeString when using on-*-getHtml event actions
   // By default, look at the current type of `content`
-  returnSafeString: Ember.computed('content', function(){
-    return isHTMLSafe( this.get('content') );
-  }),
+  returnSafeString: Ember.computed('content', {
+    get() {
+      return isHTMLSafe( this.get('content') );
+    } // get()
+  }), // :returnSafeString
 
 
 
@@ -112,8 +114,8 @@ const FroalaEditorComponent = Ember.Component.extend({
         content.toString() :
         ''
       );
-    }
-  }),
+    } // get()
+  }), // :_content
 
 
 
@@ -128,8 +130,8 @@ const FroalaEditorComponent = Ember.Component.extend({
         this.getWithDefault('options', {}),
         this.get('_attributeOptions')
       );
-    }
-  }),
+    } // get()
+  }), // :_options
 
 
 
@@ -302,9 +304,6 @@ const FroalaEditorComponent = Ember.Component.extend({
 
     // Update the state flag so we know destroying has started
     this.set( '_editorDestroying', true );
-
-
-    // Note: Destroy event handler added in didInitEditor()
 
 
     // Actual destruction of the Froala Editor
