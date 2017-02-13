@@ -2,12 +2,22 @@ import FroalaEditorComponent from 'ember-froala-editor/components/froala-editor'
 
 export default FroalaEditorComponent.extend({
 
-  defaultOptions : {
-    initOnClick : true
+  options : {
+    theme         : "red",
+    toolbarSticky : false
   },
 
-  'on-blur' : function() {
-    this.reinitEditor();
-  }
+  // NOT ideal when applying default options,
+  // use the options:{} example above instead
+  charCounterCount : false,
+
+  'on-contentChanged' : function() {
+    let runAssert = this.get('runAssert');
+    if ( typeof runAssert === 'function' ) {
+      runAssert();
+    }
+  },
+
+  update(){} // To remove deprecation notice
 
 });

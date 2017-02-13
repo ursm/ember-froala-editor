@@ -10,7 +10,7 @@ for installation, configuration, and usage details.
 
 ## Compatibility
 
-ember and ember-cli 2.3+
+ember and ember-cli 2.4+
 
 ### Breaking changes between v2.3.5 and v2.4.0!!!
 

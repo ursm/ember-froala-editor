@@ -15,15 +15,9 @@ const FroalaEditorComponent = Ember.Component.extend({
   // to define "default" options that will get merged
   // with any options passed in as an attribute
   mergedProperties: [
-    'defaultOptions'
+    'defaultOptions',
+    'options'
   ],
-
-
-
-
-  // Empty options hash, .extend() this Component
-  // to define defaults. Ex: `defaultOptions:{ heightMin:200 }`
-  defaultOptions: {},
 
 
 
@@ -99,6 +93,7 @@ const FroalaEditorComponent = Ember.Component.extend({
       }
     }
   }),
+  _defaultOptions: { warned:false }, // Objects are shared across all instances
 
 
 
@@ -191,6 +186,18 @@ const FroalaEditorComponent = Ember.Component.extend({
     this.set( '_editorInitialized' , false );
     this.set( '_editorDestroying'  , false );
     this.get( '_optionsChanged' ); // To monitor changes for depreciation notices
+    if ( typeof this.get('defaultOptions') !== 'undefined' ) {
+      Ember.deprecate(
+        "froala-editor 'defaultOptions' has been deprecated, use 'options' instead when .extend()ing the froala-editor component",
+        this.get('_defaultOptions.warned'), // only warn once
+        {
+          id    : 'ember-froala-editor.defaultOptions',
+          until : '2.5.0',
+          url   : 'https://github.com/froala/ember-froala-editor/releases/tag/v2.4.4'
+        }
+      );
+      this.set('_defaultOptions.warned', true); // only warn once
+    }
   }, // init()
 
 

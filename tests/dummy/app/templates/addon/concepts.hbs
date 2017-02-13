@@ -80,9 +80,13 @@ module.exports = function(environment) {
 
 export default FroalaEditorComponent.extend({
 
-  <strong>defaultOptions: {
+  <strong>options: {
     key: '_YOUR_KEY_HERE_'
-  }</strong>
+  },</strong>
+
+  // OR
+
+  <strong>key: '_YOUR_KEY_HERE_'</strong>
 
 });</pre>
 
@@ -204,7 +208,7 @@ export default {
 
 
     <p>
-      The {{link-to "froala-editor component" "addon-components.froala-editor"}} was created with extending and applying defaults in mind. You can simply <code>ember g component froala-editor</code> and <code>.extend()</code> this addons version to override it, providing "default" properties. That way you can still use the same component name in your templates, <code>&#123;&#123;froala-editor&#125;&#125;</code>. You would just define the <code>defaultOptions</code>, {{link-to "event handlers" "addon-components.froala-editor" (query-params section="events")}}, or other {{link-to "component attributes" "addon-components.froala-editor" (query-params section="attributes")}} as properties. This is a great way to define a common theme and even your Froala Editor key!
+      The {{link-to "froala-editor component" "addon-components.froala-editor"}} was created with extending and applying defaults in mind. You can simply <code>ember g component froala-editor</code> and <code>.extend()</code> this addons version to override it, providing "default" properties. That way you can still use the same component name in your templates, <code>&#123;&#123;froala-editor&#125;&#125;</code>. You would just define the {{link-to "options" "addon-components.froala-editor" (query-params section="options")}}, {{link-to "event handlers" "addon-components.froala-editor" (query-params section="events")}}, or other {{link-to "component attributes" "addon-components.froala-editor" (query-params section="attributes")}} as properties. This is a great way to define a common theme and even your Froala Editor key!
     </p>
 
 
@@ -213,7 +217,7 @@ export default {
 
 export default FroalaEditorComponent.extend({
 
-  defaultOptions : {
+  options : {
     key   : '_YOUR_KEY_HERE_',
     theme : 'red'
   },
@@ -226,12 +230,7 @@ export default FroalaEditorComponent.extend({
 
 
     <p>
-      Note: Specific <code>&#123;&#123;froala-editor&#125;&#125;</code> instances can still override defaults provided this way. For example, let's say you want <em>one</em> editor to use a different theme: <code>&#123;&#123;froala-editor options=(hash theme="royal")&#125;&#125;</code> The <code>options</code> are <a href="http://emberjs.com/api/#method_assign" target="_blank">merged</a> with <code>defaultOptions</code>.
-    </p>
-
-
-    <p>
-      Note: This is <em>not</em> a deep merge, only the first level of properties override their values. Therefore, editor options with sub object hashes or arrays will be completely overridden by <code>&#123;&#123;froala-editor&#125;&#125;</code> instances.
+      Note: Use the options object/hash when defining defaults, that way they are properly overridden when an instance defines a different option value. Because default options defined as individual properties will not be overridden if the instance defines the same option using the object/hash. Ex: Extended froala-editor has <code>theme:"red"</code> but <code>&#123;&#123;froala-editor options=(hash theme="royal")&#125;&#125;</code>. In this case <code>"red"</code> would win, because it's technically defined as an "individual attribute".
     </p>
 
 
@@ -321,7 +320,7 @@ export default Ember.Controller.extend({
 
 export default FroalaEditorComponent.extend({
 
-  defaultOptions : {
+  options : {
     initOnClick: true
   },
 
