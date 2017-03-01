@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import layout from '../templates/components/froala-editor';
 import isHTMLSafe from 'ember-string-ishtmlsafe-polyfill';
-import config from 'ember-get-config';
 
 
 const FroalaEditorComponent = Ember.Component.extend({
@@ -117,6 +116,7 @@ const FroalaEditorComponent = Ember.Component.extend({
   // Private, internal Computed Property to merge all the possible "options"
   _options: Ember.computed('defaultOptions', 'options', '_attributeOptions', {
     get() {
+      let config = Ember.getOwner(this).resolveRegistration('config:environment');
       return Ember.assign(
         {},
         Ember.getWithDefault(config, 'ember-froala-editor', {}),
