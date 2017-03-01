@@ -50,14 +50,14 @@ const FroalaEditorComponent = Ember.Component.extend({
 
 
   // Few depreciations to help with the 2.3.5 to 2.4.0 transition
-  // These can be removed for 2.5.0
+  // These can be removed for 2.6.0
   update(){
     Ember.deprecate(
       "froala-editor 'content' will no longer be updated by the component (two way bound), instead use the 'update' event action to '(mut)' the original property",
       this.get('_updateActionWarned'),
       {
         id    : 'ember-froala-editor.updateAction',
-        until : '2.5.0',
+        until : '2.6.0',
         url   : 'https://github.com/froala/ember-froala-editor/releases/tag/2.4.0'
       }
     );
@@ -65,12 +65,12 @@ const FroalaEditorComponent = Ember.Component.extend({
   },
   contentBindingEvent: Ember.computed.deprecatingAlias('updateEvent', {
     id    : 'ember-froala-editor.contentBindingEvent',
-    until : '2.5.0',
+    until : '2.6.0',
     url   : 'https://github.com/froala/ember-froala-editor/releases/tag/2.4.0'
   }),
   isSafeString: Ember.computed.deprecatingAlias('returnSafeString', {
     id    : 'ember-froala-editor.isSafeString',
-    until : '2.5.5',
+    until : '2.6.0',
     url   : 'https://github.com/froala/ember-froala-editor/releases/tag/2.4.0'
   }),
   _optionsChanged: Ember.computed('options', {
@@ -84,7 +84,7 @@ const FroalaEditorComponent = Ember.Component.extend({
           this.get('_optionsChangedWarned'),
           {
             id    : 'ember-froala-editor.optionsChanged',
-            until : '2.5.0',
+            until : '2.6.0',
             url   : 'https://github.com/froala/ember-froala-editor/releases/tag/2.4.0'
           }
         );
@@ -191,8 +191,8 @@ const FroalaEditorComponent = Ember.Component.extend({
         this.get('_defaultOptions.warned'), // only warn once
         {
           id    : 'ember-froala-editor.defaultOptions',
-          until : '2.5.0',
-          url   : 'https://github.com/froala/ember-froala-editor/releases/tag/v2.4.4'
+          until : '2.6.0',
+          url   : 'https://github.com/froala/ember-froala-editor/releases/tag/v2.5.0'
         }
       );
       this.set('_defaultOptions.warned', true); // only warn once
