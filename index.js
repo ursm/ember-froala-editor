@@ -3,10 +3,11 @@
 
 
 // Module requirements
-var fs         = require('fs');
-var path       = require('path');
-var Funnel     = require('broccoli-funnel');
-var MergeTrees = require('broccoli-merge-trees');
+var fs             = require('fs');
+var path           = require('path');
+var Funnel         = require('broccoli-funnel');
+var MergeTrees     = require('broccoli-merge-trees');
+var VersionChecker = require('ember-cli-version-checker');
 
 
 // Resolve the froala-editor node path once..
@@ -25,6 +26,17 @@ module.exports = {
     languages : false,
     themes    : false
   },
+
+
+  // https://github.com/ember-cli/ember-cli-version-checker#forember
+  init: function() {
+    this._super.init.apply( this, arguments );
+    var checker = new VersionChecker( this );
+    checker.forEmber().assertAbove(
+      '2.4.2',
+      'To use ember-froala-editor you must have ember 2.4.2 or later for an important bug fix!'
+    ); // https://github.com/emberjs/ember.js/releases/tag/v2.4.2
+  }, // :init
 
 
   // https://simplabs.com/blog/2017/02/13/npm-libs-in-ember-cli.html
