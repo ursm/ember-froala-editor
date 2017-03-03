@@ -19,6 +19,14 @@ const FroalaEditorComponent = Ember.Component.extend({
 
 
 
+  // jQuery selector to find the froala-editor container
+  // Note: Using a nested `<div>` to prevent conflicts
+  //       between ember and froala-editor for DOM changes
+  containerSelector: 'div.froala-editor',
+
+
+
+
   // Froala Editor prefixes all event names,
   // which is technically NOT a namespace,
   // and should be used when attaching event handlers
@@ -265,7 +273,7 @@ const FroalaEditorComponent = Ember.Component.extend({
 
 
     // Init jQuery once...
-    let $element = this.$();
+    let $element = this.$( this.get('containerSelector') );
 
 
     // Attach a one time 'froalaEditor.initialized' event handler
@@ -312,7 +320,7 @@ const FroalaEditorComponent = Ember.Component.extend({
 
 
     // Actual destruction of the Froala Editor
-    this.$().froalaEditor( 'destroy' );
+    this.$( this.get('containerSelector') ).froalaEditor( 'destroy' );
 
   }, // destroyEditor()
 
@@ -543,7 +551,7 @@ const FroalaEditorComponent = Ember.Component.extend({
 
     // Editor should be initialized before calling the method
     } else if ( this.get('_editorInitialized') ) {
-      return this.$().froalaEditor( ...arguments );
+      return this.$( this.get('containerSelector') ).froalaEditor( ...arguments );
 
 
     } else {
@@ -561,7 +569,7 @@ const FroalaEditorComponent = Ember.Component.extend({
 
 
         // Create a one time event listener for the initialized event
-        this.$().one(
+        this.$( this.get('containerSelector') ).one(
           this.get('eventPrefix') + 'initialized',
           () => {
 
@@ -569,7 +577,7 @@ const FroalaEditorComponent = Ember.Component.extend({
             // Try calling the Froala Editor method, returning the outcome
             try {
               resolve(
-                this.$().froalaEditor( ...arguments )
+                this.$( this.get('containerSelector') ).froalaEditor( ...arguments )
               );
             } catch (e) {
               reject(e);

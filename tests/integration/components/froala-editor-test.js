@@ -23,7 +23,7 @@ test("'on-initialized' event action is firing", function(assert) {
 test('.fr-box class is applied', function(assert) {
 
   this.set('runAssert', component => {
-    assert.ok(component.$().hasClass('fr-box'));
+    assert.ok(component.$(component.get('containerSelector')).hasClass('fr-box'));
   });
 
   this.render(hbs`{{froala-editor on-initialized=(action runAssert)}}`);
@@ -116,7 +116,7 @@ test("'theme' option applies the proper class", function(assert) {
 
   this.set('runAssert', component => {
     // This is brittle, find a better way to detect that an option has been applied
-    assert.ok(component.$().hasClass('red-theme'));
+    assert.ok(component.$(component.get('containerSelector')).hasClass('red-theme'));
   });
 
   this.render(hbs`{{froala-editor options=(hash theme="red") on-initialized=(action runAssert)}}`);
@@ -129,7 +129,7 @@ test("'theme' attribute applies the proper class", function(assert) {
 
   this.set('runAssert', component => {
     // This is brittle, find a better way to detect that an option has been applied
-    assert.ok(component.$().hasClass('red-theme'));
+    assert.ok(component.$(component.get('containerSelector')).hasClass('red-theme'));
   });
 
   this.render(hbs`{{froala-editor theme="red" on-initialized=(action runAssert)}}`);
@@ -144,7 +144,7 @@ test("positional param options, 'theme' applies the proper class", function(asse
 
   this.set('runAssert', component => {
     // This is brittle, find a better way to detect that an option has been applied
-    assert.ok(component.$().hasClass('red-theme'));
+    assert.ok(component.$(component.get('containerSelector')).hasClass('red-theme'));
   });
 
   this.render(hbs`{{froala-editor foobar (action (mut foobar)) (hash theme="red") on-initialized=(action runAssert)}}`);
