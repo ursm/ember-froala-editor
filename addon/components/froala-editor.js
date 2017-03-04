@@ -226,10 +226,15 @@ const FroalaEditorComponent = Ember.Component.extend({
     let editor  = this.get('_editor');
     let content = this.get('_content');
 
-    if ( editor && editor.html.get() !== content ) {
+    if ( editor && content !== editor.html.get() ) {
       editor.html.set( content );
+    } else if ( !editor && content !== this.$( this.get('containerSelector') ).html() ) {
+      // Note: Must use jQuery! Updating a bound template property causes the following error,
+      //       which is likely caused by the way froala-editor modifies DOM and Glimmer not liking that..
+      // Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
+      this.$( this.get('containerSelector') ).html( content );
     } else {
-      // Note: _attributeOptions will only re-calc if editor is reinit'ed
+      // Note: _attributeOptions will only re-compute if editor is reinit'ed
       this.notifyPropertyChange('_attributeOptions');
     }
 
@@ -345,10 +350,6 @@ const FroalaEditorComponent = Ember.Component.extend({
     this.set( '_editorInitializing', false  );
     this.set( '_editorInitialized' , true   );
     this.set( '_editor'            , editor );
-
-
-    // Set the initial HTML content
-    editor.html.set( this.get('_content') );
 
 
     // Regex's used for replacing things in the property name
