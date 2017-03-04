@@ -4,6 +4,7 @@ import layout from '../templates/components/froala-editor';
 
 const FroalaEditorComponent = Ember.Component.extend({
   layout,
+  classNames: ['froala-editor-container'],
 
 
 
@@ -22,7 +23,7 @@ const FroalaEditorComponent = Ember.Component.extend({
   // jQuery selector to find the froala-editor container
   // Note: Using a nested `<div>` to prevent conflicts
   //       between ember and froala-editor for DOM changes
-  containerSelector: 'div.froala-editor',
+  editorSelector: 'div.froala-editor',
 
 
 
@@ -228,11 +229,11 @@ const FroalaEditorComponent = Ember.Component.extend({
 
     if ( editor && content !== editor.html.get() ) {
       editor.html.set( content );
-    } else if ( !editor && content !== this.$( this.get('containerSelector') ).html() ) {
+    } else if ( !editor && content !== this.$( this.get('editorSelector') ).html() ) {
       // Note: Must use jQuery! Updating a bound template property causes the following error,
       //       which is likely caused by the way froala-editor modifies DOM and Glimmer not liking that..
       // Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
-      this.$( this.get('containerSelector') ).html( content );
+      this.$( this.get('editorSelector') ).html( content );
     } else {
       // Note: _attributeOptions will only re-compute if editor is reinit'ed
       this.notifyPropertyChange('_attributeOptions');
@@ -278,7 +279,7 @@ const FroalaEditorComponent = Ember.Component.extend({
 
 
     // Init jQuery once...
-    let $element = this.$( this.get('containerSelector') );
+    let $element = this.$( this.get('editorSelector') );
 
 
     // Attach a one time 'froalaEditor.initialized' event handler
@@ -325,7 +326,7 @@ const FroalaEditorComponent = Ember.Component.extend({
 
 
     // Actual destruction of the Froala Editor
-    this.$( this.get('containerSelector') ).froalaEditor( 'destroy' );
+    this.$( this.get('editorSelector') ).froalaEditor( 'destroy' );
 
   }, // destroyEditor()
 
@@ -552,7 +553,7 @@ const FroalaEditorComponent = Ember.Component.extend({
 
     // Editor should be initialized before calling the method
     } else if ( this.get('_editorInitialized') ) {
-      return this.$( this.get('containerSelector') ).froalaEditor( ...arguments );
+      return this.$( this.get('editorSelector') ).froalaEditor( ...arguments );
 
 
     } else {
@@ -570,7 +571,7 @@ const FroalaEditorComponent = Ember.Component.extend({
 
 
         // Create a one time event listener for the initialized event
-        this.$( this.get('containerSelector') ).one(
+        this.$( this.get('editorSelector') ).one(
           this.get('eventPrefix') + 'initialized',
           () => {
 
@@ -578,7 +579,7 @@ const FroalaEditorComponent = Ember.Component.extend({
             // Try calling the Froala Editor method, returning the outcome
             try {
               resolve(
-                this.$( this.get('containerSelector') ).froalaEditor( ...arguments )
+                this.$( this.get('editorSelector') ).froalaEditor( ...arguments )
               );
             } catch (e) {
               reject(e);
