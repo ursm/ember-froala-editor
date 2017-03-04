@@ -313,3 +313,20 @@ test("instance options are not shared across all instances", function(assert) {
   this.render(hbs`{{extended-froala-editor options=(hash disableRightClick=true) on-initialized=(action runAssertA)}}{{extended-froala-editor options=(hash editInPopup=true) on-initialized=(action runAssertB)}}`);
 
 });
+
+
+test("'content' changes while the editor is not initialized update the template instead", function(assert) {
+
+  let foobar = '<p>Foobar</p>';
+  let foobaz = '<p>Foobaz</p>';
+
+  this.set('foo', foobar);
+
+  this.set('runAssert', component => {
+    component.destroyEditor();
+    this.set('foo', foobaz);
+    assert.equal(component.$(component.get('editorSelector')).html(), foobaz);
+  });
+
+  this.render(hbs`{{froala-editor content=foo on-initialized=(action runAssert)}}`);
+});
