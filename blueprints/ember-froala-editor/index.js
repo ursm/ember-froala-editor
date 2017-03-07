@@ -3,14 +3,14 @@
 module.exports = {
   description: 'Add a project dep for ember-font-awesome',
 
-  normalizeEntityName: function() {
+  normalizeEntityName() {
     // allows us to run ember -g ember-bootstrap-switch and not blow up
     // because ember cli normally expects the format
     // ember generate <entitiyName> <blueprint>
-  }, // :normalizeEntityName
+  }, // normalizeEntityName()
 
-  afterInstall: function() {
+  afterInstall() {
     return this.addAddonToProject('ember-font-awesome');
-  } // :afterInstall
+  } // afterInstall()
 
 }; // module.exports

@@ -29,28 +29,28 @@ module.exports = {
 
 
   // https://github.com/ember-cli/ember-cli-version-checker#forember
-  init: function() {
+  init() {
     this._super.init.apply( this, arguments );
     var checker = new VersionChecker( this );
     checker.forEmber().assertAbove(
       '2.4.2',
       'To use ember-froala-editor you must have ember 2.4.2 or later for an important bug fix!'
     ); // https://github.com/emberjs/ember.js/releases/tag/v2.4.2
-  }, // :init
+  }, // init()
 
 
   // https://simplabs.com/blog/2017/02/13/npm-libs-in-ember-cli.html
-  treeForVendor: function() {
+  treeForVendor() {
     var vendorTree = this._super.treeForVendor.apply( this, arguments );
     var froalaTree = new Funnel( froalaPath, {
       include : ['css/**/*','js/**/*'],
       destDir : 'froala-editor'
     });
     return new MergeTrees([ vendorTree, froalaTree ]);
-  }, // :treeForVendor
+  }, // treeForVendor()
 
 
-  included: function( app, parent ) {
+  included( app, parent ) {
 
 
     // http://ember-cli.com/extending/#addon-entry-point
@@ -159,8 +159,8 @@ module.exports = {
 
       } else if ( !Array.isArray( asset.files ) ) {
         throw new Error(
-          addon.name + ': ' + asset.label +
-          ' option in ember-cli-build.js is an invalid type, ' +
+          `${addon.name}: ${asset.label} ` +
+          'option in ember-cli-build.js is an invalid type, ' +
           'ensure it is either a boolean (all or none), ' +
           'string (just one), or array (specific list)'
         );
@@ -198,9 +198,9 @@ module.exports = {
       // Display an error message if any required files are missing
       if ( missingFiles.length > 0 && !asset.optional ) {
         throw new Error(
-          addon.name + ': ' + asset.label +
-          ' specified in ember-cli-build.js are missing, ' +
-          'make sure they are spelled correctly (' + missingFiles.join(', ') + ')'
+          `${addon.name}: ${asset.label} ` +
+          'specified in ember-cli-build.js are missing, ' +
+          `make sure they are spelled correctly (${missingFiles.join(', ')})`
         );
       }
 
@@ -208,7 +208,7 @@ module.exports = {
     }); // additionalAssets.forEach()
 
 
-  } // :included
+  } // included()
 
 
 }; // module.exports
