@@ -23,7 +23,7 @@ const FroalaEditorComponent = Ember.Component.extend({
   // jQuery selector to find the froala-editor container
   // Note: Using a nested `<div>` to prevent conflicts
   //       between ember and froala-editor for DOM changes
-  editorSelector: 'div.froala-editor',
+  editorSelector: 'div.froala-editor-instance',
 
 
 
