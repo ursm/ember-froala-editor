@@ -46,7 +46,11 @@ module.exports = {
       include : ['css/**/*','js/**/*'],
       destDir : 'froala-editor'
     });
-    return new MergeTrees([ vendorTree, froalaTree ]);
+    if ( vendorTree ) {
+      return new MergeTrees([ vendorTree, froalaTree ]);
+    } else {
+      return froalaTree;
+    }
   }, // treeForVendor()
 
 
