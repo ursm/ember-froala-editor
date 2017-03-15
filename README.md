@@ -22,7 +22,7 @@ ember install ember-froala-editor
 
 ## Configuration
 
-Take a look at the [configuration documentation page](http://froala.github.io/ember-froala-editor/#addon/configuration)
+Take a look at the [configuration documentation page](http://froala.github.io/ember-froala-editor/#/addon/configuration)
 for details on the exact configuration options. But basically you add
 `'ember-froala-editor':{}` within your `ember-cli-build.js` file and adjust
 the available configuration options. Ex:
