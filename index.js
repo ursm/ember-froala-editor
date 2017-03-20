@@ -40,13 +40,15 @@ module.exports = {
 
 
   // https://simplabs.com/blog/2017/02/13/npm-libs-in-ember-cli.html
-  treeForVendor() {
-    var vendorTree = this._super.treeForVendor.apply( this, arguments );
+  treeForVendor( vendorTree ) {
+    var superTree = this._super.treeForVendor.apply( this, arguments );
     var froalaTree = new Funnel( froalaPath, {
       include : ['css/**/*','js/**/*'],
       destDir : 'froala-editor'
     });
-    if ( vendorTree ) {
+    if ( superTree ) {
+      return new MergeTrees([ superTree, froalaTree ]);
+    } else if ( vendorTree ) {
       return new MergeTrees([ vendorTree, froalaTree ]);
     } else {
       return froalaTree;
