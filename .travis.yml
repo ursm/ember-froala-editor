@@ -19,6 +19,8 @@ env:
   - EMBER_TRY_SCENARIO=ember-2.8
   - EMBER_TRY_SCENARIO=ember-2.9
   - EMBER_TRY_SCENARIO=ember-2.10
+  - EMBER_TRY_SCENARIO=ember-2.11
+  - EMBER_TRY_SCENARIO=ember-2.12
   - EMBER_TRY_SCENARIO=ember-release
   - EMBER_TRY_SCENARIO=ember-beta
   - EMBER_TRY_SCENARIO=ember-canary
