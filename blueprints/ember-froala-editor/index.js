@@ -1,4 +1,4 @@
-/*jshint node:true*/
+/* eslint-env node */
 
 module.exports = {
   description: 'Add a project dep for ember-font-awesome',
