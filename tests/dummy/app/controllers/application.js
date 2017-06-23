@@ -8,7 +8,7 @@ export default Ember.Controller.extend({
   // version the documentation was generated for
   addonVersion: Ember.computed({
     get() {
-      let version = config.APP.version;
+      let version = config.APP.version || '2.6.2';
 
       // remove the sha (if there is one)
       version = version.split('+')[0];
