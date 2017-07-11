@@ -72,7 +72,7 @@ module.exports = function(environment) {
 
 
     <h3 class="h5">B. Defaults Concept</h3>
-    <p>The other way is to apply the key is using the {{link-to "defaults concept" (query-params section="defaults")}}. This is a good choice if you plan on changing other options for all <code>&#123;&#123;froala-editor&#125;&#125;</code> instances. <code>ember g component froala-editor</code></p>
+    <p>The other way is to apply the key is using the {{link-to "defaults concept" (query-params section="defaults")}}. This is a good choice if you plan on changing other options for all <code>&#123;&#123;froala-editor&#125;&#125;</code> instances. <code>ember g component froala-editor</code> and then delete the generated template (or else the editor won't render)</p>
 
 
     <h4 class="h6">app/components/froala-editor.js</h4>
@@ -208,7 +208,7 @@ export default {
 
 
     <p>
-      The {{link-to "froala-editor component" "addon-components.froala-editor"}} was created with extending and applying defaults in mind. You can simply <code>ember g component froala-editor</code> and <code>.extend()</code> this addons version to override it, providing "default" properties. That way you can still use the same component name in your templates, <code>&#123;&#123;froala-editor&#125;&#125;</code>. You would just define the {{link-to "options" "addon-components.froala-editor" (query-params section="options")}}, {{link-to "event handlers" "addon-components.froala-editor" (query-params section="events")}}, or other {{link-to "component attributes" "addon-components.froala-editor" (query-params section="attributes")}} as properties. This is a great way to define a common theme and even your Froala Editor key!
+      The {{link-to "froala-editor component" "addon-components.froala-editor"}} was created with extending and applying defaults in mind. You can simply <code>ember g component froala-editor</code>, delete the generated template (or else the editor won't render), and <code>.extend()</code> this addons version to override it, providing "default" properties. That way you can still use the same component name in your templates, <code>&#123;&#123;froala-editor&#125;&#125;</code>. You would just define the {{link-to "options" "addon-components.froala-editor" (query-params section="options")}}, {{link-to "event handlers" "addon-components.froala-editor" (query-params section="events")}}, or other {{link-to "component attributes" "addon-components.froala-editor" (query-params section="attributes")}} as properties. This is a great way to define a common theme and even your Froala Editor key!
     </p>
 
 
