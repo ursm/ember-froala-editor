@@ -61,7 +61,7 @@
     "ember-cli-htmlbars": "^1.1.1",
     "ember-cli-version-checker": "^2.0.0",
     "ember-string-ishtmlsafe-polyfill": "^1.1.0",
-    "froala-editor": "~2.6.2"
+    "froala-editor": "~2.6.3"
   },
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.5",
