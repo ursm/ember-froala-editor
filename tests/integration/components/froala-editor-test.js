@@ -20,6 +20,38 @@ test("'on-initialized' event action is firing", function(assert) {
 
 
 
+test("'on-initializationDelayed' event action is firing when using the 'initOnClick' option", function(assert) {
+
+  this.set('runAssert', () => {
+    assert.ok(true);
+  });
+
+  this.render(hbs`{{froala-editor options=(hash initOnClick=true) on-initializationDelayed=(action runAssert)}}`);
+
+});
+
+
+
+// Need help on the following test, second assert never runs. Need 'wait()' helper??
+/* test("'on-initialized' event action is fired after editor is clicked when using the 'initOnClick' option", function(assert) {
+  assert.expect(2);
+
+  this.set('initializationDelayedTriggered', () => {
+    let $editor = this.$('.froala-editor-instance');
+    assert.equal($editor.length, 1);
+    $editor.click();
+  });
+
+  this.set('initializedTriggered', () => {
+    assert.ok(true);
+  });
+
+  this.render(hbs`{{froala-editor options=(hash initOnClick=true) on-initializationDelayed=(action initializationDelayedTriggered) on-initialized=(action initializedTriggered)}}`);
+
+}); */
+
+
+
 test('.fr-box class is applied', function(assert) {
 
   this.set('runAssert', component => {

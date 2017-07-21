@@ -278,22 +278,26 @@ const FroalaEditorComponent = Ember.Component.extend({
     this.set( '_editorInitializing', true );
 
 
+    // Get the complete set of options to be used
+    let options = this.get('_options');
+
+
     // Init jQuery once...
     let $element = this.$( this.get('editorSelector') );
 
 
-    // Attach a one time 'froalaEditor.initialized' event handler
+    // Attach a one time Froala Editor initialization event handler
     // to know when initialization has finished, updating state flags
     // Note: Cannot be done via editor.events.on()
     //       since access to `editor` is not available yet
     $element.one(
-      this.get('eventPrefix') + 'initialized',
+      this.get('eventPrefix') + (options.initOnClick ? 'initializationDelayed' : 'initialized'),
       Ember.run.bind(this, 'didInitEditor')
     );
 
 
     // Actual initialization of the Froala Editor
-    $element.froalaEditor( this.get('_options') );
+    $element.froalaEditor( options );
 
   }, // initEditor()
 
@@ -344,13 +348,21 @@ const FroalaEditorComponent = Ember.Component.extend({
 
 
 
-  // Triggered by the 'froalaEditor.initialized' event, updates
+  // Triggered by the Froala Editor initialization event, updates
   // component state flags, sets the original html/content, and
   // attaches event handlers directly to the editor
   didInitEditor( event, editor, ...params ) {
     this.set( '_editorInitializing', false  );
     this.set( '_editorInitialized' , true   );
     this.set( '_editor'            , editor );
+
+
+    // Determine which initialization event was used
+    const initEventPropName = (
+      this.get('_options.initOnClick') ?
+      'on-initializationDelayed' :
+      'on-initialized'
+    );
 
 
     // Regex's used for replacing things in the property name
@@ -374,8 +386,8 @@ const FroalaEditorComponent = Ember.Component.extend({
 
       // Initialization actions will be triggered later,
       // that way the component is setup before calling the event action
-      // if ( propertyName.startsWith('on-initialized') ) // ES2015 (requires polyfill)
-      if ( propertyName.indexOf('on-initialized') === 0 ) {
+      // if ( propertyName.startsWith(initEventPropName) ) // ES2015 (requires polyfill)
+      if ( propertyName.indexOf(initEventPropName) === 0 ) {
         continue;
       }
 
@@ -443,12 +455,12 @@ const FroalaEditorComponent = Ember.Component.extend({
     );
 
 
-    // Fire the "initialized" event actions (if defined)
-    if ( this.get('on-initialized') ) {
-      this.didEditorEvent( 'on-initialized', ...params );
+    // Fire the "initialization" event actions (if defined)
+    if ( this.get(initEventPropName) ) {
+      this.didEditorEvent( initEventPropName, ...params );
     }
-    if ( this.get('on-initialized-getHtml') ) {
-      this.didEditorEventReturnHtml( 'on-initialized-getHtml', editor, ...params );
+    if ( this.get(`${initEventPropName}-getHtml`) ) {
+      this.didEditorEventReturnHtml( `${initEventPropName}-getHtml`, editor, ...params );
     }
 
   }, // didInitEditor()
@@ -572,7 +584,7 @@ const FroalaEditorComponent = Ember.Component.extend({
 
         // Create a one time event listener for the initialized event
         this.$( this.get('editorSelector') ).one(
-          this.get('eventPrefix') + 'initialized',
+          this.get('eventPrefix') + (this.get('_options.initOnClick') ? 'initializationDelayed' : 'initialized'),
           () => {
 
 
