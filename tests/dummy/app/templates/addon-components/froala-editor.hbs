@@ -99,7 +99,7 @@
 
     <h3 class="h5">Positional Params</h3>
     <p>
-      This component supports three <a href="https://guides.emberjs.com/v2.11.0/components/passing-properties-to-a-component/#toc_positional-params" target="_blank">positional params</a>; <code>content</code>, <code>update</code>, and <code>options</code>. Ex:
+      This component supports three <a href="https://guides.emberjs.com/v2.14.0/components/passing-properties-to-a-component/#toc_positional-params" target="_blank">positional params</a>; <code>content</code>, <code>update</code>, and <code>options</code>. Ex:
     </p>
     <pre>&#123;&#123;froala-editor myProperty (action (mut myProperty)) (hash heightMin=200)&#125;&#125;</pre>
 
@@ -251,7 +251,7 @@ export default Ember.Controller.extend({
 
 
     <p>
-      The <a href="https://www.froala.com/wysiwyg-editor/docs/events" target="_blank">Froala Editor events</a> are exposed as <a href="https://guides.emberjs.com/v2.11.0/components/triggering-changes-with-actions/" target="_blank">Ember Actions</a>. You can capture an editor event by passing in an action for the attribute named as the editor event and prefixed with 'on-'. Ex: "blur" becomes <code>&#123;&#123;froala-editor on-blur=(action "parentActionName")&#125;&#125;</code> And if the event name contains a period, replace it with a dash. Ex: "charCounter.exceeded" becomes <code>&#123;&#123;froala-editor on-charCounter-exceeded=(action "parentActionName")&#125;&#125;</code>
+      The <a href="https://www.froala.com/wysiwyg-editor/docs/events" target="_blank">Froala Editor events</a> are exposed as <a href="https://guides.emberjs.com/v2.14.0/components/triggering-changes-with-actions/" target="_blank">Ember Actions</a>. You can capture an editor event by passing in an action for the attribute named as the editor event and prefixed with 'on-'. Ex: "blur" becomes <code>&#123;&#123;froala-editor on-blur=(action "parentActionName")&#125;&#125;</code> And if the event name contains a period, replace it with a dash. Ex: "charCounter.exceeded" becomes <code>&#123;&#123;froala-editor on-charCounter-exceeded=(action "parentActionName")&#125;&#125;</code>
     </p>
 
 
