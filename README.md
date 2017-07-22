@@ -10,7 +10,7 @@
 > Bring the [Froala WYSIWYG Editor](https://www.froala.com/wysiwyg-editor)
 into an ember-cli project with this addon. Besides importing the required
 Froala Editor files, the _main_ part of this addon is the `{{froala-editor}}`
-component. Checkout the [documentation Website](http://froala.github.io/ember-froala-editor/)
+component. Checkout the [documentation Website](http://www.emberwysiwygeditor.com/)
 for installation, configuration, and usage details.
 
 
@@ -28,7 +28,7 @@ ember install ember-froala-editor
 
 ## Configuration
 
-Take a look at the [configuration documentation page](http://froala.github.io/ember-froala-editor/#/addon/configuration)
+Take a look at the [configuration documentation page](http://www.emberwysiwygeditor.com/#/addon/configuration)
 for details on the exact configuration options. But basically you add
 `'ember-froala-editor':{}` within your `ember-cli-build.js` file and adjust
 the available configuration options. Ex:
@@ -49,7 +49,7 @@ the available configuration options. Ex:
 
 ## Usage
 
-Take a look at the [documentation Website](http://froala.github.io/ember-froala-editor/)
+Take a look at the [documentation Website](http://www.emberwysiwygeditor.com/)
 for full usage details. But basically this addon comes with a few Ember
 Components and Helpers to use within your project templates.
 
@@ -68,7 +68,7 @@ Components and Helpers to use within your project templates.
 
 This addon also provides a convenient test helper to interact with the editor
 in acceptance tests. It functions similar to the [ember provided `fillIn()` test helper](http://emberjs.com/api/classes/Ember.Test.html#method_fillIn).
-Take a look at the [Testing page on the docs Website](http://froala.github.io/ember-froala-editor/#/addon/test-helper)
+Take a look at the [Testing page on the docs Website](http://www.emberwysiwygeditor.com/#/addon/test-helper)
 for more details.
 
 ```js

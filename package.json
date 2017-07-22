@@ -2,7 +2,7 @@
   "name": "ember-froala-editor",
   "version": "2.6.4",
   "description": "An ember-cli addon that properly wraps the Froala WYSIWYG Editor for use in Ember.js",
-  "homepage": "https://froala.github.io/ember-froala-editor/",
+  "homepage": "http://www.emberwysiwygeditor.com/",
   "bugs": "https://github.com/froala/ember-froala-editor/issues",
   "directories": {
     "doc": "doc",
@@ -88,7 +88,7 @@
   },
   "ember-addon": {
     "configPath": "tests/dummy/config",
-    "demoURL": "http://froala.github.io/ember-froala-editor/",
+    "demoURL": "http://www.emberwysiwygeditor.com/",
     "versionCompatibility": {
       "ember": ">=2.4.2"
     }
