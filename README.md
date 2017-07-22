@@ -64,6 +64,18 @@ Components and Helpers to use within your project templates.
 ```
 
 
+## Test Helper
+
+This addon also provides a convenient test helper to interact with the editor
+in acceptance tests. It functions similar to the [ember provided `fillIn()` test helper](http://emberjs.com/api/classes/Ember.Test.html#method_fillIn).
+Take a look at the [Testing page on the docs Website](http://froala.github.io/ember-froala-editor/#/addon/test-helper)
+for more details.
+
+```js
+fillInFroalaEditor('#my-editor', '<p>Foobar</p>');
+```
+
+
 ## Development
 
 * `git clone` this repository (fork if you plan on submitting a PR)

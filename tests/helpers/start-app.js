@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import Application from '../../app';
 import config from '../../config/environment';
+import fillInFroalaEditor from 'ember-froala-editor/test-support/helpers/fill-in-froala-editor';
 
 export default function startApp(attrs) {
   let attributes = Ember.merge({}, config.APP);
