@@ -46,6 +46,7 @@ before_install:
   - bower --version
 
 install:
+  - npm install
   - bower install
 
 script:
