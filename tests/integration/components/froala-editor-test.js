@@ -362,3 +362,19 @@ test("'content' changes while the editor is not initialized update the template 
 
   this.render(hbs`{{froala-editor content=foo on-initialized=(action runAssert)}}`);
 });
+
+
+test("ensure 'html.set' and 'undo.saveStep' triggers the 'contentChanged' event", function(assert) {
+
+  this.set('setContent', component => {
+    component.get('editor').html.set('<p>Foobar</p>');
+    component.get('editor').undo.saveStep();
+  });
+
+  this.set('runAssert', () => {
+    assert.ok(true);
+  });
+
+  this.render(hbs`{{froala-editor on-initialized=(action setContent) on-contentChanged=(action runAssert)}}`);
+
+});

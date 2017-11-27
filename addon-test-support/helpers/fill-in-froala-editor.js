@@ -12,5 +12,8 @@ export function fillInFroalaEditor(selector, html) {
     html.toString() :
     ''
   );
-  Ember.run(() => $editor.froalaEditor('html.set', html));
+  Ember.run(() => {
+    $editor.froalaEditor('html.set', html);
+    $editor.froalaEditor('undo.saveStep');
+  });
 }
