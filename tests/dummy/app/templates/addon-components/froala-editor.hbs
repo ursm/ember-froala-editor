@@ -45,7 +45,7 @@
     <tbody>
       <tr>
         <th scope="row">content</th>
-        <td>string | <a href="http://emberjs.com/api/classes/Ember.String.html#method_htmlSafe" target="_blank">SafeString</a></td>
+        <td>string | <a href="https://emberjs.com/api/ember/2.18/classes/@ember%2Ftemplate/methods/htmlSafe?anchor=htmlSafe" target="_blank">SafeString</a></td>
         <td><code>''</code></td>
         <td>String of HTML for the editor to use. Note, this is <em>not</em> updated as the editor content changes. Instead use <code>update</code> to <code>(mut)</code> the original property.</td>
       </tr>
@@ -99,7 +99,7 @@
 
     <h3 class="h5">Positional Params</h3>
     <p>
-      This component supports three <a href="https://guides.emberjs.com/v2.14.0/components/passing-properties-to-a-component/#toc_positional-params" target="_blank">positional params</a>; <code>content</code>, <code>update</code>, and <code>options</code>. Ex:
+      This component supports three <a href="https://guides.emberjs.com/v2.18.0/components/passing-properties-to-a-component/#toc_positional-params" target="_blank">positional params</a>; <code>content</code>, <code>update</code>, and <code>options</code>. Ex:
     </p>
     <pre>&#123;&#123;froala-editor myProperty (action (mut myProperty)) (hash heightMin=200)&#125;&#125;</pre>
 
@@ -155,7 +155,7 @@
 
 
     <p>
-      Reminder, if the option has nested objects for values, you must use the <a href="http://emberjs.com/api/classes/Ember.Templates.helpers.html#method_hash" target="_blank"><code>(hash)</code> helper</a>. Same goes for arrays, use the <a href="https://github.com/DockYard/ember-composable-helpers#array" target="_blank"><code>(array)</code> helper</a> from the <code>ember-composable-helpers</code> addon.
+      Reminder, if the option has nested objects for values, you must use the <a href="https://emberjs.com/api/ember/2.18/classes/Ember.Templates.helpers/methods/hash?anchor=hash" target="_blank"><code>(hash)</code> helper</a>. Same goes for arrays, use the <a href="https://github.com/DockYard/ember-composable-helpers#array" target="_blank"><code>(array)</code> helper</a> from the <code>ember-composable-helpers</code> addon.
     </p>
 
 
@@ -251,12 +251,12 @@ export default Ember.Controller.extend({
 
 
     <p>
-      The <a href="https://www.froala.com/wysiwyg-editor/docs/events" target="_blank">Froala Editor events</a> are exposed as <a href="https://guides.emberjs.com/v2.14.0/components/triggering-changes-with-actions/" target="_blank">Ember Actions</a>. You can capture an editor event by passing in an action for the attribute named as the editor event and prefixed with 'on-'. Ex: "blur" becomes <code>&#123;&#123;froala-editor on-blur=(action "parentActionName")&#125;&#125;</code> And if the event name contains a period, replace it with a dash. Ex: "charCounter.exceeded" becomes <code>&#123;&#123;froala-editor on-charCounter-exceeded=(action "parentActionName")&#125;&#125;</code>
+      The <a href="https://www.froala.com/wysiwyg-editor/docs/events" target="_blank">Froala Editor events</a> are exposed as <a href="https://guides.emberjs.com/v2.18.0/components/triggering-changes-with-actions/" target="_blank">Ember Actions</a>. You can capture an editor event by passing in an action for the attribute named as the editor event and prefixed with 'on-'. Ex: "blur" becomes <code>&#123;&#123;froala-editor on-blur=(action "parentActionName")&#125;&#125;</code> And if the event name contains a period, replace it with a dash. Ex: "charCounter.exceeded" becomes <code>&#123;&#123;froala-editor on-charCounter-exceeded=(action "parentActionName")&#125;&#125;</code>
     </p>
 
 
     <p>
-      Optionally, you may append '-getHtml' at the end of the attribute name to get the editors current content / HTML as the first argument.  This is very useful when combined with the <a href="http://emberjs.com/api/classes/Ember.Templates.helpers.html#method_mut" target="_blank"><code>(mut)</code> helper</a>. Ex: <code>&#123;&#123;froala-editor on-blur-getHtml=(action (mut someContent))&#125;&#125;</code>
+      Optionally, you may append '-getHtml' at the end of the attribute name to get the editors current content / HTML as the first argument.  This is very useful when combined with the <a href="https://emberjs.com/api/ember/2.18/classes/Ember.Templates.helpers/methods/mut?anchor=mut" target="_blank"><code>(mut)</code> helper</a>. Ex: <code>&#123;&#123;froala-editor on-blur-getHtml=(action (mut someContent))&#125;&#125;</code>
     </p>
 
 
@@ -310,7 +310,7 @@ export default Ember.Controller.extend({
 
 
     <p>
-      Note: For the Froala Editor <a href="https://www.froala.com/wysiwyg-editor/docs/events#popups.hide.[id]" target="_blank"><code>popups.hide.[id]</code> event</a>, "<a href="http://emberjs.com/api/classes/Ember.String.html#method_dasherize" target="_blank">dasherize</a>" the event name (including the id). Ex: <code>popups.hide.[foobar]</code> would become <code>on-popups-hide-foobar</code>.
+      Note: For the Froala Editor <a href="https://www.froala.com/wysiwyg-editor/docs/events#popups.hide.[id]" target="_blank"><code>popups.hide.[id]</code> event</a>, "<a href="https://emberjs.com/api/ember/2.18/classes/String/methods/dasherize?anchor=dasherize" target="_blank">dasherize</a>" the event name (including the id). Ex: <code>popups.hide.[foobar]</code> would become <code>on-popups-hide-foobar</code>.
     </p>
 
 

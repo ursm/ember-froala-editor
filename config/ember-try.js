@@ -1,107 +1,7 @@
-/* eslint-env node */
 module.exports = {
   scenarios: [
     {
-      name: 'ember-2.4',
-      bower: {
-        dependencies: {
-          'ember': '~2.4.0'
-        }
-      },
-      npm: {
-        devDependencies: {
-          'ember-source': null
-        }
-      }
-    },
-    {
-      name: 'ember-2.5',
-      bower: {
-        dependencies: {
-          'ember': '~2.5.0'
-        }
-      },
-      npm: {
-        devDependencies: {
-          'ember-source': null
-        }
-      }
-    },
-    {
-      name: 'ember-2.6',
-      bower: {
-        dependencies: {
-          'ember': '~2.6.0'
-        }
-      },
-      npm: {
-        devDependencies: {
-          'ember-source': null
-        }
-      }
-    },
-    {
-      name: 'ember-2.7',
-      bower: {
-        dependencies: {
-          'ember': '~2.7.0'
-        }
-      },
-      npm: {
-        devDependencies: {
-          'ember-source': null
-        }
-      }
-    },
-    {
-      name: 'ember-2.8',
-      bower: {
-        dependencies: {
-          'ember': '~2.8.0'
-        }
-      },
-      npm: {
-        devDependencies: {
-          'ember-source': null
-        }
-      }
-    },
-    {
-      name: 'ember-2.9',
-      bower: {
-        dependencies: {
-          'ember': '~2.9.0'
-        }
-      },
-      npm: {
-        devDependencies: {
-          'ember-source': null
-        }
-      }
-    },
-    {
-      name: 'ember-2.10',
-      bower: {
-        dependencies: {
-          'ember': '~2.10.0'
-        }
-      },
-      npm: {
-        devDependencies: {
-          'ember-source': null
-        }
-      }
-    },
-    {
-      name: 'ember-2.11',
-      npm: {
-        devDependencies: {
-          'ember-source': '~2.11.0'
-        }
-      }
-    },
-    {
-      name: 'ember-2.12',
+      name: 'ember-lts-2.12',
       npm: {
         devDependencies: {
           'ember-source': '~2.12.0'
@@ -109,18 +9,10 @@ module.exports = {
       }
     },
     {
-      name: 'ember-2.13',
+      name: 'ember-lts-2.16',
       npm: {
         devDependencies: {
-          'ember-source': '~2.13.0'
-        }
-      }
-    },
-    {
-      name: 'ember-2.14',
-      npm: {
-        devDependencies: {
-          'ember-source': '~2.14.0'
+          'ember-source': '~2.16.0'
         }
       }
     },
@@ -170,6 +62,12 @@ module.exports = {
         devDependencies: {
           'ember-source': null
         }
+      }
+    },
+    {
+      name: 'ember-default',
+      npm: {
+        devDependencies: {}
       }
     }
   ]

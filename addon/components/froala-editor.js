@@ -185,7 +185,7 @@ const FroalaEditorComponent = Ember.Component.extend({
 
   // Initialize the per-instance property defaults,
   // mainly for internal state flags and details.
-  // https://guides.emberjs.com/v2.14.0/object-model/classes-and-instances/#toc_initializing-instances
+  // https://guides.emberjs.com/v2.18.0/object-model/classes-and-instances/#toc_initializing-instances
   init() {
     this._super( ...arguments );
     this.set( '_editor'            , null  );

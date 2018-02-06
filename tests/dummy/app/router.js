@@ -1,23 +1,26 @@
 import Ember from 'ember';
+import EmberRouter from '@ember/routing/router';
+import { inject as service } from '@ember/service';
+import { next, schedule } from '@ember/runloop';
 import config from './config/environment';
 
-const Router = Ember.Router.extend({
+const Router = EmberRouter.extend({
   location: config.locationType,
   rootURL: config.rootURL,
 
 
   // The following will maintain scroll position for each URL
   // Enables a more natural feel when using the browser Forward/Back buttons
-  scrollPositions: Ember.inject.service(),
+  scrollPositions: service(),
   didTransition() {
     this._super( ...arguments );
     // Wait for 'url' to change...
-    Ember.run.next(this, function(){
+    next(this, function(){
       let scroll   = this.get('scrollPositions');
       let url      = this.get('url');
       let position = scroll.get( url );
       // Wait for things to settle, finish rendering...
-      Ember.run.schedule('afterRender', this, function(){
+      schedule('afterRender', this, function(){
         Ember.$( 'html,body' ).scrollTop( position || 0 );
       });
     });

@@ -67,7 +67,7 @@ Components and Helpers to use within your project templates.
 ## Test Helper
 
 This addon also provides a convenient test helper to interact with the editor
-in acceptance tests. It functions similar to the [ember provided `fillIn()` test helper](http://emberjs.com/api/classes/Ember.Test.html#method_fillIn).
+in acceptance tests. It functions similar to the [ember provided `fillIn()` test helper](https://github.com/emberjs/ember-test-helpers/blob/master/API.md#fillin).
 Take a look at the [Testing page on the docs Website](http://www.emberwysiwygeditor.com/#/addon/test-helper)
 for more details.
 
