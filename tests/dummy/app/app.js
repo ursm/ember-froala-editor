@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import $ from 'jquery';
 import Application from '@ember/application';
 import Resolver from './resolver';
 import loadInitializers from 'ember-load-initializers';
@@ -12,7 +12,7 @@ const App = Application.extend({
     // Hide the initial loading message
     // TODO: Move to application Routeable Component once released
     //       Could be put in the application View didInsertElement() hook for now...
-    Ember.$( '#app-loading' ).fadeOut( 'slow' );
+    $( '#app-loading' ).fadeOut( 'slow' );
   }
 });
 

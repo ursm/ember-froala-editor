@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { htmlSafe } from '@ember/string';
 import { test } from 'qunit';
 import moduleForAcceptance from '../../tests/helpers/module-for-acceptance';
 
@@ -14,7 +14,7 @@ test('Testing fillInFroalaEditor test helper', function(assert) {
 
   andThen(() => {
     assert.equal(find('.froala-editor-instance .fr-element').html().trim(), '<p>Foobar</p>', 'Correct html entered');
-    fillInFroalaEditor('.froala-editor-container', Ember.String.htmlSafe('<p>Foobaz</p>'));
+    fillInFroalaEditor('.froala-editor-container', htmlSafe('<p>Foobaz</p>'));
   });
 
   andThen(() => {

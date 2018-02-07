@@ -1,7 +1,9 @@
-import Ember from 'ember';
+import { alias, equal } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
 import layout from '../templates/components/back-button';
 
-export default Ember.Component.extend({
+export default Component.extend({
   layout,
 
 
@@ -24,11 +26,11 @@ export default Ember.Component.extend({
   classNameBindings: ['invisible'],
 
 
-  routing: Ember.inject.service('-routing'),
-  router: Ember.computed.alias('routing.router'),
+  routing: service('-routing'),
+  router: alias('routing.router'),
 
 
-  invisible: Ember.computed.equal('router.currentPath', 'index'),
+  invisible: equal('router.currentPath', 'index'),
 
 
   click() {

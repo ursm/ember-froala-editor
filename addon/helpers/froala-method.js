@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { helper } from '@ember/component/helper';
 
 
 export function froalaMethod([ methodName, ...helperParams ], helperHash ) {
@@ -38,4 +38,4 @@ export function froalaMethod([ methodName, ...helperParams ], helperHash ) {
 } // froalaMethod()
 
 
-export default Ember.Helper.helper( froalaMethod );
+export default helper( froalaMethod );

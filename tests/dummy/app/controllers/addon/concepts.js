@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import Controller from '@ember/controller';
 import DeepLinkingMixin from '../../mixins/deep-linking';
 
-export default Ember.Controller.extend( DeepLinkingMixin );
+export default Controller.extend( DeepLinkingMixin );

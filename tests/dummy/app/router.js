@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import $ from 'jquery';
 import EmberRouter from '@ember/routing/router';
 import { inject as service } from '@ember/service';
 import { next, schedule } from '@ember/runloop';
@@ -21,7 +21,7 @@ const Router = EmberRouter.extend({
       let position = scroll.get( url );
       // Wait for things to settle, finish rendering...
       schedule('afterRender', this, function(){
-        Ember.$( 'html,body' ).scrollTop( position || 0 );
+        $( 'html,body' ).scrollTop( position || 0 );
       });
     });
   },

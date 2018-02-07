@@ -1,8 +1,8 @@
-import Ember from 'ember';
+import Component from '@ember/component';
 import layout from '../templates/components/froala-content';
 
 
-const FroalaContentComponent = Ember.Component.extend({
+const FroalaContentComponent = Component.extend({
   layout,
   classNames: ['fr-view']
 });

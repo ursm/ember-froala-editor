@@ -1,7 +1,8 @@
-import Ember from 'ember';
+import { schedule } from '@ember/runloop';
+import Component from '@ember/component';
 import layout from '../templates/components/header-navbar';
 
-export default Ember.Component.extend({
+export default Component.extend({
   layout,
 
 
@@ -17,7 +18,7 @@ export default Ember.Component.extend({
 
   didInsertElement() {
     this._super( ...arguments );
-    Ember.run.schedule('afterRender', this, function(){
+    schedule('afterRender', this, function(){
       this.$().on( 'click', 'a', this.collapseNavbar.bind(this) );
     });
   },

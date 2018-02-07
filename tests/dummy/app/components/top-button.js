@@ -1,7 +1,10 @@
-import Ember from 'ember';
+import { debounce } from '@ember/runloop';
+import $ from 'jquery';
+import { lt } from '@ember/object/computed';
+import Component from '@ember/component';
 import layout from '../templates/components/top-button';
 
-export default Ember.Component.extend({
+export default Component.extend({
   layout,
 
 
@@ -23,7 +26,7 @@ export default Ember.Component.extend({
   classNameBindings: ['invisible'],
 
 
-  invisible: Ember.computed.lt( 'yPosition', 300 ),
+  invisible: lt( 'yPosition', 300 ),
 
 
   init() {
@@ -34,7 +37,7 @@ export default Ember.Component.extend({
 
   didInsertElement() {
     this._super( ...arguments );
-    Ember.$( window ).on(
+    $( window ).on(
       'scroll',
       this.didScroll.bind(this)
     );
@@ -43,7 +46,7 @@ export default Ember.Component.extend({
 
   willDestroyElement() {
     this._super( ...arguments );
-    Ember.$( window ).off(
+    $( window ).off(
       'scroll',
       this.didScroll.bind(this)
     );
@@ -51,7 +54,7 @@ export default Ember.Component.extend({
 
 
   didScroll() {
-    Ember.run.debounce(
+    debounce(
       this,
       'updatePosition',
       300
@@ -65,7 +68,7 @@ export default Ember.Component.extend({
 
 
   click() {
-    Ember.$( 'html,body' ).animate(
+    $( 'html,body' ).animate(
       {scrollTop:0},
       'slow'
     );

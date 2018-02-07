@@ -1,8 +1,8 @@
-import Ember from 'ember';
+import { helper } from '@ember/component/helper';
 import ENV from '../config/environment';
 
 export function rooturl(/*params, hash*/) {
   return ENV.rootURL;
 }
 
-export default Ember.Helper.helper(rooturl);
+export default helper(rooturl);

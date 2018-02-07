@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { isHTMLSafe, htmlSafe } from '@ember/string';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
@@ -188,10 +188,10 @@ test("positional param options, 'theme' applies the proper class", function(asse
 test('SafeString in, SafeString out (via *-getHtml event handler)', function(assert) {
 
   this.set('runAssert', html => {
-    assert.ok(Ember.String.isHTMLSafe(html));
+    assert.ok(isHTMLSafe(html));
   });
 
-  this.set('safestring', Ember.String.htmlSafe('<p>This is safe!</p>'));
+  this.set('safestring', htmlSafe('<p>This is safe!</p>'));
 
   this.render(hbs`{{froala-editor content=safestring on-initialized-getHtml=(action runAssert)}}`);
 

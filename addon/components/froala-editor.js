@@ -1,8 +1,17 @@
-import Ember from 'ember';
+import { Promise as EmberPromise } from 'rsvp';
+import { schedule, bind } from '@ember/runloop';
+import $ from 'jquery';
+import { assign } from '@ember/polyfills';
+import { getOwner } from '@ember/application';
+import { deprecatingAlias, readOnly, not } from '@ember/object/computed';
+import { deprecate } from '@ember/application/deprecations';
+import { isHTMLSafe, htmlSafe } from '@ember/string';
+import { computed, getWithDefault } from '@ember/object';
+import Component from '@ember/component';
 import layout from '../templates/components/froala-editor';
 
 
-const FroalaEditorComponent = Ember.Component.extend({
+const FroalaEditorComponent = Component.extend({
   layout,
   classNames: ['froala-editor-container'],
 
@@ -47,9 +56,9 @@ const FroalaEditorComponent = Ember.Component.extend({
 
   // Option to return a SafeString when using on-*-getHtml event actions
   // By default, look at the current type of `content`
-  returnSafeString: Ember.computed('content', {
+  returnSafeString: computed('content', {
     get() {
-      return Ember.String.isHTMLSafe( this.get('content') );
+      return isHTMLSafe( this.get('content') );
     } // get()
   }), // :returnSafeString
 
@@ -59,7 +68,7 @@ const FroalaEditorComponent = Ember.Component.extend({
   // Few depreciations to help with the 2.3.5 to 2.4.0 transition
   // These can be removed for 2.6.0
   update(){
-    Ember.deprecate(
+    deprecate(
       "froala-editor 'content' will no longer be updated by the component (two way bound), instead use the 'update' event action to '(mut)' the original property",
       this.get('_updateActionWarned'),
       {
@@ -70,23 +79,23 @@ const FroalaEditorComponent = Ember.Component.extend({
     );
     this.set('_updateActionWarned', true);
   },
-  contentBindingEvent: Ember.computed.deprecatingAlias('updateEvent', {
+  contentBindingEvent: deprecatingAlias('updateEvent', {
     id    : 'ember-froala-editor.contentBindingEvent',
     until : '2.6.0',
     url   : 'https://github.com/froala/ember-froala-editor/releases/tag/2.4.0'
   }),
-  isSafeString: Ember.computed.deprecatingAlias('returnSafeString', {
+  isSafeString: deprecatingAlias('returnSafeString', {
     id    : 'ember-froala-editor.isSafeString',
     until : '2.6.0',
     url   : 'https://github.com/froala/ember-froala-editor/releases/tag/2.4.0'
   }),
-  _optionsChanged: Ember.computed('options', {
+  _optionsChanged: computed('options', {
     get() {
       // Skip the first "get" from the `init()` hook
       if ( !this.get('_optionsChangedFirst') ) {
         this.set('_optionsChangedFirst', true);
       } else {
-        Ember.deprecate(
+        deprecate(
           "froala-editor 'options' changed post-initialization no longer updates the editor, instead use the related froala-editor methods",
           this.get('_optionsChangedWarned'),
           {
@@ -107,7 +116,7 @@ const FroalaEditorComponent = Ember.Component.extend({
   // Private, internal Computed Property to handle SafeString support
   // and it will always return a string, even if `content` is null or undefined
   // Note: Both Strings and SafeStrings have a .toString() function
-  _content: Ember.computed('content', {
+  _content: computed('content', {
     get() {
       let content = this.get('content');
       return (
@@ -122,12 +131,12 @@ const FroalaEditorComponent = Ember.Component.extend({
 
 
   // Private, internal Computed Property to merge all the possible "options"
-  _options: Ember.computed('defaultOptions', 'options', '_attributeOptions', {
+  _options: computed('defaultOptions', 'options', '_attributeOptions', {
     get() {
-      const config = Ember.getOwner(this).resolveRegistration('config:environment');
-      return Ember.assign(
+      const config = getOwner(this).resolveRegistration('config:environment');
+      return assign(
         {},
-        Ember.getWithDefault(config, 'ember-froala-editor', {}),
+        getWithDefault(config, 'ember-froala-editor', {}),
         this.getWithDefault('defaultOptions', {}),
         this.getWithDefault('options', {}),
         this.get('_attributeOptions')
@@ -140,7 +149,7 @@ const FroalaEditorComponent = Ember.Component.extend({
 
   // Private, internal Computed Property to gather all the Froala Editor options
   // that are set as individual attributes. Ex: `{{froala-editor theme="red"}}`
-  _attributeOptions: Ember.computed({
+  _attributeOptions: computed({
     get() {
       let attributeOptions = {};
 
@@ -149,7 +158,7 @@ const FroalaEditorComponent = Ember.Component.extend({
       for ( let propertyName in this ) {
 
         // Verify that the property name aligns with a Froala Editor option name
-        if ( Ember.$.FroalaEditor.DEFAULTS.hasOwnProperty( propertyName ) ) {
+        if ( $.FroalaEditor.DEFAULTS.hasOwnProperty( propertyName ) ) {
           attributeOptions[ propertyName ] = this.get( propertyName );
         }
 
@@ -164,11 +173,11 @@ const FroalaEditorComponent = Ember.Component.extend({
 
   // Public facing API's for editor instance and state information
   // Note: The referenced properties are .set() on the init() hook
-  editor            : Ember.computed.readOnly( '_editor'             ),
-  editorInitializing: Ember.computed.readOnly( '_editorInitializing' ),
-  editorInitialized : Ember.computed.readOnly( '_editorInitialized'  ),
-  editorDestroying  : Ember.computed.readOnly( '_editorDestroying'   ),
-  editorDestroyed   : Ember.computed.not(      'editorInitialized'   ),
+  editor            : readOnly( '_editor'             ),
+  editorInitializing: readOnly( '_editorInitializing' ),
+  editorInitialized : readOnly( '_editorInitialized'  ),
+  editorDestroying  : readOnly( '_editorDestroying'   ),
+  editorDestroyed   : not(      'editorInitialized'   ),
 
 
 
@@ -194,7 +203,7 @@ const FroalaEditorComponent = Ember.Component.extend({
     this.set( '_editorDestroying'  , false );
     this.get( '_optionsChanged' ); // To monitor changes for depreciation notices
     if ( typeof this.get('defaultOptions') !== 'undefined' ) {
-      Ember.deprecate(
+      deprecate(
         "froala-editor 'defaultOptions' has been deprecated, use 'options' instead when .extend()ing the froala-editor component",
         this.get('_defaultOptions.warned'), // only warn once
         {
@@ -213,7 +222,7 @@ const FroalaEditorComponent = Ember.Component.extend({
   // Start the setup...
   didInsertElement() {
     this._super( ...arguments );
-    Ember.run.schedule( 'afterRender', this, this.initEditor );
+    schedule( 'afterRender', this, this.initEditor );
   }, // didInsertElement()
 
 
@@ -292,7 +301,7 @@ const FroalaEditorComponent = Ember.Component.extend({
     //       since access to `editor` is not available yet
     $element.one(
       this.get('eventPrefix') + (options.initOnClick ? 'initializationDelayed' : 'initialized'),
-      Ember.run.bind(this, 'didInitEditor')
+      bind(this, 'didInitEditor')
     );
 
 
@@ -415,13 +424,13 @@ const FroalaEditorComponent = Ember.Component.extend({
       if ( getHtmlPos !== -1 && getHtmlPos === propertyName.length - 8 ) {
         editor.events.on(
           eventName,
-          Ember.run.bind( this, this.didEditorEventReturnHtml, propertyName, editor ),
+          bind( this, this.didEditorEventReturnHtml, propertyName, editor ),
           true
         );
       } else {
         editor.events.on(
           eventName,
-          Ember.run.bind( this, this.didEditorEvent, propertyName ),
+          bind( this, this.didEditorEvent, propertyName ),
           true
         );
       }
@@ -440,7 +449,7 @@ const FroalaEditorComponent = Ember.Component.extend({
     if ( update && updateEvent ) {
       editor.events.on(
         updateEvent,
-        Ember.run.bind( this, this.didEditorEventReturnHtml, 'update', editor ),
+        bind( this, this.didEditorEventReturnHtml, 'update', editor ),
         true
       );
     }
@@ -450,7 +459,7 @@ const FroalaEditorComponent = Ember.Component.extend({
     // Run _after_ any other destroy handler
     editor.events.on(
       'destroy',
-      Ember.run.bind( this, this.didDestroyEditor, editor ),
+      bind( this, this.didDestroyEditor, editor ),
       false
     );
 
@@ -517,7 +526,7 @@ const FroalaEditorComponent = Ember.Component.extend({
 
     // SafeString in = SafeString out..
     if ( this.get('returnSafeString') ) {
-      html = Ember.String.htmlSafe( html );
+      html = htmlSafe( html );
     }
 
 
@@ -579,7 +588,7 @@ const FroalaEditorComponent = Ember.Component.extend({
 
       // Instead of throwing an error, lets return a Promise
       // that will call the method once the editor _is_ initialized
-      return new Ember.RSVP.Promise( (resolve, reject) => {
+      return new EmberPromise( (resolve, reject) => {
 
 
         // Create a one time event listener for the initialized event

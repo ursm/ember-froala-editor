@@ -1,6 +1,7 @@
-import Ember from 'ember';
+import { run } from '@ember/runloop';
+import { registerAsyncHelper } from '@ember/test';
 
-export default Ember.Test.registerAsyncHelper('fillInFroalaEditor', function(app, selector, html) {
+export default registerAsyncHelper('fillInFroalaEditor', function(app, selector, html) {
   return fillInFroalaEditor(selector, html);
 });
 
@@ -12,7 +13,7 @@ export function fillInFroalaEditor(selector, html) {
     html.toString() :
     ''
   );
-  Ember.run(() => {
+  run(() => {
     $editor.froalaEditor('html.set', html);
     $editor.froalaEditor('undo.saveStep');
   });
