@@ -4,7 +4,6 @@ import $ from 'jquery';
 import { assign } from '@ember/polyfills';
 import { getOwner } from '@ember/application';
 import { deprecatingAlias, readOnly, not } from '@ember/object/computed';
-import { deprecate } from '@ember/application/deprecations';
 import { isHTMLSafe, htmlSafe } from '@ember/string';
 import { computed, getWithDefault } from '@ember/object';
 import Component from '@ember/component';
@@ -65,54 +64,6 @@ const FroalaEditorComponent = Component.extend({
 
 
 
-  // Few depreciations to help with the 2.3.5 to 2.4.0 transition
-  // These can be removed for 2.6.0
-  update(){
-    deprecate(
-      "froala-editor 'content' will no longer be updated by the component (two way bound), instead use the 'update' event action to '(mut)' the original property",
-      this.get('_updateActionWarned'),
-      {
-        id    : 'ember-froala-editor.updateAction',
-        until : '2.6.0',
-        url   : 'https://github.com/froala/ember-froala-editor/releases/tag/2.4.0'
-      }
-    );
-    this.set('_updateActionWarned', true);
-  },
-  contentBindingEvent: deprecatingAlias('updateEvent', {
-    id    : 'ember-froala-editor.contentBindingEvent',
-    until : '2.6.0',
-    url   : 'https://github.com/froala/ember-froala-editor/releases/tag/2.4.0'
-  }),
-  isSafeString: deprecatingAlias('returnSafeString', {
-    id    : 'ember-froala-editor.isSafeString',
-    until : '2.6.0',
-    url   : 'https://github.com/froala/ember-froala-editor/releases/tag/2.4.0'
-  }),
-  _optionsChanged: computed('options', {
-    get() {
-      // Skip the first "get" from the `init()` hook
-      if ( !this.get('_optionsChangedFirst') ) {
-        this.set('_optionsChangedFirst', true);
-      } else {
-        deprecate(
-          "froala-editor 'options' changed post-initialization no longer updates the editor, instead use the related froala-editor methods",
-          this.get('_optionsChangedWarned'),
-          {
-            id    : 'ember-froala-editor.optionsChanged',
-            until : '2.6.0',
-            url   : 'https://github.com/froala/ember-froala-editor/releases/tag/2.4.0'
-          }
-        );
-        this.set('_optionsChangedWarned', true);
-      }
-    }
-  }),
-  _defaultOptions: { warned:false }, // Objects are shared across all instances
-
-
-
-
   // Private, internal Computed Property to handle SafeString support
   // and it will always return a string, even if `content` is null or undefined
   // Note: Both Strings and SafeStrings have a .toString() function
@@ -137,7 +88,6 @@ const FroalaEditorComponent = Component.extend({
       return assign(
         {},
         getWithDefault(config, 'ember-froala-editor', {}),
-        this.getWithDefault('defaultOptions', {}),
         this.getWithDefault('options', {}),
         this.get('_attributeOptions')
       );
@@ -201,19 +151,6 @@ const FroalaEditorComponent = Component.extend({
     this.set( '_editorInitializing', false );
     this.set( '_editorInitialized' , false );
     this.set( '_editorDestroying'  , false );
-    this.get( '_optionsChanged' ); // To monitor changes for depreciation notices
-    if ( typeof this.get('defaultOptions') !== 'undefined' ) {
-      deprecate(
-        "froala-editor 'defaultOptions' has been deprecated, use 'options' instead when .extend()ing the froala-editor component",
-        this.get('_defaultOptions.warned'), // only warn once
-        {
-          id    : 'ember-froala-editor.defaultOptions',
-          until : '2.6.0',
-          url   : 'https://github.com/froala/ember-froala-editor/releases/tag/v2.5.0'
-        }
-      );
-      this.set('_defaultOptions.warned', true); // only warn once
-    }
   }, // init()
 
 
