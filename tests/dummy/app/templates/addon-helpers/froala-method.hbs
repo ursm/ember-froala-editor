@@ -1,31 +1,32 @@
-<section class="panel panel-default">
-  <div class="panel-body">
+<section class="card">
+  <div class="card-body">
 
 
-    <div class="page-header"><h1 class="h3">
+    <h1 class="card-title">
       (froala-method)
-      <small>Helper</small>
-    </h1></div>
+      <small class="text-muted">Helper</small>
+    </h1>
+    <hr />
 
 
     <p class="lead">
-      This helper creates an <code>(action)</code> like closure that will call an <a href="https://www.froala.com/wysiwyg-editor/docs/methods" target="_blank">editor method</a> when executed. It is meant to replace an {{link-to "event action" "addon-components.froala-editor" (query-params section="events")}} on the <code>&#123;&#123;froala-editor&#125;&#125;</code> component. Simply specify the method name as the first parameter of the helper.
+      This helper creates an <code class="bg-light text-dark">(action)</code> like closure that will call an <a href="https://www.froala.com/wysiwyg-editor/docs/methods" target="_blank">editor method</a> when executed. It is meant to replace an {{link-to "event action" "addon-components.froala-editor" (query-params section="events")}} on the <code class="bg-light text-dark">&#123;&#123;froala-editor&#125;&#125;</code> component. Simply specify the method name as the first parameter of the helper.
     </p>
 
-    <pre>&#123;&#123;froala-editor on-paste-after=<strong>(froala-method "commands.undo")</strong>&#125;&#125;</pre>
+    <pre class="bg-light border rounded p-2 text-dark">&#123;&#123;froala-editor on-paste-after=<strong>(froala-method "commands.undo")</strong>&#125;&#125;</pre>
 
 
-  </div>{{!-- .panel-body --}}
-</section>{{!-- .panel --}}
+  </div>{{!-- .card-body --}}
+</section>{{!-- .card --}}
 
 
 
 
-<section class="panel panel-default">
-  <div class="panel-body">
+<section class="card">
+  <div class="card-body">
 
 
-    <h2 class="h4">Method Arguments</h2>
+    <h2 class="card-title">Method Arguments</h2>
 
 
     <p>
@@ -33,7 +34,7 @@
     </p>
 
 
-    <pre>(froala-method "align.apply" "right")</pre>
+    <pre class="bg-light border rounded p-2 text-dark">(froala-method "align.apply" "right")</pre>
 
 
     <p>
@@ -41,13 +42,13 @@
     </p>
 
 
-    <pre>&#123;&#123;froala-editor on-save-error=(froala-method "html.insert" "message" message=2)&#125;&#125;</pre>
+    <pre class="bg-light border rounded p-2 text-dark">&#123;&#123;froala-editor on-save-error=(froala-method "html.insert" "message" message=2)&#125;&#125;</pre>
 
 
     <p>
-      In the above example, the "on-save-error" action/handler would have received <code>(component, error)</code>. In the "(froala-method)" helper we defined a "message" and told it to use the second argument, which is <code>error</code>.
+      In the above example, the "on-save-error" action/handler would have received <code class="bg-light text-dark">(component, error)</code>. In the "(froala-method)" helper we defined a "message" and told it to use the second argument, which is <code class="bg-light text-dark">error</code>.
     </p>
 
 
-  </div>{{!-- .panel-body --}}
-</section>{{!-- .panel --}}
+  </div>{{!-- .card-body --}}
+</section>{{!-- .card --}}

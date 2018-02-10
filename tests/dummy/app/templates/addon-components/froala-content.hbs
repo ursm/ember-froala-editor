@@ -1,24 +1,25 @@
-<section class="panel panel-default">
-  <div class="panel-body">
+<section class="card">
+  <div class="card-body">
 
 
-    <div class="page-header"><h1 class="h3">
+    <h1 class="card-title">
       &#123;&#123;froala-content&#125;&#125;
-      <small>Component</small>
-    </h1></div>
+      <small class="text-muted">Component</small>
+    </h1>
+    <hr />
 
 
     <p class="lead">
-      According to the <a href="https://www.froala.com/wysiwyg-editor/docs/overview#frontend" target="_blank">Froala Editor documentation</a>, content created from the editor should be contained within an element with the <code>.fr-view</code> class. This is simply a component that applies the class.
+      According to the <a href="https://www.froala.com/wysiwyg-editor/docs/overview#frontend" target="_blank">Froala Editor documentation</a>, content created from the editor should be contained within an element with the <code class="bg-light text-dark">.fr-view</code> class. This is simply a component that applies the class.
     </p>
 
 
-    <div class="row">
+    <div class="row small-gutters">
       <div class="col-sm-6">
 
 
-        <h3 class="h5">Handlebars Template</h3>
-          <pre>&#123;&#123;#froala-content&#125;&#125;
+        <h5>Handlebars Template</h5>
+        <pre class="bg-light border rounded p-2 text-dark">&#123;&#123;#froala-content&#125;&#125;
   &#123;&#123;someFroalaContent&#125;&#125;
 &#123;&#123;/froala-content&#125;&#125;</pre>
 
@@ -27,8 +28,8 @@
       <div class="col-sm-6">
 
 
-        <h3 class="h5">Generates HTML</h3>
-        <pre>&lt;div class="fr-view"&gt;
+        <h5>Generates HTML</h5>
+        <pre class="bg-light border rounded p-2 text-dark">&lt;div class="fr-view"&gt;
   &lt;p&gt;Some Froala Editor content...&lt;/p&gt;
 &lt;/div&gt;</pre>
 
@@ -37,17 +38,17 @@
     </div>
 
 
-  </div>{{!-- .panel-body --}}
-</section>{{!-- .panel --}}
+  </div>{{!-- .card-body --}}
+</section>{{!-- .card --}}
 
 
 
 
-<section class="panel panel-default">
-  <div class="panel-body">
+<section class="card">
+  <div class="card-body">
 
 
-    <h2 class="h4">
+    <h2 class="card-title">
       Usages
     </h2>
 
@@ -59,21 +60,21 @@
     </p>
 
 
-    <div class="row">
+    <div class="row small-gutters">
       <div class="col-sm-6">
 
 
-        <h3 class="h5">Inline</h3>
-          <pre>&#123;&#123;froala-content content=someFroalaContent&#125;&#125;</pre>
-          <pre>&#123;&#123;froala-content someFroalaContent&#125;&#125;</pre>
+        <h5>Inline</h5>
+          <pre class="bg-light border rounded p-2 text-dark">&#123;&#123;froala-content content=someFroalaContent&#125;&#125;</pre>
+          <pre class="bg-light border rounded p-2 text-dark">&#123;&#123;froala-content someFroalaContent&#125;&#125;</pre>
 
 
       </div>
       <div class="col-sm-6">
 
 
-        <h3 class="h5">Block</h3>
-          <pre>&#123;&#123;#froala-content&#125;&#125;
+        <h5>Block</h5>
+          <pre class="bg-light border rounded p-2 text-dark">&#123;&#123;#froala-content&#125;&#125;
   &#123;&#123;someFroalaContent&#125;&#125;
 &#123;&#123;/froala-content&#125;&#125;</pre>
 
@@ -83,9 +84,9 @@
 
 
     <p>
-      Note: You can also change the element type by adjusting the <a href="https://guides.emberjs.com/v2.18.0/components/customizing-a-components-element/#toc_customizing-the-element" target="_blank">Ember Components tagName property</a>. Ex: <code>&#123;&#123;froala-content tagName="section"&#125;&#125;</code>
+      Note: You can also change the element type by adjusting the <a href="https://guides.emberjs.com/v2.18.0/components/customizing-a-components-element/#toc_customizing-the-element" target="_blank">Ember Components tagName property</a>. Ex: <code class="bg-light text-dark">&#123;&#123;froala-content tagName="section"&#125;&#125;</code>
     </p>
 
 
-  </div>{{!-- .panel-body --}}
-</section>{{!-- .panel --}}
+  </div>{{!-- .card-body --}}
+</section>{{!-- .card --}}

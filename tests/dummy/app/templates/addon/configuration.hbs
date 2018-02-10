@@ -1,21 +1,23 @@
-<section class="panel panel-default">
-  <div class="panel-body">
+<section class="card">
+  <div class="card-body">
 
 
-    <div class="page-header"><h1 class="h3">
+    <h1 class="card-title">
       Addon Configuration
-    </h1></div>
+    </h1>
+    <hr />
 
 
     <p class="lead">
       This addon has a few configuration options that can be defined in your
-      <code>ember-cli-build.js</code> file to specify what <em>optional</em> Froala
+      <code class="bg-light text-dark">ember-cli-build.js</code> file to specify what <em>optional</em> Froala
       Editor files should be imported into your project. Add an object hash for
-      <code>'ember-froala-editor'</code> with the options defined. Ex:
+      <code class="bg-light text-dark">'ember-froala-editor'</code> with the options defined. Ex:
     </p>
 
 
-    <pre>/* eslint-env node */
+    <pre class="bg-light border rounded p-2 text-dark">'use strict';
+
 const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 
 module.exports = function(defaults) {
@@ -34,7 +36,7 @@ module.exports = function(defaults) {
 };</pre>
 
 
-  </div>{{!-- .panel-body --}}
+  </div>{{!-- .card-body --}}
 
 
   <div class="table-responsive"><table class="table">
@@ -46,24 +48,24 @@ module.exports = function(defaults) {
     <tbody>
       <tr>
         <th scope="row">languages</th>
-        <td><code>false</code></td>
-        <td><a href="https://www.froala.com/wysiwyg-editor/languages" target="_blank">Language files</a> to be used with the <a href="https://www.froala.com/wysiwyg-editor/docs/options#language" target="_blank">language option</a>. Use the language abbreviation, ex: <code>'en_ca'</code></td>
+        <td><code class="bg-light text-dark">false</code></td>
+        <td><a href="https://www.froala.com/wysiwyg-editor/languages" target="_blank">Language files</a> to be used with the <a href="https://www.froala.com/wysiwyg-editor/docs/options#language" target="_blank">language option</a>. Use the language abbreviation, ex: <code class="bg-light text-dark">'en_ca'</code></td>
       </tr>
       <tr>
         <th scope="row">plugins</th>
-        <td><code>true</code></td>
-        <td><a href="https://www.froala.com/wysiwyg-editor/docs/plugins" target="_blank">Plugin files</a> to be imported, use the file name specified in the "JS to include" column but without the ".min.js" extension. Ex: <code>'paragraph_format'</code> Note: The associated CSS will also be imported when available</td>
+        <td><code class="bg-light text-dark">true</code></td>
+        <td><a href="https://www.froala.com/wysiwyg-editor/docs/plugins" target="_blank">Plugin files</a> to be imported, use the file name specified in the "JS to include" column but without the ".min.js" extension. Ex: <code class="bg-light text-dark">'paragraph_format'</code> Note: The associated CSS will also be imported when available</td>
       </tr>
       <tr>
         <th scope="row">themes</th>
-        <td><code>false</code></td>
-        <td><a href="https://www.froala.com/wysiwyg-editor/docs/examples/color-themes" target="_blank">Theme files</a> to be used with the <a href="https://www.froala.com/wysiwyg-editor/docs/options#theme" target="_blank">theme option</a>. Use the CSS file name but without the ".min.css" extension, ex: <code>'royal'</code></td>
+        <td><code class="bg-light text-dark">false</code></td>
+        <td><a href="https://www.froala.com/wysiwyg-editor/docs/examples/color-themes" target="_blank">Theme files</a> to be used with the <a href="https://www.froala.com/wysiwyg-editor/docs/options#theme" target="_blank">theme option</a>. Use the CSS file name but without the ".min.css" extension, ex: <code class="bg-light text-dark">'royal'</code></td>
       </tr>
     </tbody>
   </table></div>
 
 
-  <div class="panel-body">
+  <div class="card-body">
 
 
     <p>
@@ -74,23 +76,23 @@ module.exports = function(defaults) {
     <dl>
       <dt>Boolean = All / None</dt>
       <dd>
-        By defining <code>true</code>, <em>all</em> available files for that type will be imported.
-        While <code>false</code> will not import any files for that type.
+        By defining <code class="bg-light text-dark">true</code>, <em>all</em> available files for that type will be imported.
+        While <code class="bg-light text-dark">false</code> will not import any files for that type.
       </dd>
       <dt>String = One</dt>
       <dd>
         A string can be used to define <em>one</em> file to be imported for that type.
-        Ex: <code>theme:'red'</code>
+        Ex: <code class="bg-light text-dark">theme:'red'</code>
       </dd>
       <dt>Array = Multiple</dt>
       <dd>
         An array of strings can be used to define <em>multiple</em> files to be imported for that type.
-        Ex: <code>languages:['es','fr','de']</code>
+        Ex: <code class="bg-light text-dark">languages:['es','fr','de']</code>
       </dd>
     </dl>
 
 
-  </div>{{!-- .panel-body --}}
+  </div>{{!-- .card-body --}}
 
 
-</section>{{!-- .panel --}}
+</section>{{!-- .card --}}

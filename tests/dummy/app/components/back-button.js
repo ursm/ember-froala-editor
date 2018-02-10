@@ -1,4 +1,4 @@
-import { alias, equal } from '@ember/object/computed';
+import { equal } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import Component from '@ember/component';
 import layout from '../templates/components/back-button';
@@ -18,24 +18,26 @@ export default Component.extend({
     'btn-lg',
     'btn-primary',
     'btn-circle',
-    'hidden-print',
-    'visible-xs-inline-block'
+    'position-fixed',
+    'text-light',
+    'd-print-none',
+    'd-inline-blick',
+    'd-md-none'
   ], // :classNames
 
 
   classNameBindings: ['invisible'],
 
 
-  routing: service('-routing'),
-  router: alias('routing.router'),
+  router: service(),
 
 
-  invisible: equal('router.currentPath', 'index'),
+  invisible: equal('router.currentRouteName', 'index'),
 
 
   click() {
     let router      = this.get('router');
-    let currentPath = router.get('currentPath');
+    let currentPath = router.get('currentRouteName');
     let pathArray   = currentPath.split('.');
 
     // Remove the last element of the array

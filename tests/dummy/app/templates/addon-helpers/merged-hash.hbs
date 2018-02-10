@@ -1,11 +1,12 @@
-<section class="panel panel-default">
-  <div class="panel-body">
+<section class="card">
+  <div class="card-body">
 
 
-    <div class="page-header"><h1 class="h3">
+    <h1 class="card-title">
       (merged-hash)
-      <small>Helper</small>
-    </h1></div>
+      <small class="text-muted">Helper</small>
+    </h1>
+    <hr />
 
 
     <p class="lead">
@@ -13,20 +14,20 @@
     </p>
 
 
-    <pre>&#123;&#123;froala-editor options=<strong>(merged-hash controllerOptions heightMin=400)</strong>&#125;&#125;</pre>
+    <pre class="bg-light border rounded p-2 text-dark">&#123;&#123;froala-editor options=<strong>(merged-hash controllerOptions heightMin=400)</strong>&#125;&#125;</pre>
 
 
     <p>
-      The helper assumes all parameters are objects, and then uses <code>Ember.assign()</code> to merge everything together. Each parameter takes priority on the previous, with the "hash" being the final. So you can merge multiple "levels" of options. Ex:
+      The helper assumes all parameters are objects, and then uses <code class="bg-light text-dark">Ember.assign()</code> to merge everything together. Each parameter takes priority on the previous, with the "hash" being the final. So you can merge multiple "levels" of options. Ex:
     </p>
 
 
-    <pre>(merged-hash
+    <pre class="bg-light border rounded p-2 text-dark">(merged-hash
   applicationOptions
   controllerOptions
   pastePlain=true
   placeholderText="Only plain text can go here...")</pre>
 
 
-  </div>{{!-- .panel-body --}}
-</section>{{!-- .panel --}}
+  </div>{{!-- .card-body --}}
+</section>{{!-- .card --}}

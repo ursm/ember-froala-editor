@@ -1,132 +1,40 @@
-/* Match Froala's background and add margin for fixed navbar */
-body {
+/* Apply height requirement for the "loading" notification */
+/* TODO: Remove once ember removes this wrapper requirement (coming) */
+body > .ember-view {
+  height:100%;
+}
+
+
+/* Add margin for fixed navbar */
+body.ember-application {
   margin-top: 64px;
 }
 
 
-/* print-friendly adjustments */
-@media print {
-  body,
-  body.ember-application > div.ember-view > div.container {
-    margin: 0 !important;
-    padding: 0 !important;
+/* Column lists of links should appear together on xs */
+@media (max-width: 576px) {
+  div.row > ul:first-child {
+    margin-bottom: 0;
   }
-}
-
-
-/** application loading & spinner in the index.html */
-div#app-loading {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  width: 140px;
-  height: 150px;
-  margin-top: -75px;
-  margin-left: -70px;
-  z-index: 1000;
-  color: #2196F3;
-  font-size: x-large;
-}
-
-
-/* Adjust the padding for the "main" container */
-body.ember-application > div.ember-view > div.container {
-  padding: 15px;
-}
-
-
-/* Reduce the gutter between columns */
-/* Note: Docs only use 2-column rows... */
-@media (min-width: 768px) {
-  div.row > *[class*='col-sm-']:nth-child(1) {
-    padding-right: 7px;
+  div.row > ul:not(:first-child):not(:last-child) {
+    margin-bottom: 0;
+    margin-top: 0;
   }
-  div.row > *[class*='col-sm-']:nth-child(2) {
-    padding-left: 7px;
+  div.row > ul:last-child {
+    margin-top: 0;
   }
-}
-@media (min-width: 992px) {
-  div.row > *[class*='col-md-']:nth-child(1) {
-    padding-right: 7px;
-  }
-  div.row > *[class*='col-md-']:nth-child(2) {
-    padding-left: 7px;
-  }
-}
-
-
-/* Reduce the "gutter" between panels */
-section.panel {
-  margin: 3px 3px 14px;
-}
-
-
-/* Fix the navbar brand to show logo's properly */
-a.navbar-brand {
-  padding: 0;
-}
-a.navbar-brand img {
-  display: inline-block;
-}
-a.navbar-brand span {
-  color: #000000;
-}
-
-
-/* Fix th navbar links to line up properly */
-/* Use negative margins to pull everything back into the navbar's height */
-a.navbar-link i.fa {
-  font-size: 2.7em;
-  margin: -7px 0;
-  vertical-align: middle;
-}
-a.navbar-link img {
-  margin: -5px 0;
-}
-
-
-/* Just simulate the affix'ed position, since the sidebar should always remain fixed */
-/* This way we don't need to bring in the affix JavaScript */
-aside > div.affix {
-  position: fixed;
-  top: 79px;
-}
-@media (min-width: 768px) {
-  aside > div.affix {
-    width: 228px;
-  }
-}
-@media (min-width: 992px) {
-  aside > div.affix {
-    width: 220.5px;
-  }
-}
-@media (min-width: 1200px) {
-  aside > div.affix {
-    width: 270.5px;
-  }
-}
-
-
-/* Remove special hover animations for navbar links */
-header.navbar-default a.navbar-link {
-  color: #000000;
-}
-a.navbar-link {
-  text-decoration: none;
 }
 
 
 /* Match the Froala list links text styling */
-section.panel hgroup.panel-heading h3.panel-title {
+section.card h3.card-header {
   font-size: 15px;
-  font-weight: 500;
-  line-height: 22.5px;
+  font-weight: bold;
+  padding: 10px 15px;
 }
 nav.list-group a.list-group-item {
+  color: inherit;
   font-size: 15px;
-  font-weight: 500;
-  line-height: 22.5px;
   padding: 10px 15px;
 }
 nav.list-group a.list-group-item code {
@@ -154,7 +62,6 @@ nav.list-group a.active:hover {
 /* Buttons to navigate "back" or scroll to the top */
 a#top-button,
 a#back-button {
-  position: fixed;
   bottom: 15px;
 }
 a#top-button {
@@ -178,13 +85,13 @@ a#back-button {
 
 
 /* http://www.the-art-of-web.com/css/css-animation/#section_2 */
-a.btn-circle {
+.btn-circle {
   -webkit-transition: 0.5s ease-in-out;
   -moz-transition: 0.5s ease-in-out;
   -o-transition: 0.5s ease-in-out;
   transition: 0.5s ease-in-out;
 }
-a.btn-circle.invisible {
+.btn-circle.invisible {
   -webkit-transform: rotate(360deg) scale(0);
   -moz-transform: rotate(360deg) scale(0);
   -o-transform: rotate(360deg) scale(0);
@@ -193,67 +100,53 @@ a.btn-circle.invisible {
 }
 
 
-/* fist header inside panel should be right at the top */
-section.panel div.panel-body h1:first-child,
-section.panel div.panel-body h2:first-child,
-section.panel div.panel-body h3:first-child,
-section.panel div.panel-body h4:first-child,
-section.panel div.panel-body h5:first-child,
-section.panel div.panel-body h6:first-child,
-section.panel div.panel-body div.page-header {
-  margin-top: 0;
+/* Other "bootstrap like" utility classes */
+.text-decoration-none {
+  text-decoration: none !important;
 }
-section.panel div.panel-body div.page-header h1,
-section.panel div.panel-body div.page-header h2,
-section.panel div.panel-body div.page-header h3,
-section.panel div.panel-body div.page-header h4,
-section.panel div.panel-body div.page-header h5,
-section.panel div.panel-body div.page-header h6 {
-  margin-bottom: 0;
+.shadow-0 {
+  -webkit-box-shadow: none;
+  box-shadow: none;
 }
-
-
-/* bring table padding in line with panel padding */
-section.panel > table.table tr *:first-child,
-section.panel > div.table-responsive > table.table tr > *:first-child {
-  padding-left: 15px;
+.small-gutters > .col,
+.small-gutters > [class*=col-] {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
 }
-section.panel > table.table tr *:last-child,
-section.panel > div.table-responsive > table.table tr > *:last-child {
-  padding-right: 15px;
-}
-
-
-/* Customizations to the code examples */
-code, pre {
-  color: #444;
-}
-pre {
-  line-height: 1.5;
-}
-
-
-/* column lists of links should appear together on xs */
-@media (max-width: 768px) {
-  div.row > ul:first-child {
-    margin-bottom: 0;
+@media print {
+  .m-print-0 {
+    margin: 0 !important;
   }
-  div.row > ul:not(:first-child):not(:last-child) {
-    margin-bottom: 0;
-    margin-top: 0;
+  .p-print-0 {
+    padding: 0 !important;
   }
-  div.row > ul:last-child {
-    margin-top: 0;
+  .col-print-12 {
+    -webkit-box-flex: 0 !important;
+    -ms-flex: 0 0 100% !important;
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
   }
 }
 
 
-/* remove list bottom margin if it's the last thing */
-section.panel > div.panel-body > ol:last-child {
-  margin-bottom: 0;
+/* Bootstrap layout fixes */
+.card > table.table tr *:first-child,
+.card > .table-responsive > table.table tr > *:first-child {
+  padding-left: 1.25rem;
+}
+.card > table.table tr *:last-child,
+.card > .table-responsive > table.table tr > *:last-child {
+  padding-right: 1.25rem;
+}
+.card + .card {
+  margin-top: 1rem;
 }
 
 
-footer {
- line-height: 1.1;
+/* Override bootswatch bugs */
+.bg-light {
+  background-color: #f8f9fa !important;
+}
+.text-secondary {
+  color: #6c757d !important;
 }

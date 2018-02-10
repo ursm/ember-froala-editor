@@ -611,7 +611,7 @@ const FroalaEditorComponent = Component.extend({
         ); // this.$().one()
 
 
-      }, promiseLabel ); // Ember.RSVP.Promise()
+      }, promiseLabel ); // EmberPromise()
 
 
     } // else ( !editorInitialized )
@@ -630,7 +630,7 @@ const FroalaEditorComponent = Component.extend({
   } // :actions
 
 
-}); // Ember.Component.extend()
+}); // Component.extend()
 
 
 FroalaEditorComponent.reopenClass({

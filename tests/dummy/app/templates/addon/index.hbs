@@ -1,25 +1,25 @@
-<section class="panel panel-primary">
+<section class="card">
 
 
-  <hgroup class="panel-heading">
-    <h3 class="panel-title">Addon</h3>
-  </hgroup>
+  <h3 class="card-header bg-primary text-light rounded-top">
+    Addon
+  </h3>
 
 
   <nav class="list-group">
-    {{#link-to "addon.installation" class="list-group-item"}}
+    {{#link-to "addon.installation" class="list-group-item list-group-item-action rounded-0"}}
       Installation
     {{/link-to}}
-    {{#link-to "addon.configuration" class="list-group-item"}}
+    {{#link-to "addon.configuration" class="list-group-item list-group-item-action"}}
       Configuration
     {{/link-to}}
-    {{#link-to "addon.concepts" class="list-group-item"}}
+    {{#link-to "addon.concepts" class="list-group-item list-group-item-action"}}
       Concepts
     {{/link-to}}
-    {{#link-to "addon.test-helper" class="list-group-item"}}
+    {{#link-to "addon.test-helper" class="list-group-item list-group-item-action"}}
       Test Helper
     {{/link-to}}
   </nav>
 
 
-</section>{{!-- .panel --}}
+</section>{{!-- .card --}}

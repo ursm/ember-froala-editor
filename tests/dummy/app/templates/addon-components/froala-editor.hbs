@@ -1,15 +1,16 @@
-<section class="panel panel-default">
-  <div class="panel-body">
+<section class="card">
+  <div class="card-body">
 
 
-    <div class="page-header"><h1 class="h3">
+    <h1 class="card-title">
       &#123;&#123;froala-editor&#125;&#125;
-      <small>Component</small>
-    </h1></div>
+      <small class="text-muted">Component</small>
+    </h1>
+    <hr />
 
 
     <p class="lead">
-      This is why you're using the addon, to use the actual Froala Editor in an Ember project. The <code>&#123;&#123;froala-editor&#125;&#125;</code> component exposes many aspects of the Froala Editor in "Ember ways" and uses the <code>&lt;div contenteditable&gt;</code> version of the editor (not <code>&lt;textarea&gt;</code>). And since the Froala Editor is technically a jQuery plugin, this component will handle proper setup and teardown.
+      This is why you're using the addon, to use the actual Froala Editor in an Ember project. The <code class="bg-light text-dark">&#123;&#123;froala-editor&#125;&#125;</code> component exposes many aspects of the Froala Editor in "Ember ways" and uses the <code class="bg-light text-dark">&lt;div contenteditable&gt;</code> version of the editor (not <code class="bg-light text-dark">&lt;textarea&gt;</code>). And since the Froala Editor is technically a jQuery plugin, this component will handle proper setup and teardown.
     </p>
 
 
@@ -18,19 +19,19 @@
     </p>
 
 
-  </div>{{!-- .panel-body --}}
-</section>{{!-- .panel --}}
+  </div>{{!-- .card-body --}}
+</section>{{!-- .card --}}
 
 
 
 
-<section class="panel panel-default" id="attributes">
+<section class="card" id="attributes">
 
 
-  <div class="panel-body">
-    <h2 class="h4">Component Attributes</h2>
+  <div class="card-body">
+    <h2 class="card-title">Component Attributes</h2>
     <p>
-      There are several attributes which can be used to adjust functionality. Mainly, the <code>content</code>, <code>update</code>, and <code>options</code> will be the mostly used attributes. Ex: <code>&#123;&#123;froala-editor content=myProperty update=(action (mut myProperty)) options=(hash heightMin=200)&#125;&#125;</code>
+      There are several attributes which can be used to adjust functionality. Mainly, the <code class="bg-light text-dark">content</code>, <code class="bg-light text-dark">update</code>, and <code class="bg-light text-dark">options</code> will be the mostly used attributes. Ex: <code class="bg-light text-dark">&#123;&#123;froala-editor content=myProperty update=(action (mut myProperty)) options=(hash heightMin=200)&#125;&#125;</code>
     </p>
   </div>
 
@@ -46,90 +47,90 @@
       <tr>
         <th scope="row">content</th>
         <td>string | <a href="https://emberjs.com/api/ember/2.18/classes/@ember%2Ftemplate/methods/htmlSafe?anchor=htmlSafe" target="_blank">SafeString</a></td>
-        <td><code>''</code></td>
-        <td>String of HTML for the editor to use. Note, this is <em>not</em> updated as the editor content changes. Instead use <code>update</code> to <code>(mut)</code> the original property.</td>
+        <td><code class="bg-light text-dark">''</code></td>
+        <td>String of HTML for the editor to use. Note, this is <em>not</em> updated as the editor content changes. Instead use <code class="bg-light text-dark">update</code> to <code class="bg-light text-dark">(mut)</code> the original property.</td>
       </tr>
       <tr>
         <th scope="row">on-*</th>
         <td>action</td>
-        <td><code>undefined</code></td>
+        <td><code class="bg-light text-dark">undefined</code></td>
         <td>Froala Editor event handlers as Ember actions, see the {{link-to "event actions" (query-params section="events")}} for details</td>
       </tr>
       <tr>
         <th scope="row">on-*-getHtml</th>
         <td>action</td>
-        <td><code>undefined</code></td>
+        <td><code class="bg-light text-dark">undefined</code></td>
         <td>Froala Editor event handlers as Ember actions but with the first argument as the editors current content/HTML, see the {{link-to "event actions" (query-params section="events")}} for details</td>
       </tr>
       <tr>
         <th scope="row">options</th>
         <td>object / hash</td>
-        <td><code>{}</code></td>
+        <td><code class="bg-light text-dark">{}</code></td>
         <td>Options hash passed to the Froala Editor, look at the <a href="https://www.froala.com/wysiwyg-editor/docs/options" target="_blank">Froala Editor options documentation</a> for details</td>
       </tr>
       <tr>
         <th scope="row">returnSafeString</th>
         <td>boolean</td>
-        <td><code>isHTMLSafe(content)</code></td>
-        <td>Used with <code>update</code> and the <code>on-*-getHtml</code> event handlers when returning the editors content/HTML</td>
+        <td><code class="bg-light text-dark">isHTMLSafe(content)</code></td>
+        <td>Used with <code class="bg-light text-dark">update</code> and the <code class="bg-light text-dark">on-*-getHtml</code> event handlers when returning the editors content/HTML</td>
       </tr>
       <tr>
         <th scope="row">update</th>
         <td>action</td>
-        <td><code>undefined</code></td>
-        <td>An action called when the <code>updateEvent</code> is triggered, passing the editors current content/HTML as the first argument</td>
+        <td><code class="bg-light text-dark">undefined</code></td>
+        <td>An action called when the <code class="bg-light text-dark">updateEvent</code> is triggered, passing the editors current content/HTML as the first argument</td>
       </tr>
       <tr>
         <th scope="row">updateEvent</th>
         <td>string</td>
-        <td><code>'contentChanged'</code></td>
-        <td><a href="https://www.froala.com/wysiwyg-editor/docs/events" target="_blank">Froala Editor event</a> to trigger the <code>update</code> action</td>
+        <td><code class="bg-light text-dark">'contentChanged'</code></td>
+        <td><a href="https://www.froala.com/wysiwyg-editor/docs/events" target="_blank">Froala Editor event</a> to trigger the <code class="bg-light text-dark">update</code> action</td>
       </tr>
     </tbody>
   </table></div>
 
 
-  <div class="panel-body">
+  <div class="card-body">
 
 
     <p>
-      Note: This component essentially takes <code>content</code> as <code>&#123;&#123;froala-editor content=(readonly myProperty)&#125;&#125;</code> and will properly update the editor if the value is changed outside of the component. No other attribute changes after initialization will effect the editor, including <code>options</code>.
+      Note: This component essentially takes <code class="bg-light text-dark">content</code> as <code class="bg-light text-dark">&#123;&#123;froala-editor content=(readonly myProperty)&#125;&#125;</code> and will properly update the editor if the value is changed outside of the component. No other attribute changes after initialization will effect the editor, including <code class="bg-light text-dark">options</code>.
     </p>
 
 
-    <h3 class="h5">Positional Params</h3>
+    <h4>Positional Params</h4>
     <p>
-      This component supports three <a href="https://guides.emberjs.com/v2.18.0/components/passing-properties-to-a-component/#toc_positional-params" target="_blank">positional params</a>; <code>content</code>, <code>update</code>, and <code>options</code>. Ex:
+      This component supports three <a href="https://guides.emberjs.com/v2.18.0/components/passing-properties-to-a-component/#toc_positional-params" target="_blank">positional params</a>; <code class="bg-light text-dark">content</code>, <code class="bg-light text-dark">update</code>, and <code class="bg-light text-dark">options</code>. Ex:
     </p>
-    <pre>&#123;&#123;froala-editor myProperty (action (mut myProperty)) (hash heightMin=200)&#125;&#125;</pre>
+    <pre class="bg-light border rounded p-2 text-dark">&#123;&#123;froala-editor myProperty (action (mut myProperty)) (hash heightMin=200)&#125;&#125;</pre>
 
 
-  </div>{{!-- .panel-body --}}
+  </div>{{!-- .card-body --}}
 
 
-</section>{{!-- .panel --}}
+</section>{{!-- .card --}}
 
 
 
 
-<section class="panel panel-default" id="options">
-  <div class="panel-body">
+<section class="card" id="options">
+  <div class="card-body">
 
 
-    <h2 class="h4">Editor Options</h2>
+    <h2 class="card-title">Editor Options</h2>
 
 
     <p>
-      The <a href="https://www.froala.com/wysiwyg-editor/docs/options" target="_blank">Froala Editor options</a> can be applied to the <code>&#123;&#123;froala-editor&#125;&#125;</code> in a couple ways; <code>options</code> object/hash or as individual attributes.
+      The <a href="https://www.froala.com/wysiwyg-editor/docs/options" target="_blank">Froala Editor options</a> can be applied to the <code class="bg-light text-dark">&#123;&#123;froala-editor&#125;&#125;</code> in a couple ways; <code class="bg-light text-dark">options</code> object/hash or as individual attributes.
     </p>
 
 
-    <div class="row">
+    <div class="row small-gutters">
       <div class="col-md-6">
 
 
-        <h3 class="h6">options object/hash</h3>
-        <pre>&#123;&#123;froala-editor
+        <h5>options object/hash</h5>
+        <pre class="bg-light border rounded p-2 text-dark">&#123;&#123;froala-editor
   options=(hash
     theme="royal"
     charCounterCount=false
@@ -142,8 +143,8 @@
       <div class="col-md-6">
 
 
-        <h3 class="h6">individual attributes</h3>
-        <pre>&#123;&#123;froala-editor
+        <h5>individual attributes</h5>
+        <pre class="bg-light border rounded p-2 text-dark">&#123;&#123;froala-editor
   theme="royal"
   charCounterCount=false
   heightMin=200
@@ -155,15 +156,15 @@
 
 
     <p>
-      Reminder, if the option has nested objects for values, you must use the <a href="https://emberjs.com/api/ember/2.18/classes/Ember.Templates.helpers/methods/hash?anchor=hash" target="_blank"><code>(hash)</code> helper</a>. Same goes for arrays, use the <a href="https://github.com/DockYard/ember-composable-helpers#array" target="_blank"><code>(array)</code> helper</a> from the <code>ember-composable-helpers</code> addon.
+      Reminder, if the option has nested objects for values, you must use the <a href="https://emberjs.com/api/ember/2.18/classes/Ember.Templates.helpers/methods/hash?anchor=hash" target="_blank"><code class="bg-light text-dark">(hash)</code> helper</a>. Same goes for arrays, use the <a href="https://github.com/DockYard/ember-composable-helpers#array" target="_blank"><code class="bg-light text-dark">(array)</code> helper</a> from the <code class="bg-light text-dark">ember-composable-helpers</code> addon.
     </p>
 
 
-    <div class="row">
+    <div class="row small-gutters">
       <div class="col-md-6">
 
 
-        <pre>&#123;&#123;froala-editor
+        <pre class="bg-light border rounded p-2 text-dark">&#123;&#123;froala-editor
   options=(hash
     paragraphFormat=(hash
       N="Normal"
@@ -178,7 +179,7 @@
       <div class="col-md-6">
 
 
-        <pre>&#123;&#123;froala-editor
+        <pre class="bg-light border rounded p-2 text-dark">&#123;&#123;froala-editor
   toolbarButtons=(array
     "bold"
     "italic"
@@ -198,12 +199,12 @@
     </p>
 
 
-    <div class="row">
+    <div class="row small-gutters">
       <div class="col-md-6">
 
 
-        <pre>import Ember from 'ember';
-export default Ember.Controller.extend({
+        <pre class="bg-light border rounded p-2 text-dark">import Controller from '@ember/controller';
+export default Controller.extend({
   formatList: {
     N: "Normal",
     H1: "Heading 1",
@@ -216,7 +217,7 @@ export default Ember.Controller.extend({
       <div class="col-md-6">
 
 
-        <pre>&#123;&#123;froala-editor
+        <pre class="bg-light border rounded p-2 text-dark">&#123;&#123;froala-editor
   paragraphFormat=formatList
 &#125;&#125;</pre>
 
@@ -226,53 +227,53 @@ export default Ember.Controller.extend({
 
 
     <p>
-      Also see the {{link-to "Defaults Concept" "addon.concepts" (query-params section="defaults")}} to apply the same set of options across all of your <code>&#123;&#123;froala-editor&#125;&#125;</code> instances. And you can always mix-n-match passing in the options in different ways. Ex: <code>&#123;&#123;froala-editor theme="royal" options=complexOptions&#125;&#125;</code> In that case, the following is the order in which options take precedence (#1 being the highest);
+      Also see the {{link-to "Defaults Concept" "addon.concepts" (query-params section="defaults")}} to apply the same set of options across all of your <code class="bg-light text-dark">&#123;&#123;froala-editor&#125;&#125;</code> instances. And you can always mix-n-match passing in the options in different ways. Ex: <code class="bg-light text-dark">&#123;&#123;froala-editor theme="royal" options=complexOptions&#125;&#125;</code> In that case, the following is the order in which options take precedence (#1 being the highest);
     </p>
 
 
     <ol>
-      <li>Attribute options <code>&#123;&#123;froala-editor theme="red"&#125;&#125;</code></li>
-      <li>Options object/hash <code>&#123;&#123;froala-editor options=(hash theme="red")&#125;&#125;</code></li>
-      <li>Defaults concept <code>options: { theme:"red" }</code></li>
+      <li>Attribute options <code class="bg-light text-dark">&#123;&#123;froala-editor theme="red"&#125;&#125;</code></li>
+      <li>Options object/hash <code class="bg-light text-dark">&#123;&#123;froala-editor options=(hash theme="red")&#125;&#125;</code></li>
+      <li>Defaults concept <code class="bg-light text-dark">options: { theme:"red" }</code></li>
     </ol>
 
 
-  </div>{{!-- .panel-body --}}
-</section>{{!-- .panel --}}
+  </div>{{!-- .card-body --}}
+</section>{{!-- .card --}}
 
 
 
 
-<section class="panel panel-default" id="events">
-  <div class="panel-body">
+<section class="card" id="events">
+  <div class="card-body">
 
 
-    <h2 class="h4">Event Actions</h2>
+    <h2 class="card-title">Event Actions</h2>
 
 
     <p>
-      The <a href="https://www.froala.com/wysiwyg-editor/docs/events" target="_blank">Froala Editor events</a> are exposed as <a href="https://guides.emberjs.com/v2.18.0/components/triggering-changes-with-actions/" target="_blank">Ember Actions</a>. You can capture an editor event by passing in an action for the attribute named as the editor event and prefixed with 'on-'. Ex: "blur" becomes <code>&#123;&#123;froala-editor on-blur=(action "parentActionName")&#125;&#125;</code> And if the event name contains a period, replace it with a dash. Ex: "charCounter.exceeded" becomes <code>&#123;&#123;froala-editor on-charCounter-exceeded=(action "parentActionName")&#125;&#125;</code>
+      The <a href="https://www.froala.com/wysiwyg-editor/docs/events" target="_blank">Froala Editor events</a> are exposed as <a href="https://guides.emberjs.com/v2.18.0/components/triggering-changes-with-actions/" target="_blank">Ember Actions</a>. You can capture an editor event by passing in an action for the attribute named as the editor event and prefixed with 'on-'. Ex: "blur" becomes <code class="bg-light text-dark">&#123;&#123;froala-editor on-blur=(action "parentActionName")&#125;&#125;</code> And if the event name contains a period, replace it with a dash. Ex: "charCounter.exceeded" becomes <code class="bg-light text-dark">&#123;&#123;froala-editor on-charCounter-exceeded=(action "parentActionName")&#125;&#125;</code>
     </p>
 
 
     <p>
-      Optionally, you may append '-getHtml' at the end of the attribute name to get the editors current content / HTML as the first argument.  This is very useful when combined with the <a href="https://emberjs.com/api/ember/2.18/classes/Ember.Templates.helpers/methods/mut?anchor=mut" target="_blank"><code>(mut)</code> helper</a>. Ex: <code>&#123;&#123;froala-editor on-blur-getHtml=(action (mut someContent))&#125;&#125;</code>
+      Optionally, you may append '-getHtml' at the end of the attribute name to get the editors current content / HTML as the first argument.  This is very useful when combined with the <a href="https://emberjs.com/api/ember/2.18/classes/Ember.Templates.helpers/methods/mut?anchor=mut" target="_blank"><code class="bg-light text-dark">(mut)</code> helper</a>. Ex: <code class="bg-light text-dark">&#123;&#123;froala-editor on-blur-getHtml=(action (mut someContent))&#125;&#125;</code>
     </p>
 
 
     <p>
-      Actions will receive the same arguments that the <a href="https://www.froala.com/wysiwyg-editor/docs/events" target="_blank">Froala Editor docs</a> mention, except the first argument (<code>e</code> / event) is not passed along and the second argument (<code>editor</code>) is replaced with an instance of the component. The actual <code>editor</code> instance is available from the 'editor' property. Ex: <code>component.get('editor')</code>
+      Actions will receive the same arguments that the <a href="https://www.froala.com/wysiwyg-editor/docs/events" target="_blank">Froala Editor docs</a> mention, except the first argument (<code class="bg-light text-dark">e</code> / event) is not passed along and the second argument (<code class="bg-light text-dark">editor</code>) is replaced with an instance of the component. The actual <code class="bg-light text-dark">editor</code> instance is available from the 'editor' property. Ex: <code class="bg-light text-dark">component.get('editor')</code>
     </p>
 
 
-    <div class="row">
+    <div class="row small-gutters">
       <div class="col-md-6">
 
 
-        <h3 class="h6">on-image-beforeUpload=(action "foobar")</h3>
-        <pre>import Ember from 'ember';
+        <h5>on-image-beforeUpload=(action "foobar")</h5>
+        <pre class="bg-light border rounded p-2 text-dark">import Controller from '@ember/controller';
 
-export default Ember.Controller.extend({
+export default Controller.extend({
   actions: {
 
     foobar( <strong>component, images</strong> ) {
@@ -289,10 +290,10 @@ export default Ember.Controller.extend({
       <div class="col-md-6">
 
 
-        <h3 class="h6">on-image-beforeUpload-getHtml=(action "foobar")</h3>
-        <pre>import Ember from 'ember';
+        <h5>on-image-beforeUpload-getHtml=(action "foobar")</h5>
+        <pre class="bg-light border rounded p-2 text-dark">import Controller from '@ember/controller';
 
-export default Ember.Controller.extend({
+export default Controller.extend({
   actions: {
 
     foobar( <strong>html, component, images</strong> ) {
@@ -310,44 +311,44 @@ export default Ember.Controller.extend({
 
 
     <p>
-      Note: For the Froala Editor <a href="https://www.froala.com/wysiwyg-editor/docs/events#popups.hide.[id]" target="_blank"><code>popups.hide.[id]</code> event</a>, "<a href="https://emberjs.com/api/ember/2.18/classes/String/methods/dasherize?anchor=dasherize" target="_blank">dasherize</a>" the event name (including the id). Ex: <code>popups.hide.[foobar]</code> would become <code>on-popups-hide-foobar</code>.
+      Note: For the Froala Editor <a href="https://www.froala.com/wysiwyg-editor/docs/events#popups.hide.[id]" target="_blank"><code class="bg-light text-dark">popups.hide.[id]</code> event</a>, "<a href="https://emberjs.com/api/ember/2.18/classes/String/methods/dasherize?anchor=dasherize" target="_blank">dasherize</a>" the event name (including the id). Ex: <code class="bg-light text-dark">popups.hide.[foobar]</code> would become <code class="bg-light text-dark">on-popups-hide-foobar</code>.
     </p>
 
 
     <p>
-      Note: Some of the events allow you to <code>return false;</code> from the event handler to cancel the event. You can do the same from the action, just be sure you are using the <code>(action)</code> helper instead of a string of the action name. Ex: <code>on-image-beforeUpload=(action "actionName")</code> vs <code>on-image-beforeUpload="actionName"</code>
+      Note: Some of the events allow you to <code class="bg-light text-dark">return false;</code> from the event handler to cancel the event. You can do the same from the action, just be sure you are using the <code class="bg-light text-dark">(action)</code> helper instead of a string of the action name. Ex: <code class="bg-light text-dark">on-image-beforeUpload=(action "actionName")</code> vs <code class="bg-light text-dark">on-image-beforeUpload="actionName"</code>
     </p>
 
 
-  </div>{{!-- .panel-body --}}
-</section>{{!-- .panel --}}
+  </div>{{!-- .card-body --}}
+</section>{{!-- .card --}}
 
 
 
 
-<section class="panel panel-default" id="methods">
-  <div class="panel-body">
+<section class="card" id="methods">
+  <div class="card-body">
 
 
-    <h2 class="h4">Editor Methods</h2>
+    <h2 class="card-title">Editor Methods</h2>
 
 
     <p>
-      The <a href="https://www.froala.com/wysiwyg-editor/docs/methods" target="_blank">Froala Editor methods</a> are exposed as a Component action (<code>component.send('method', 'method.name')</code>) and/or a Component function (<code>component.method('method.name')</code>). The benefit of calling the Component function directly is that it will return the value from the editor method, such as <a href="https://www.froala.com/wysiwyg-editor/docs/methods#snapshot.get" target="_blank">'snapshot.get'</a>, whereas sending an action will not. Either way will require access to the Component instance, so you'll need to use an {{link-to "event handler" (query-params section="events")}}.
+      The <a href="https://www.froala.com/wysiwyg-editor/docs/methods" target="_blank">Froala Editor methods</a> are exposed as a Component action (<code class="bg-light text-dark">component.send('method', 'method.name')</code>) and/or a Component function (<code class="bg-light text-dark">component.method('method.name')</code>). The benefit of calling the Component function directly is that it will return the value from the editor method, such as <a href="https://www.froala.com/wysiwyg-editor/docs/methods#snapshot.get" target="_blank">'snapshot.get'</a>, whereas sending an action will not. Either way will require access to the Component instance, so you'll need to use an {{link-to "event handler" (query-params section="events")}}.
     </p>
 
 
-    <pre>&#123;&#123;froala-editor on-paste-after=(action "doSomething")&#125;&#125;</pre>
+    <pre class="bg-light border rounded p-2 text-dark">&#123;&#123;froala-editor on-paste-after=(action "doSomething")&#125;&#125;</pre>
 
 
-    <div class="row">
+    <div class="row small-gutters">
       <div class="col-md-6">
 
 
-        <h3 class="h6">Sending an Action</h3>
-          <pre>import Ember from 'ember';
+        <h5>Sending an Action</h5>
+          <pre class="bg-light border rounded p-2 text-dark">import Controller from '@ember/controller';
 
-export default Ember.Controller.extend({
+export default Controller.extend({
   actions: {
     doSomething( component ) {
 
@@ -370,10 +371,10 @@ export default Ember.Controller.extend({
       <div class="col-md-6">
 
 
-        <h3 class="h6">Calling the Function</h3>
-        <pre>import Ember from 'ember';
+        <h5>Calling the Function</h5>
+        <pre class="bg-light border rounded p-2 text-dark">import Controller from '@ember/controller';
 
-export default Ember.Controller.extend({
+export default Controller.extend({
   actions: {
     doSomething( component ) {
 
@@ -401,8 +402,8 @@ export default Ember.Controller.extend({
     </p>
 
 
-    <pre>&#123;&#123;froala-editor on-paste-after=(froala-method "commands.undo")&#125;&#125;</pre>
+    <pre class="bg-light border rounded p-2 text-dark">&#123;&#123;froala-editor on-paste-after=(froala-method "commands.undo")&#125;&#125;</pre>
 
 
-  </div>{{!-- .panel-body --}}
-</section>{{!-- .panel --}}
+  </div>{{!-- .card-body --}}
+</section>{{!-- .card --}}

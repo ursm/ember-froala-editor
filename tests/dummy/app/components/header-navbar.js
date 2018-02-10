@@ -11,8 +11,11 @@ export default Component.extend({
 
   classNames: [
     'navbar',
-    'navbar-default',
-    'navbar-fixed-top'
+    'navbar-expand-md',
+    'navbar-light',
+    'bg-white',
+    'fixed-top',
+    'p-0'
   ], // :classNames
 
 
@@ -32,7 +35,7 @@ export default Component.extend({
 
   collapseNavbar() {
     let $collapse = this.$().find('.navbar-collapse');
-    if ( $collapse.hasClass('in') ) { // If .navbar-collapse is "open"
+    if ( $collapse.hasClass('show') ) { // If .navbar-collapse is "open"
       $collapse.collapse('hide');   // then close the navbar
     }
   }

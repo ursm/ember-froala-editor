@@ -16,7 +16,8 @@ for installation, configuration, and usage details.
 
 ## Compatibility
 
-ember and ember-cli 2.4.2+
+ember 2.8.0+
+ember-cli 2.15.0+
 
 
 ## Installation
@@ -81,7 +82,6 @@ fillInFroalaEditor('#my-editor', '<p>Foobar</p>');
 * `git clone` this repository (fork if you plan on submitting a PR)
 * `cd ember-froala-editor`
 * `npm install`
-* `bower install`
 
 
 ## Running Docs Server
@@ -100,7 +100,8 @@ fillInFroalaEditor('#my-editor', '<p>Foobar</p>');
 
 ## License
 
-The `ember-froala-editor` project is under MIT license. However, in order to use Froala WYSIWYG HTML Editor plugin you should purchase a license for it.
+The `ember-froala-editor` project is under MIT license.
+However,in order to use Froala WYSIWYG HTML Editor plugin you should purchase a license for it.
 
 Froala Editor has [3 different licenses](http://froala.com/wysiwyg-editor/pricing) for commercial use.
 For details please see [License Agreement](http://froala.com/wysiwyg-editor/terms).

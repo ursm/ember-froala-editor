@@ -19,7 +19,9 @@ export default Component.extend({
     'btn-lg',
     'btn-primary',
     'btn-circle',
-    'hidden-print'
+    'position-fixed',
+    'text-light',
+    'd-print-none'
   ], // :classNames
 
 

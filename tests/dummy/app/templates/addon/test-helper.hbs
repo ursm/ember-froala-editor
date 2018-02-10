@@ -1,25 +1,26 @@
-<section class="panel panel-default">
-  <div class="panel-body">
+<section class="card">
+  <div class="card-body">
 
 
-    <div class="page-header"><h1 class="h3">
+    <h1 class="card-title">
       Addon Test Helper
-    </h1></div>
+    </h1>
+    <hr />
 
 
     <p class="lead">
-      This addon also provides a convenient test helper (<code>fillInFroalaEditor()</code>) to interact with the editor in acceptance tests.
-      It functions similar to the <a href="https://github.com/emberjs/ember-test-helpers/blob/master/API.md#fillin" target="_blank">ember provided <code>fillIn()</code> test helper</a>.
+      This addon also provides a convenient test helper (<code class="bg-light text-dark">fillInFroalaEditor()</code>) to interact with the editor in acceptance tests.
+      It functions similar to the <a href="https://github.com/emberjs/ember-test-helpers/blob/master/API.md#fillin" target="_blank">ember provided <code class="bg-light text-dark">fillIn()</code> test helper</a>.
       To use this helper follow the below steps.
     </p>
 
 
-    <h2 class="h4">
-      <code>fillInFroalaEditor(<em>selector</em>, <em>html</em>) <em>RSVP.Promise</em></code>
-    </h2>
+    <h4>
+      <code class="bg-light text-dark">fillInFroalaEditor(<em>selector</em>, <em>html</em>) <em>RSVP.Promise</em></code>
+    </h4>
 
 
-  </div>{{!-- .panel-body --}}
+  </div>{{!-- .card-body --}}
 
 
   <div class="table-responsive"><table class="table">
@@ -32,7 +33,7 @@
       <tr>
         <th scope="row">selector</th>
         <td>string</td>
-        <td>jQuery selector to find the DOM element of your <code>&#123;&#123;froala-editor&#125;&#125;</code>. For example, if your template has <code>&#123;&#123;froala-editor id="description-editor"&#125;&#125;</code> then your selector would be <code>'#description-editor'</code></td>
+        <td>jQuery selector to find the DOM element of your <code class="bg-light text-dark">&#123;&#123;froala-editor&#125;&#125;</code>. For example, if your template has <code class="bg-light text-dark">&#123;&#123;froala-editor id="description-editor"&#125;&#125;</code> then your selector would be <code class="bg-light text-dark">'#description-editor'</code></td>
       </tr>
       <tr>
         <th scope="row">html</th>
@@ -43,26 +44,26 @@
   </table></div>
 
 
-  <div class="panel-body">
+  <div class="card-body">
 
 
-    <p>
-      <strong>returns</strong> <code>RSVP.Promise</code>
+    <p class="lead">
+      <strong>returns</strong> <code class="bg-light text-dark">RSVP.Promise</code>
     </p>
 
 
-    <h2 class="h5">
-      1. Register the helper in your <code>start-app.js</code>
-    </h2>
+    <h4>
+      1. Register the helper in your <code class="bg-light text-dark">start-app.js</code>
+    </h4>
 
 
     <p>
-      To use the helper in acceptance tests you need to register it by importing it in your <code>/tests/helpers/start-app.js</code> file, just like you would with <a href="https://guides.emberjs.com/v2.18.0/testing/acceptance/#toc_custom-test-helpers" target="_blank">your own custom helpers</a>. The path you'll use to import is <code>ember-froala-editor/test-support/helpers/fill-in-froala-editor</code>.
+      To use the helper in acceptance tests you need to register it by importing it in your <code class="bg-light text-dark">/tests/helpers/start-app.js</code> file, just like you would with <a href="https://guides.emberjs.com/v2.18.0/testing/acceptance/#toc_custom-test-helpers" target="_blank">your own custom helpers</a>. The path you'll use to import is <code class="bg-light text-dark">ember-froala-editor/test-support/helpers/fill-in-froala-editor</code>.
     </p>
 
 
-    <h3 class="h6">/tests/helpers/start-app.js</h3>
-    <pre>import Ember from 'ember';
+    <h5>/tests/helpers/start-app.js</h5>
+    <pre class="bg-light border rounded p-2 text-dark">import Ember from 'ember';
 import Application from '../../app';
 import config from '../../config/environment';
 <strong>import fillInFroalaEditor from 'ember-froala-editor/test-support/helpers/fill-in-froala-editor';</strong>
@@ -72,22 +73,22 @@ export default function startApp(attrs) {
 }</pre>
 
 
-    <h2 class="h5">
+    <h4>
       2. Whitelist the helper as a global variable
-    </h2>
+    </h4>
 
 
     <p>
-      Depending if your project is using ESLint or JSHint, add the global to the test folder <code>.eslintrc.js</code> or <code>.jshintrc</code> file like so:
+      Depending if your project is using ESLint or JSHint, add the global to the test folder <code class="bg-light text-dark">.eslintrc.js</code> or <code class="bg-light text-dark">.jshintrc</code> file like so:
     </p>
 
 
-    <div class="row">
+    <div class="row small-gutters">
       <div class="col-md-6">
 
 
-        <h3 class="h6">/tests/.eslintrc.js</h3>
-        <pre>module.exports = {
+        <h5>/tests/.eslintrc.js</h5>
+        <pre class="bg-light border rounded p-2 text-dark">module.exports = {
   env: {
     embertest: true
   },
@@ -106,8 +107,8 @@ export default function startApp(attrs) {
       <div class="col-md-6">
 
 
-        <h3 class="h6">/tests/.jshintrc</h3>
-        <pre>{
+        <h5>/tests/.jshintrc</h5>
+        <pre class="bg-light border rounded p-2 text-dark">{
   "predef": [
     "document",
     "window",
@@ -126,17 +127,17 @@ export default function startApp(attrs) {
     </div>{{!-- .row --}}
 
 
-    <h2 class="h5">
+    <h4>
       3. Use it in acceptance tests
-    </h2>
+    </h4>
 
 
     <p>
-      Now you can use the helper in any acceptance test. <code>/tests/acceptance/*</code> Ex:
+      Now you can use the helper in any acceptance test. <code class="bg-light text-dark">/tests/acceptance/*</code> Ex:
     </p>
 
 
-    <pre>import { test } from 'qunit';
+    <pre class="bg-light border rounded p-2 text-dark">import { test } from 'qunit';
 import moduleForAcceptance from '../../tests/helpers/module-for-acceptance';
 
 moduleForAcceptance('Acceptance | Scenario Name');
@@ -156,9 +157,9 @@ test('Test Name', function(assert) {
 
 
     <p>
-      Note: <code>.fr-element</code> is froala-editor specific markup when the editor is initialized, and contains the actual content.
+      Note: <code class="bg-light text-dark">.fr-element</code> is froala-editor specific markup when the editor is initialized, and contains the actual content.
     </p>
 
 
-  </div>{{!-- .panel-body --}}
-</section>{{!-- .panel --}}
+  </div>{{!-- .card-body --}}
+</section>{{!-- .card --}}
