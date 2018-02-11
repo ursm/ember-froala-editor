@@ -4,8 +4,6 @@
 // Module requirements
 var fs             = require('fs');
 var path           = require('path');
-var Funnel         = require('broccoli-funnel');
-var MergeTrees     = require('broccoli-merge-trees');
 var VersionChecker = require('ember-cli-version-checker');
 
 
@@ -31,63 +29,40 @@ module.exports = {
   init() {
     this._super.init.apply( this, arguments );
     var checker = new VersionChecker( this );
+    checker.for('ember-cli').assertAbove(
+      '2.15.0',
+      'To use ember-froala-editor you must have ember-cli 2.15.0 or later!'
+    ); // https://emberjs.com/blog/2017/09/01/ember-2-15-released.html#toc_app-import-files-within-node_modules
     checker.forEmber().assertAbove(
-      '2.4.2',
-      'To use ember-froala-editor you must have ember 2.4.2 or later for an important bug fix!'
-    ); // https://github.com/emberjs/ember.js/releases/tag/v2.4.2
+      '2.15.0',
+      'To use ember-froala-editor you must have ember 2.15.0 or later!'
+    ); // https://emberjs.com/blog/2017/09/01/ember-2-15-released.html#toc_public-router-service-phase-1
   }, // init()
 
 
-  // https://simplabs.com/blog/2017/02/13/npm-libs-in-ember-cli.html
-  treeForVendor( vendorTree ) {
-    var superTree = this._super.treeForVendor.apply( this, arguments );
-    var froalaTree = new Funnel( froalaPath, {
-      include : ['css/**/*','js/**/*'],
-      destDir : 'froala-editor'
-    });
-    if ( superTree ) {
-      return new MergeTrees([ superTree, froalaTree ]);
-    } else if ( vendorTree ) {
-      return new MergeTrees([ vendorTree, froalaTree ]);
-    } else {
-      return froalaTree;
-    }
-  }, // treeForVendor()
+  included( app ) {
 
 
-  included( app, parent ) {
-
-
-    // http://ember-cli.com/extending/#addon-entry-point
+    // https://ember-cli.com/extending/#addon-entry-point
     this._super.included.apply( this, arguments );
-
-
-    // https://ember-cli.com/extending/#broccoli-build-options-for-in-repo-addons
-    var target = ( parent || app );
 
 
     // Build options by merging default options
     // with the apps ember-cli-build.js options
     var options = Object.assign(
       this.defaultOptions,
-      ( target.options[ this.name ] || {} )
+      ( app.options && app.options[ this.name ] || {} )
     );
 
 
-    // When importing files, import from vendor instead of the node path
-    var vendorPath = path.join( 'vendor', 'froala-editor');
+    // When importing files, import from node_modules
+    var nodePath = path.join( 'node_modules', 'froala-editor');
 
 
     // Import the base Froala Editor files
-    target.import( path.join( vendorPath, 'js', 'froala_editor.min.js' ) );
-    target.import({
-      development : path.join( vendorPath, 'css', 'froala_editor.css' ),
-      production  : path.join( vendorPath, 'css', 'froala_editor.min.css' )
-    });
-    target.import({
-      development : path.join( vendorPath, 'css', 'froala_style.css' ),
-      production  : path.join( vendorPath, 'css', 'froala_style.min.css' )
-    });
+    this.import( path.join( nodePath, 'js', 'froala_editor.min.js' ) );
+    this.import( path.join( nodePath, 'css', 'froala_editor.css' ) );
+    this.import( path.join( nodePath, 'css', 'froala_style.css' ) );
 
 
     // Bucket for import list / details
@@ -128,12 +103,8 @@ module.exports = {
     }
 
 
-    // Access to `this` context within the `.forEach()` loop below
-    var addon = this;
-
-
     // Common logic to import plugins / languages / themes
-    additionalAssets.forEach(function( asset ){
+    additionalAssets.forEach( asset => {
 
 
       // List of files for the given path
@@ -164,7 +135,7 @@ module.exports = {
 
       } else if ( !Array.isArray( asset.files ) ) {
         throw new Error(
-          `${addon.name}: ${asset.label} ` +
+          `${this.name}: ${asset.label} ` +
           'option in ember-cli-build.js is an invalid type, ' +
           'ensure it is either a boolean (all or none), ' +
           'string (just one), or array (specific list)'
@@ -173,7 +144,7 @@ module.exports = {
 
 
       // Loop through each requested file
-      asset.files.forEach(function( file ){
+      asset.files.forEach( file => {
 
 
         // Make sure the requested file exists
@@ -183,18 +154,10 @@ module.exports = {
         }
 
 
-        // If the file type is CSS then import both
-        // the non-minified and minified versions
-        if ( asset.extension === '.css' ) {
-          target.import({
-            development : path.join( vendorPath, asset.path, file + asset.extension ),
-            production  : path.join( vendorPath, asset.path, file + '.min' + asset.extension )
-          });
-        } else {
-          target.import(
-            path.join( vendorPath, asset.path, file + asset.extension )
-          );
-        }
+        // Import the asset file
+        this.import(
+          path.join( nodePath, asset.path, file + asset.extension )
+        );
 
 
       }); // files.forEach()
@@ -203,7 +166,7 @@ module.exports = {
       // Display an error message if any required files are missing
       if ( missingFiles.length > 0 && !asset.optional ) {
         throw new Error(
-          `${addon.name}: ${asset.label} ` +
+          `${this.name}: ${asset.label} ` +
           'specified in ember-cli-build.js are missing, ' +
           `make sure they are spelled correctly (${missingFiles.join(', ')})`
         );

@@ -16,8 +16,7 @@ for installation, configuration, and usage details.
 
 ## Compatibility
 
-ember 2.8.0+
-ember-cli 2.15.0+
+ember & ember-cli 2.15.0+
 
 
 ## Installation
