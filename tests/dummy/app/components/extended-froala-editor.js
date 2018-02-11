@@ -2,6 +2,7 @@ import FroalaEditorComponent from 'ember-froala-editor/components/froala-editor'
 
 export default FroalaEditorComponent.extend({
 
+  // eslint-disable-next-line ember/avoid-leaking-state-in-ember-objects
   options : {
     theme         : "red",
     toolbarSticky : false
@@ -16,8 +17,6 @@ export default FroalaEditorComponent.extend({
     if ( typeof runAssert === 'function' ) {
       runAssert();
     }
-  },
-
-  update(){} // To remove deprecation notice
+  }
 
 });

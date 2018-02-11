@@ -3,7 +3,7 @@ import { schedule, bind } from '@ember/runloop';
 import $ from 'jquery';
 import { assign } from '@ember/polyfills';
 import { getOwner } from '@ember/application';
-import { deprecatingAlias, readOnly, not } from '@ember/object/computed';
+import { readOnly, not } from '@ember/object/computed';
 import { isHTMLSafe, htmlSafe } from '@ember/string';
 import { computed, getWithDefault } from '@ember/object';
 import Component from '@ember/component';
@@ -439,6 +439,7 @@ const FroalaEditorComponent = Component.extend({
         ...params
       );
     } else {
+      // eslint-disable-next-line ember/closure-actions
       this.sendAction(
         propertyName,
         this,
@@ -476,6 +477,7 @@ const FroalaEditorComponent = Component.extend({
         ...params
       );
     } else {
+      // eslint-disable-next-line ember/closure-actions
       this.sendAction(
         propertyName,
         html,
