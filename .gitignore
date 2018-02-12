@@ -17,8 +17,6 @@ npm-debug.log*
 yarn-error.log
 testem.log
 .DS_Store
-jsconfig.json
-package-lock.json
 
 # ember-try
 .node_modules.ember-try/
