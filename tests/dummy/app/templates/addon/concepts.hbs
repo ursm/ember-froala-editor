@@ -303,9 +303,8 @@ export default Controller.extend({
 
 
     {{froala-editor
-      content="<p>Click here for an example...</p>"
+      content="<p>Click here and then click away for an example...</p>"
       options=(hash initOnClick=true height=50 toolbarButtons="bold italic undo redo")
-      on-focus=(froala-method "html.set" "<p>Now click away...</p>")
       on-blur=(froala-method "reinit")}}
 
 
