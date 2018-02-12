@@ -28,7 +28,7 @@ module.exports = {
   // https://github.com/ember-cli/ember-cli-version-checker#forember
   init() {
     this._super.init.apply( this, arguments );
-    var checker = new VersionChecker( this );
+    let checker = new VersionChecker( this );
     checker.for('ember-cli').assertAbove(
       '2.15.0',
       'To use ember-froala-editor you must have ember-cli 2.15.0 or later!'
@@ -49,14 +49,14 @@ module.exports = {
 
     // Build options by merging default options
     // with the apps ember-cli-build.js options
-    var options = Object.assign(
+    let options = Object.assign(
       this.defaultOptions,
       ( app.options && app.options[ this.name ] || {} )
     );
 
 
     // When importing files, import from node_modules
-    var nodePath = path.join( 'node_modules', 'froala-editor');
+    let nodePath = path.join( 'node_modules', 'froala-editor');
 
 
     // Import the base Froala Editor files
@@ -66,20 +66,20 @@ module.exports = {
 
 
     // Bucket for import list / details
-    var additionalAssets = [];
+    let additionalAssets = [];
 
 
     // Import the other Froala Editor files (when requested)
     if ( options.plugins && options.plugins !== [] ) {
       additionalAssets.push({
         label     : 'Plugin(s)',
-        path      : path.join( 'js', 'plugins' ),
+        paths     : [path.join( 'js', 'plugins' ), path.join( 'js', 'third_party' )],
         files     : options.plugins,
         extension : '.min.js'
       });
       additionalAssets.push({
         label     : 'Plugin CSS',
-        path      : path.join( 'css', 'plugins' ),
+        paths     : [path.join( 'css', 'plugins' ), path.join( 'css', 'third_party' )],
         files     : options.plugins,
         extension : '.css',
         optional  : true
@@ -88,7 +88,7 @@ module.exports = {
     if ( options.languages && options.languages !== [] ) {
       additionalAssets.push({
         label     : 'Language(s)',
-        path      : path.join( 'js', 'languages' ),
+        paths     : [path.join( 'js', 'languages' )],
         files     : options.languages,
         extension : '.js'
       });
@@ -96,7 +96,7 @@ module.exports = {
     if ( options.themes && options.themes !== [] ) {
       additionalAssets.push({
         label     : 'Themes(s)',
-        path      : path.join( 'css', 'themes' ),
+        paths     : [path.join( 'css', 'themes' )],
         files     : options.themes,
         extension : '.css'
       });
@@ -107,12 +107,22 @@ module.exports = {
     additionalAssets.forEach( asset => {
 
 
-      // List of files for the given path
-      var pathFiles = fs.readdirSync( path.join( froalaPath, asset.path ) );
+      // List of files for the given path(s)
+      let pathFiles = {}; // key = filename, value = relative path with filename
+
+
+      // Build complete list of files in all paths
+      asset.paths.forEach( assetPath => {
+        fs.readdirSync(
+          path.join( froalaPath, assetPath )
+        ).forEach( fileName => {
+          pathFiles[ fileName ] = path.join( assetPath, fileName );
+        });
+      });
 
 
       // Bucket for missing files
-      var missingFiles = [];
+      let missingFiles = [];
 
 
       // Convert the option value to an array,
@@ -121,7 +131,7 @@ module.exports = {
 
 
         // Generate a list of _all_ the available files
-        asset.files = pathFiles.map(function( file ){
+        asset.files = Object.keys(pathFiles).map(function( file ){
           return file.split('.')[0]; // remove extensions
         }).reduce(function( files, file ){
           if ( files.indexOf( file ) === -1 ) files.push( file );
@@ -148,7 +158,7 @@ module.exports = {
 
 
         // Make sure the requested file exists
-        if ( pathFiles.indexOf( file + asset.extension ) === -1 ) {
+        if ( !pathFiles.hasOwnProperty( file + asset.extension ) ) {
           missingFiles.push( file );
           return; // continue;
         }
@@ -156,7 +166,7 @@ module.exports = {
 
         // Import the asset file
         this.import(
-          path.join( nodePath, asset.path, file + asset.extension )
+          path.join( nodePath, pathFiles[ file + asset.extension ] )
         );
 
 

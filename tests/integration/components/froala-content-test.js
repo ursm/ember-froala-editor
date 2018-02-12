@@ -1,7 +1,7 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('froala-content', 'Integration | Component | froala content', {
+moduleForComponent('froala-content', 'Integration | Component | froala-content', {
   integration: true
 });
 

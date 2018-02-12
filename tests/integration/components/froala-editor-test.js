@@ -2,7 +2,7 @@ import { isHTMLSafe, htmlSafe } from '@ember/string';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('froala-editor', 'Integration | Component | froala editor', {
+moduleForComponent('froala-editor', 'Integration | Component | froala-editor', {
   integration: true
 });
 

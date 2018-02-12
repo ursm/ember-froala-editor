@@ -8,8 +8,11 @@ module.exports = function(defaults) {
     // Import _all_ Froala Editor files
     // for the "dummy" app
     'ember-froala-editor': {
-      plugins  : true,
-      languages: true,
+      plugins  : [
+        'align','char_counter','colors','emoticons','entities','font_family','font_size',
+        'line_breaker','link','lists','paragraph_format','special_characters','table','url'
+      ],
+      languages: false,
       themes   : true
     },
 
