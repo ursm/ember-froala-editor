@@ -21,7 +21,6 @@ const FroalaEditorComponent = Component.extend({
   // to define "default" options that will get merged
   // with any options passed in as an attribute
   mergedProperties: [
-    'defaultOptions',
     'options'
   ],
 
