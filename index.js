@@ -19,8 +19,8 @@ module.exports = {
 
   // Addon build option defaults
   defaultOptions: {
-    plugins   : true, // == ALL available plugins
     languages : false,
+    plugins   : false,
     themes    : false
   },
 
@@ -47,11 +47,26 @@ module.exports = {
     this._super.included.apply( this, arguments );
 
 
+    // Get the application specific configuration options
+    let appOptions = ( app.options && app.options[ this.name ] ) || {};
+
+
+    // Plugins default has recently changed, warn users
+    if ( !appOptions.hasOwnProperty('plugins') ) {
+      this.ui.writeDeprecateLine(
+        `${this.name}: The default value for the 'plugins' option has change from 'true' to 'false'. ` +
+        `Please update '${this.name}.plugins' in 'ember-cli-build.js' to indicate which plugin(s) you need; ` +
+        'string = one plugin name, array = multiple plugin names, true = all plugins, false = no plugins.'
+      );
+    }
+
+
     // Build options by merging default options
     // with the apps ember-cli-build.js options
     let options = Object.assign(
+      {},
       this.defaultOptions,
-      ( app.options && app.options[ this.name ] || {} )
+      appOptions
     );
 
 

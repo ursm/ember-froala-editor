@@ -38,8 +38,8 @@ the available configuration options. Ex:
 // ... (snip)
 
   'ember-froala-editor': {
-    plugins  : true,
     languages: ['es','fr','de'],
+    plugins  : true,
     themes   : 'royal'
   },
 
