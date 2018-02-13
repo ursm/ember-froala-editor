@@ -298,9 +298,7 @@ const FroalaEditorComponent = Component.extend({
   // component state flags, sets the original html/content, and
   // attaches event handlers directly to the editor
   didInitEditor( event, editor, ...params ) {
-    this.set( '_editorInitializing', false  );
-    this.set( '_editorInitialized' , true   );
-    this.set( '_editor'            , editor );
+    this.set( '_editor', editor );
 
 
     // Determine which initialization event was used
@@ -404,6 +402,11 @@ const FroalaEditorComponent = Component.extend({
     // Promise resolve functions added in the method() function below
     this.get('_initPromises').forEach( resolve => resolve() );
     this.set('_initPromises', []); // reset
+
+
+    // Update editor state flags
+    this.set( '_editorInitializing', false );
+    this.set( '_editorInitialized' , true  );
 
 
     // Fire the "initialization" event actions (if defined)
