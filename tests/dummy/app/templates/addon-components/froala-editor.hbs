@@ -334,7 +334,7 @@ export default Controller.extend({
 
 
     <p>
-      The <a href="https://www.froala.com/wysiwyg-editor/docs/methods" target="_blank">Froala Editor methods</a> are exposed as a Component action (<code class="bg-light text-dark">component.send('method', 'method.name')</code>) and/or a Component function (<code class="bg-light text-dark">component.method('method.name')</code>). The benefit of calling the Component function directly is that it will return the value from the editor method, such as <a href="https://www.froala.com/wysiwyg-editor/docs/methods#snapshot.get" target="_blank">'snapshot.get'</a>, whereas sending an action will not. Either way will require access to the Component instance, so you'll need to use an {{link-to "event handler" (query-params section="events")}}.
+      The <a href="https://www.froala.com/wysiwyg-editor/docs/methods" target="_blank">Froala Editor methods</a> are exposed as a Component action (<code class="bg-light text-dark">component.send('method', 'method.name')</code>) and/or a Component function (<code class="bg-light text-dark">component.method('method.name')</code>). The benefit of calling the Component function directly is that it will return a promise which will <code class="bg-light text-dark">.then()</code> result in the value from the editor method, such as <a href="https://www.froala.com/wysiwyg-editor/docs/methods#snapshot.get" target="_blank">'snapshot.get'</a>, whereas sending an action will not. Either way will require access to the Component instance, so you'll need to use an {{link-to "event handler" (query-params section="events")}}.
     </p>
 
 
@@ -353,9 +353,11 @@ export default Controller.extend({
     doSomething( component ) {
 
       <strong>// Won't work!
-      let snapshot = component.send(
+      component.<em>send</em>(
         'method', 'snapshot.get'
-      );
+      ).then( snapshot => {
+        // Do something...
+      });
 
       // No pasting!
       component.send(
@@ -379,9 +381,11 @@ export default Controller.extend({
     doSomething( component ) {
 
       <strong>// Works
-      let snapshot = component.method(
+      component.<em>method</em>(
         'snapshot.get'
-      );
+      ).then( snapshot => {
+        // Do something...
+      });
 
       // No pasting!
       component.method(
@@ -403,6 +407,11 @@ export default Controller.extend({
 
 
     <pre class="bg-light border rounded p-2 text-dark">&#123;&#123;froala-editor on-paste-after=(froala-method "commands.undo")&#125;&#125;</pre>
+
+
+    <p>
+      Note: There is a special method named <code class="bg-light text-dark">'reinit'</code> that will do just that, re-initialize the editor. This is useful if you change an option after initial initialization, or in the {{link-to "hide on-blur" "addon.concepts" (query-params section="hide")}} concept/example.
+    </p>
 
 
   </div>{{!-- .card-body --}}

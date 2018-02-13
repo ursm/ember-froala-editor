@@ -150,6 +150,7 @@ const FroalaEditorComponent = Component.extend({
     this.set( '_editorInitializing', false );
     this.set( '_editorInitialized' , false );
     this.set( '_editorDestroying'  , false );
+    this.set('_initPromises'       , []    );
   }, // init()
 
 
@@ -400,6 +401,11 @@ const FroalaEditorComponent = Component.extend({
     );
 
 
+    // Promise resolve functions added in the method() function below
+    this.get('_initPromises').forEach( resolve => resolve() );
+    this.set('_initPromises', []); // reset
+
+
     // Fire the "initialization" event actions (if defined)
     if ( this.get(initEventPropName) ) {
       this.didEditorEvent( initEventPropName, ...params );
@@ -502,58 +508,67 @@ const FroalaEditorComponent = Component.extend({
 
   // Generic method() function that will proxy the call
   // to the Froala Editor public API for methods
-  // Notes: Also handles editor state properly by returning a Promise if need be
+  // Notes: Also handles editor state properly by returning a Promise
   method( methodName ) {
 
-    // special, added, ember-froala-editor specific method
+    // Label for the following Promise, so it appears nicely in the Ember Inspector
+    let promiseLabel = 'froala-editor: ';
     if ( methodName === 'reinit' ) {
-      this.reinitEditor();
-
-
-    // Editor should be initialized before calling the method
+      promiseLabel += 'Reninit method() call, waiting for the editor to initialize';
     } else if ( this.get('_editorInitialized') ) {
-      return this.$( this.get('editorSelector') ).froalaEditor( ...arguments );
-
-
+      promiseLabel += `Call editor method() '${methodName}'`;
     } else {
+      promiseLabel += `Delayed method() call to '${methodName}', waiting for editor to initialize`;
+    }
 
 
-      // Label for the following Promise, so it appears nicely in the Ember Inspector
-      const promiseLabel = 'froala-editor: ' +
-        `Delayed method() call to '${methodName}' until editor is initialized`
-      ;
+    // Always return a promise, no matter the state
+    let promise = new EmberPromise( (resolve, reject) => {
 
 
-      // Instead of throwing an error, lets return a Promise
-      // that will call the method once the editor _is_ initialized
-      return new EmberPromise( (resolve, reject) => {
+      // "Extra", special ember-froala-editor specific method
+      if ( methodName === 'reinit' ) {
+        this.get('_initPromises').push( resolve );
+        this.reinitEditor();
 
 
-        // Create a one time event listener for the initialized event
-        this.$( this.get('editorSelector') ).one(
-          this.get('eventPrefix') + (this.get('_options.initOnClick') ? 'initializationDelayed' : 'initialized'),
-          () => {
+      // Editor is initialized, try calling the method now
+      } else if ( this.get('_editorInitialized') ) {
+        try {
+          resolve(
+            this.$( this.get('editorSelector') ).froalaEditor( ...arguments )
+          );
+        } catch (e) {
+          reject(e);
+        }
 
 
-            // Try calling the Froala Editor method, returning the outcome
-            try {
-              resolve(
-                this.$( this.get('editorSelector') ).froalaEditor( ...arguments )
-              );
-            } catch (e) {
-              reject(e);
-            }
+      // Editor is NOT initialize, wait before calling the method
+      } else {
+        this.get('_initPromises').push( resolve );
+        // Follow-up method call is added as '.then()' below
 
 
-          } // () => {}
-        ); // this.$().one()
+      } // if else
+    }, promiseLabel);
 
 
-      }, promiseLabel ); // EmberPromise()
+    // Continuation of "Editor is NOT initialize, wait before calling the method"
+    if ( methodName !== 'reinit' && !this.get('_editorInitialized') ) {
+      promise.then(() => {
+        return new EmberPromise( (resolve, reject) => {
+          try {
+            resolve(
+              this.$( this.get('editorSelector') ).froalaEditor( ...arguments )
+            );
+          } catch (e) {
+            reject(e);
+          }
+        }, `froala-editor: Delayed method() call to '${methodName}', calling froala-editor method`);
+      }); // promise.then()
+    } // if ()
 
-
-    } // else ( !editorInitialized )
-
+    return promise;
   }, // method()
 
 

@@ -216,12 +216,53 @@ test("component 'method' properly fires the related editors method", function(as
   let foobar = '<p>Foobar</p>';
 
   this.set('runAssert', component => {
-    assert.equal(component.method('html.get'), foobar);
+    component.method('html.get').then( html => {
+      assert.equal(html, foobar);
+    });
   });
 
   this.set('foobar', foobar);
 
   this.render(hbs`{{froala-editor content=foobar on-initialized=(action runAssert)}}`);
+
+});
+
+
+
+test("component 'reinit' method() properly resolves after reinitialized", function(assert) {
+
+  let reinitCalled = false;
+
+  this.set('runAssert', component => {
+    if ( !reinitCalled ) {
+      reinitCalled = true;
+      component.method('reinit').then(() => {
+        assert.ok(true);
+      });
+    }
+  });
+
+  this.render(hbs`{{froala-editor on-initialized=(action runAssert)}}`);
+
+});
+
+
+test("delayed '.method()' calls resolve once editor is initialized", function(assert) {
+
+  let initCalled = false;
+
+  this.set('runAssert', component => {
+    if ( !initCalled ) {
+      initCalled = true;
+      component.destroyEditor();
+      component.method('charCounter.count').then(() => {
+        assert.ok(true);
+      });
+      component.initEditor();
+    }
+  });
+
+  this.render(hbs`{{froala-editor on-initialized=(action runAssert)}}`);
 
 });
 
