@@ -47,6 +47,12 @@ module.exports = {
     this._super.included.apply( this, arguments );
 
 
+    // Do not import anything if in "fastboot mode"
+    if ( process.env.EMBER_CLI_FASTBOOT ) {
+      return;
+    }
+
+
     // Get the application specific configuration options
     let appOptions = ( app.options && app.options[ this.name ] ) || {};
 

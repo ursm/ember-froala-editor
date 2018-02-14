@@ -63,6 +63,18 @@ const FroalaEditorComponent = Component.extend({
 
 
 
+  // Addon compatable access to the (potential) fastboot service
+  // http://ember-fastboot.com/docs/addon-author-guide#accessing-the-fastboot-service
+  fastboot: computed({
+    get() {
+      let owner = getOwner( this );
+      return owner.lookup( 'service:fastboot' );
+    } // get()
+  }), // :fastboot
+
+
+
+
   // Private, internal Computed Property to handle SafeString support
   // and it will always return a string, even if `content` is null or undefined
   // Note: Both Strings and SafeStrings have a .toString() function
@@ -81,7 +93,7 @@ const FroalaEditorComponent = Component.extend({
 
 
   // Private, internal Computed Property to merge all the possible "options"
-  _options: computed('defaultOptions', 'options', '_attributeOptions', {
+  _options: computed('options', '_attributeOptions', {
     get() {
       const config = getOwner(this).resolveRegistration('config:environment');
       return assign(
@@ -151,12 +163,14 @@ const FroalaEditorComponent = Component.extend({
     this.set( '_editorInitialized' , false );
     this.set( '_editorDestroying'  , false );
     this.set('_initPromises'       , []    );
+    this.set('_templateContent'    , this.get('_content'));
   }, // init()
 
 
 
 
   // Start the setup...
+  // Note: Not called in fastboot mode, which is good
   didInsertElement() {
     this._super( ...arguments );
     schedule( 'afterRender', this, this.initEditor );
@@ -173,7 +187,13 @@ const FroalaEditorComponent = Component.extend({
     let editor  = this.get('_editor');
     let content = this.get('_content');
 
-    if ( editor && content !== editor.html.get() ) {
+    if ( this.get('fastboot') ) {
+      if ( content !== this.get('_templateContent') ) {
+        // Note: This works in fastboot because the editor is never initialized.
+        //       See note below about needing to use jQuery after the editor has been initialized.
+        this.set('_templateContent', content);
+      }
+    } else if ( editor && content !== editor.html.get() ) {
       editor.html.set( content );
     } else if ( !editor && content !== this.$( this.get('editorSelector') ).html() ) {
       // Note: Must use jQuery! Updating a bound template property causes the following error,
