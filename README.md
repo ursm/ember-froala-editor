@@ -17,6 +17,7 @@ for installation, configuration, and usage details.
 ## Compatibility
 
 node 6.* || >= 8.*
+
 ember & ember-cli 2.15.0+
 
 
