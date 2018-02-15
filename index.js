@@ -155,7 +155,7 @@ module.exports = {
         asset.files = Object.keys(pathFiles).map(function( file ){
           return file.split('.')[0]; // remove extensions
         }).reduce(function( files, file ){
-          if ( files.indexOf( file ) === -1 ) files.push( file );
+          if ( !files.includes( file ) ) files.push( file );
           return files; // return a unique list
         }, []);
 
