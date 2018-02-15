@@ -1,6 +1,5 @@
 import $ from 'jquery';
 import { run } from '@ember/runloop';
-import { isHTMLSafe } from '@ember/string';
 import { registerAsyncHelper } from '@ember/test';
 import { settled } from '@ember/test-helpers';
 
@@ -13,11 +12,11 @@ export async function fillInFroalaEditor(selector, html) {
   // Get the editor element of the selector
   let $editor = $('.froala-editor-instance', selector);
 
-  // Convert safestrings to regular string
+  // Convert SafeStrings to regular string
   html = (
-    isHTMLSafe(html) ?
+    html && typeof html.toString === 'function' ?
     html.toString() :
-    html
+    ''
   );
 
   // Apply html via Froala Editor method and trigger a change event
