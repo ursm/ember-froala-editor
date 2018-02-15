@@ -9,15 +9,21 @@
 
 
     <p class="lead">
-      This addon also provides a convenient test helper (<code class="bg-light text-dark">fillInFroalaEditor()</code>) to interact with the editor in acceptance tests.
-      It functions similar to the <a href="https://github.com/emberjs/ember-test-helpers/blob/master/API.md#fillin" target="_blank">ember provided <code class="bg-light text-dark">fillIn()</code> test helper</a>.
-      To use this helper follow the below steps.
+      This addon also provides a convenient test helper to interact with the editor in tests. It functions similar to the <a href="https://github.com/emberjs/ember-test-helpers/blob/master/API.md#fillin" target="_blank">ember provided <code class="bg-light text-dark">fillIn()</code> test helper</a>. Just import it into your test file by:
     </p>
 
 
+    <pre class="bg-light border rounded p-2 text-dark">import { fillInFroalaEditor } from 'ember-froala-editor/test-support';</pre>
+
+
     <h4>
-      <code class="bg-light text-dark">fillInFroalaEditor(<em>selector</em>, <em>html</em>) <em>RSVP.Promise</em></code>
+      Function Signature
     </h4>
+
+
+    <p class="lead">
+      <code class="bg-light text-dark">async function fillInFroalaEditor(<em>selector</em>, <em>html</em>) returns <em>Promise</em></code>
+    </p>
 
 
   </div>{{!-- .card-body --}}
@@ -47,118 +53,29 @@
   <div class="card-body">
 
 
-    <p class="lead">
-      <strong>returns</strong> <code class="bg-light text-dark">RSVP.Promise</code>
-    </p>
-
-
     <h4>
-      1. Register the helper in your <code class="bg-light text-dark">start-app.js</code>
+      Example Acceptance Test
     </h4>
+    <pre class="bg-light border rounded p-2 text-dark">import $ from 'jquery';
+import { module, test } from 'qunit';
+import { setupApplicationTest } from 'ember-qunit';
+import { visit } from '@ember/test-helpers';
+<strong>import { fillInFroalaEditor } from 'ember-froala-editor/test-support';</strong>
 
+module('Acceptance | fillInFroalaEditor', function(hooks) {
+  setupApplicationTest(hooks);
 
-    <p>
-      To use the helper in acceptance tests you need to register it by importing it in your <code class="bg-light text-dark">/tests/helpers/start-app.js</code> file, just like you would with <a href="https://guides.emberjs.com/v3.0.0/testing/acceptance/#toc_custom-test-helpers" target="_blank">your own custom helpers</a>. The path you'll use to import is <code class="bg-light text-dark">ember-froala-editor/test-support/helpers/fill-in-froala-editor</code>.
-    </p>
+  test('Testing fillInFroalaEditor test helper', async function(assert) {
+    assert.expect(2);
 
+    await visit('/');
+    assert.equal($('.froala-editor-instance .fr-element').html().trim(), '&lt;p&gt;&lt;br&gt;&lt;/p&gt;', 'Editor empty on load');
 
-    <h5>/tests/helpers/start-app.js</h5>
-    <pre class="bg-light border rounded p-2 text-dark">import Ember from 'ember';
-import Application from '../../app';
-import config from '../../config/environment';
-<strong>import fillInFroalaEditor from 'ember-froala-editor/test-support/helpers/fill-in-froala-editor';</strong>
+    <strong>await fillInFroalaEditor('.froala-editor-container', '&lt;p&gt;Foobar&lt;/p&gt;');</strong>
+    assert.equal($('.froala-editor-instance .fr-element').html().trim(), '&lt;p&gt;Foobar&lt;/p&gt;', 'Correct html entered');
 
-export default function startApp(attrs) {
-  // ... (other default code snipped...)
-}</pre>
-
-
-    <h4>
-      2. Whitelist the helper as a global variable
-    </h4>
-
-
-    <p>
-      Depending if your project is using ESLint or JSHint, add the global to the test folder <code class="bg-light text-dark">.eslintrc.js</code> or <code class="bg-light text-dark">.jshintrc</code> file like so:
-    </p>
-
-
-    <div class="row small-gutters">
-      <div class="col-md-6">
-
-
-        <h5>/tests/.eslintrc.js</h5>
-        <pre class="bg-light border rounded p-2 text-dark">module.exports = {
-  env: {
-    embertest: true
-  },
-  globals: {
-    <strong>fillInFroalaEditor: true</strong>
-  },
-  rules: {
-    <strong>"no-unused-vars": ["error", {
-      "varsIgnorePattern": "fillInFroalaEditor"
-    }]</strong>
-  }
-};</pre>
-
-
-      </div>{{!-- .col --}}
-      <div class="col-md-6">
-
-
-        <h5>/tests/.jshintrc</h5>
-        <pre class="bg-light border rounded p-2 text-dark">{
-  "predef": [
-    "document",
-    "window",
-    "location",
-    ...
-    <strong>"fillInFroalaEditor",</strong>
-    "find",
-    "findWithAssert",
-    ...
-  ],
-  ...
-}</pre>
-
-
-      </div>{{!-- .col --}}
-    </div>{{!-- .row --}}
-
-
-    <h4>
-      3. Use it in acceptance tests
-    </h4>
-
-
-    <p>
-      Now you can use the helper in any acceptance test. <code class="bg-light text-dark">/tests/acceptance/*</code> Ex:
-    </p>
-
-
-    <pre class="bg-light border rounded p-2 text-dark">import { test } from 'qunit';
-import moduleForAcceptance from '../../tests/helpers/module-for-acceptance';
-
-moduleForAcceptance('Acceptance | Scenario Name');
-
-test('Test Name', function(assert) {
-  visit('/');
-
-  andThen(() => {
-    assert.equal(find('#froala-editor .fr-element').html().trim(), '&lt;p&gt;&lt;br&gt;&lt;/p&gt;', 'Editor empty on load');
-    <strong>fillInFroalaEditor('#froala-editor', '&lt;p&gt;Foobar&lt;/p&gt;');</strong>
-  });
-
-  andThen(() =&gt; {
-    assert.equal(find('#froala-editor .fr-element').html().trim(), '&lt;p&gt;Foobar&lt;/p&gt;', 'Correct text entered');
   });
 });</pre>
-
-
-    <p>
-      Note: <code class="bg-light text-dark">.fr-element</code> is froala-editor specific markup when the editor is initialized, and contains the actual content.
-    </p>
 
 
   </div>{{!-- .card-body --}}

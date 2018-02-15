@@ -1,41 +1,44 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('froala-content', 'Integration | Component | froala-content', {
-  integration: true
-});
+module('Integration | Component | froala-content', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('.fr-view class is applied', function(assert) {
+  test('.fr-view class is applied', async function(assert) {
 
-  this.render(hbs`{{froala-content elementId="editor"}}`);
+    await render(hbs`{{froala-content elementId="editor"}}`);
 
-  assert.ok(this.$('#editor').hasClass('fr-view'));
+    assert.ok(this.$('#editor').hasClass('fr-view'));
 
-});
-
-
-test("'content' is output inside the block", function(assert) {
-
-  this.render(hbs`{{froala-content content="foobar"}}`);
-
-  assert.equal(this.$().text().trim(), 'foobar');
-
-});
+  });
 
 
-test("positional param 'content' is output inside the block", function(assert) {
+  test("'content' is output inside the block", async function(assert) {
 
-  this.render(hbs`{{froala-content "foobar"}}`);
+    await render(hbs`{{froala-content content="foobar"}}`);
 
-  assert.equal(this.$().text().trim(), 'foobar');
+    assert.equal(this.element.textContent.trim(), 'foobar');
 
-});
+  });
 
 
-test("block content is properly yield'ed", function(assert) {
+  test("positional param 'content' is output inside the block", async function(assert) {
 
-  this.render(hbs`{{#froala-content}}foobar{{/froala-content}}`);
+    await render(hbs`{{froala-content "foobar"}}`);
 
-  assert.equal(this.$().text().trim(), 'foobar');
+    assert.equal(this.element.textContent.trim(), 'foobar');
+
+  });
+
+
+  test("block content is properly yield'ed", async function(assert) {
+
+    await render(hbs`{{#froala-content}}foobar{{/froala-content}}`);
+
+    assert.equal(this.element.textContent.trim(), 'foobar');
+
+  });
 
 });
