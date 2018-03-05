@@ -20,7 +20,7 @@ module.exports = function(defaults) {
     // to resemble the Froala Editor Website
     'ember-cli-bootswatch': {
       theme: 'materia',
-      includeJSPlugins: ['util','collapse']
+      importJS: ['util','collapse']
     }
 
   });
