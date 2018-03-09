@@ -374,17 +374,20 @@ module('Integration | Component | froala-editor', function(hooks) {
     assert.expect(4);
 
     this.set('runAssertA', component => {
-      assert.ok(component.get('_options.disableRightClick'));
-      assert.notOk(component.get('_options.editInPopup'));
+      assert.ok(component.get('_options.disableRightClick'), 'runAssertA disableRightClick');
+      assert.notOk(component.get('_options.fontFamilySelection'), 'runAssertA fontFamilySelection');
     });
 
     this.set('runAssertB', component => {
-      assert.notOk(component.get('_options.disableRightClick'));
-      assert.ok(component.get('_options.editInPopup'));
+      assert.notOk(component.get('_options.disableRightClick'), 'runAssertB disableRightClick');
+      assert.ok(component.get('_options.fontFamilySelection'), 'runAssertB fontFamilySelection');
     });
 
     // See tests/dummy/app/components/extended-froala-editor.js
-    await render(hbs`{{extended-froala-editor options=(hash disableRightClick=true) on-initialized=(action runAssertA)}}{{extended-froala-editor options=(hash editInPopup=true) on-initialized=(action runAssertB)}}`);
+    await render(hbs`
+      {{extended-froala-editor options=(hash disableRightClick=true) on-initialized=(action runAssertA)}}
+      {{extended-froala-editor options=(hash fontFamilySelection=true) on-initialized=(action runAssertB)}}
+    `);
 
   });
 
