@@ -5,8 +5,6 @@ const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 module.exports = function(defaults) {
   let app = new EmberAddon(defaults, {
 
-    // Import _all_ Froala Editor files
-    // for the "dummy" app
     'ember-froala-editor': {
       plugins  : [
         'align','char_counter','colors','emoticons','entities','font_family','font_size',
