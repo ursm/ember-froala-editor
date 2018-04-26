@@ -78,27 +78,6 @@ fillInFroalaEditor('#my-editor', '<p>Foobar</p>');
 ```
 
 
-## Development
-
-* `git clone` this repository (fork if you plan on submitting a PR)
-* `cd ember-froala-editor`
-* `npm install`
-
-
-## Running Docs Server
-
-* `ember server`
-* Visit the docs at http://localhost:4200
-
-
-## Running Tests
-
-* `npm test` (Runs `ember try:each` to test against multiple Ember versions)
-* `ember test`
-* `ember test --server`
-* `ember server` (Visit tests at http://localhost:4200/tests)
-
-
 ## License
 
 The `ember-froala-editor` project is under MIT license.
