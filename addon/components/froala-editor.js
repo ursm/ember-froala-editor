@@ -163,7 +163,7 @@ const FroalaEditorComponent = Component.extend({
     this.set( '_editorInitialized' , false );
     this.set( '_editorDestroying'  , false );
     this.set('_initPromises'       , []    );
-    this.set('_templateContent'    , this.get('_content'));
+    this.set('_templateContent'    , htmlSafe(this.get('_content')));
   }, // init()
 
 
@@ -191,7 +191,7 @@ const FroalaEditorComponent = Component.extend({
       if ( content !== this.get('_templateContent') ) {
         // Note: This works in fastboot because the editor is never initialized.
         //       See note below about needing to use jQuery after the editor has been initialized.
-        this.set('_templateContent', content);
+        this.set('_templateContent', htmlSafe(content));
       }
     } else if ( editor && content !== editor.html.get() ) {
       editor.html.set( content );
