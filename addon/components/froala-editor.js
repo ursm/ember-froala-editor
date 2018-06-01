@@ -188,7 +188,7 @@ const FroalaEditorComponent = Component.extend({
     let content = this.get('_content');
 
     if ( this.get('fastboot') ) {
-      if ( content !== this.get('_templateContent') ) {
+      if ( content !== this.get('_templateContent').toString() ) {
         // Note: This works in fastboot because the editor is never initialized.
         //       See note below about needing to use jQuery after the editor has been initialized.
         this.set('_templateContent', htmlSafe(content));
