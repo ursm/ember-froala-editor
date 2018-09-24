@@ -14,7 +14,7 @@ var froalaPath = path.dirname(
 
 
 module.exports = {
-  name: 'ember-froala-editor',
+  name: require('./package').name,
 
 
   // Addon build option defaults
