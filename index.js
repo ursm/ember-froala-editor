@@ -40,7 +40,7 @@ module.exports = {
   }, // init()
 
 
-  included( app ) {
+  included() {
 
 
     // https://ember-cli.com/extending/#addon-entry-point
@@ -51,6 +51,14 @@ module.exports = {
     if ( typeof FastBoot !== 'undefined' ) {
       return;
     }
+
+
+    // For nested usage, ensure we look to the most parent app for the options
+    let app;
+    let current = this;
+    do {
+      app = current.app || app;
+    } while (current.parent.parent && (current = current.parent));
 
 
     // Get the application specific configuration options
