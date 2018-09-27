@@ -40,7 +40,7 @@ module.exports = {
   }, // init()
 
 
-  included() {
+  included( app ) {
 
 
     // https://ember-cli.com/extending/#addon-entry-point
@@ -53,16 +53,16 @@ module.exports = {
     }
 
 
-    // For nested usage, ensure we look to the most parent app for the options
-    let app;
+    // For nested usage, build the options up through the entire tree,
+    // with priority going up the tree and the "root" app always overriding
+    let appOptions = {};
     let current = this;
     do {
       app = current.app || app;
+      if ( app.options && app.options[ this.name ] ) {
+        appOptions = Object.assign(appOptions, app.options[ this.name ]);
+      }
     } while (current.parent.parent && (current = current.parent));
-
-
-    // Get the application specific configuration options
-    let appOptions = ( app.options && app.options[ this.name ] ) || {};
 
 
     // Plugins default has recently changed, warn users
