@@ -56,7 +56,7 @@
     "ember-cli-babel": "^6.16.0",
     "ember-cli-htmlbars": "^3.0.0",
     "ember-cli-version-checker": "^2.1.2",
-    "froala-editor": "^2.6.3"
+    "froala-editor": "^2.9.1"
   },
   "devDependencies": {
     "@ember/jquery": "^0.5.2",
