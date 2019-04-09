@@ -2,6 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
+import $ from 'jquery';
 
 module('Integration | Component | froala-content', function(hooks) {
   setupRenderingTest(hooks);
@@ -10,7 +11,7 @@ module('Integration | Component | froala-content', function(hooks) {
 
     await render(hbs`{{froala-content elementId="editor"}}`);
 
-    assert.ok(this.$('#editor').hasClass('fr-view'));
+    assert.ok($('#editor', this.element).hasClass('fr-view'));
 
   });
 
