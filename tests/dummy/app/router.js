@@ -12,24 +12,32 @@ const Router = EmberRouter.extend({
   // The following will maintain scroll position for each URL
   // Enables a more natural feel when using the browser Forward/Back buttons
   scrollPositions: service(),
-  didTransition() {
-    this._super( ...arguments );
-    // Wait for 'url' to change...
-    next(this, function(){
-      let scroll   = this.get('scrollPositions');
-      let url      = this.get('url');
-      let position = scroll.get( url );
-      // Wait for things to settle, finish rendering...
-      schedule('afterRender', this, function(){
-        $( 'html,body' ).scrollTop( position || 0 );
+
+
+  init() {
+    this._super(...arguments);
+
+    // Previously willTransition()
+    this.on('routeWillChange', () => {
+      let scroll = this.get('scrollPositions');
+      let url    = this.get('url');
+      scroll.set( url, window.scrollY );
+    });
+
+    // Previously didTransition()
+    this.on('routeDidChange', () => {
+      // Wait for 'url' to change...
+      next(this, function(){
+        let scroll   = this.get('scrollPositions');
+        let url      = this.get('url');
+        let position = scroll.get( url );
+        // Wait for things to settle, finish rendering...
+        schedule('afterRender', this, function(){
+          $( 'html,body' ).scrollTop( position || 0 );
+        });
       });
     });
-  },
-  willTransition() {
-    this._super( ...arguments );
-    let scroll = this.get('scrollPositions');
-    let url    = this.get('url');
-    scroll.set( url, window.scrollY );
+
   }
 
 
