@@ -94,6 +94,10 @@ module.exports = {
     this.import( path.join( nodePath, 'css', 'froala_style.css' ) );
 
 
+    // Include the vendor shim to make froala-editor importable
+    this.import( path.join( 'vendor', 'shims', 'froala-editor.js' ) );
+
+
     // Bucket for import list / details
     let additionalAssets = [];
 
