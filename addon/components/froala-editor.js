@@ -1,6 +1,6 @@
 import { Promise as EmberPromise } from 'rsvp';
 import { schedule, bind } from '@ember/runloop';
-import $ from 'jquery';
+import FroalaEditor from 'froala-editor';
 import { assign } from '@ember/polyfills';
 import { getOwner } from '@ember/application';
 import { readOnly, not } from '@ember/object/computed';
@@ -119,7 +119,7 @@ const FroalaEditorComponent = Component.extend({
       for ( let propertyName in this ) {
 
         // Verify that the property name aligns with a Froala Editor option name
-        if ( $.FroalaEditor.DEFAULTS.hasOwnProperty( propertyName ) ) {
+        if ( FroalaEditor.DEFAULTS.hasOwnProperty( propertyName ) ) {
           attributeOptions[ propertyName ] = this.get( propertyName );
         }
 
@@ -195,11 +195,8 @@ const FroalaEditorComponent = Component.extend({
       }
     } else if ( editor && content !== editor.html.get() ) {
       editor.html.set( content );
-    } else if ( !editor && content !== this.$( this.get('editorSelector') ).html() ) {
-      // Note: Must use jQuery! Updating a bound template property causes the following error,
-      //       which is likely caused by the way froala-editor modifies DOM and Glimmer not liking that..
-      // Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.
-      this.$( this.get('editorSelector') ).html( content );
+    } else if ( !editor && content !== this.get('element').querySelector(this.get('editorSelector')).innerHTML ) {
+      this.get('element').querySelector(this.get('editorSelector')).innerHTML = content;
     } else {
       // Note: _attributeOptions will only re-compute if editor is reinit'ed
       this.notifyPropertyChange('_attributeOptions');
@@ -248,22 +245,29 @@ const FroalaEditorComponent = Component.extend({
     let options = this.get('_options');
 
 
-    // Init jQuery once...
-    let $element = this.$( this.get('editorSelector') );
-
-
-    // Attach a one time Froala Editor initialization event handler
-    // to know when initialization has finished, updating state flags
-    // Note: Cannot be done via editor.events.on()
-    //       since access to `editor` is not available yet
-    $element.one(
-      this.get('eventPrefix') + (options.initOnClick ? 'initializationDelayed' : 'initialized'),
-      bind(this, 'didInitEditor')
+    // Determine which initialization event to use
+    let initEventName = (
+      this.get('_options.initOnClick') ?
+      'initializationDelayed' :
+      'initialized'
     );
 
 
-    // Actual initialization of the Froala Editor
-    $element.froalaEditor( options );
+    // Add initialization callback to events block
+    options.events = options.events || {};
+    options.events[initEventName] = bind(this, 'didInitEditor');
+
+
+    // Get the element to initialize on
+    let element = this.get('element').querySelector(this.get('editorSelector'));
+
+
+    // Initialize the Froala Editor
+    let editor = FroalaEditor( element, options );
+
+
+    // Save the editor instance
+    this.set('_editor', editor);
 
   }, // initEditor()
 
@@ -296,7 +300,7 @@ const FroalaEditorComponent = Component.extend({
 
 
     // Actual destruction of the Froala Editor
-    this.$( this.get('editorSelector') ).froalaEditor( 'destroy' );
+    this.get('_editor').destroy();
 
   }, // destroyEditor()
 
@@ -317,9 +321,8 @@ const FroalaEditorComponent = Component.extend({
   // Triggered by the Froala Editor initialization event, updates
   // component state flags, sets the original html/content, and
   // attaches event handlers directly to the editor
-  didInitEditor( event, editor, ...params ) {
-    this.set( '_editor', editor );
-
+  didInitEditor( ...params ) {
+    let editor = this.get('_editor'); // Now returned from FroalaEditor()
 
     // Determine which initialization event was used
     const initEventPropName = (
@@ -532,7 +535,7 @@ const FroalaEditorComponent = Component.extend({
   // Generic method() function that will proxy the call
   // to the Froala Editor public API for methods
   // Notes: Also handles editor state properly by returning a Promise
-  method( methodName ) {
+  method( methodName, ...args ) {
 
     // Label for the following Promise, so it appears nicely in the Ember Inspector
     let promiseLabel = 'froala-editor: ';
@@ -559,7 +562,7 @@ const FroalaEditorComponent = Component.extend({
       } else if ( this.get('_editorInitialized') ) {
         try {
           resolve(
-            this.$( this.get('editorSelector') ).froalaEditor( ...arguments )
+            this.get(`_editor.${methodName}`)( ...args )
           );
         } catch (e) {
           reject(e);
@@ -582,7 +585,7 @@ const FroalaEditorComponent = Component.extend({
         return new EmberPromise( (resolve, reject) => {
           try {
             resolve(
-              this.$( this.get('editorSelector') ).froalaEditor( ...arguments )
+              this.get(`_editor.${methodName}`)( ...args )
             );
           } catch (e) {
             reject(e);
