@@ -34,8 +34,8 @@ module.exports = {
       'To use ember-froala-editor you must have ember-cli 2.15.0 or later!'
     ); // https://emberjs.com/blog/2017/09/01/ember-2-15-released.html#toc_app-import-files-within-node_modules
     checker.forEmber().assertAbove(
-      '2.15.0',
-      'To use ember-froala-editor you must have ember 2.15.0 or later!'
+      '3.13.0',
+      'To use ember-froala-editor you must have ember 3.13.0 or later!'
     ); // https://emberjs.com/blog/2017/09/01/ember-2-15-released.html#toc_public-router-service-phase-1
   }, // init()
 
