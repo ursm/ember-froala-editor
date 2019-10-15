@@ -37,4 +37,6 @@ commit message for clarification as needed.
 * `ember server` (Visit tests at http://localhost:4200/tests)
 
 
-For more information on using ember-cli, visit [https://ember-cli.com/](https://ember-cli.com/).
+For more information on using ember-cli, visit 
+[https://cli.emberjs.com/release/](https://cli.emberjs.com/release/) and/or
+[https://ember-cli.com/](https://ember-cli.com/).

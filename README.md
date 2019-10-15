@@ -9,14 +9,15 @@
 
 > Bring the [Froala WYSIWYG Editor](https://www.froala.com/wysiwyg-editor)
 into an ember-cli project with this addon. Besides importing the required
-Froala Editor files, the _main_ part of this addon is the `{{froala-editor}}`
+Froala Editor files, the _main_ part of this addon is the `<FroalaEditor />`
 component. Checkout the [documentation Website](http://www.emberwysiwygeditor.com/)
 for installation, configuration, and usage details.
 
 
 ## Compatibility
 
-ember & ember-cli 2.15.0+
+ember 3.13+
+ember-cli 2.15.0+
 
 
 ## Installation
@@ -49,37 +50,18 @@ the available configuration options. Ex:
 
 ## Usage
 
-Take a look at the [documentation Website](http://www.emberwysiwygeditor.com/)
-for full usage details. But basically this addon comes with a few Ember
-Components and Helpers to use within your project templates.
-
-```hbs
-{{froala-editor}}
-{{froala-content}}
-```
-
-```hbs
-(froala-method)
-(merged-hash)
-```
+TBD
 
 
 ## Test Helper
 
-This addon also provides a convenient test helper to interact with the editor
-in acceptance tests. It functions similar to the [ember provided `fillIn()` test helper](https://github.com/emberjs/ember-test-helpers/blob/master/API.md#fillin).
-Take a look at the [Testing page on the docs Website](http://www.emberwysiwygeditor.com/#/addon/test-helper)
-for more details.
-
-```js
-fillInFroalaEditor('#my-editor', '<p>Foobar</p>');
-```
+TBD
 
 
 ## License
 
-The `ember-froala-editor` project is under MIT license.
-However,in order to use Froala WYSIWYG HTML Editor plugin you should purchase a license for it.
+The `ember-froala-editor` project is under MIT license. However, in order
+to use Froala WYSIWYG HTML Editor plugin you must purchase a license for it.
 
 Froala Editor has [3 different licenses](http://froala.com/wysiwyg-editor/pricing) for commercial use.
 For details please see [License Agreement](http://froala.com/wysiwyg-editor/terms).
