@@ -22,13 +22,16 @@ export function captureEditorWrapper(callbackFunction) {
 export default class FroalaEditorComponent extends Component {
 
 
-  editor = null;
+  defaultOptions = {};
+
+
+  defaultEventCallbacks = {};
 
 
   @tracked content = null;
 
 
-  options = {};
+  editor = null;
 
 
   get fastboot() {
@@ -56,24 +59,46 @@ export default class FroalaEditorComponent extends Component {
   }
 
 
-  get classOptions() {
-    let options = {};
-    for (let propertyName in this) {
-      if (FroalaEditor.DEFAULTS.hasOwnProperty(propertyName)) {
-        options[propertyName] = this[propertyName];
+  get argumentEventCallbacks() {
+    let callbacks = {};
+
+    // Regex's used for replacing things in the name
+    const regexOnOrHtml = /^on-/g;
+    const regexHyphens  = /-/g;
+    const regexDots     = /\./g;
+
+    for (let argumentName in this.args) {
+
+      // Only names that start with on- are callbacks
+      if (argumentName.indexOf('on-') !== 0) {
+        continue;
       }
+
+      assert(
+        `<FroalaEditor> @${argumentName} event callback argument must be a function`,
+        typeof this.args[argumentName] === 'function'
+      );
+
+      // Convert the name to what the event name would be
+      let eventName = argumentName;
+      eventName = eventName.replace(regexOnOrHtml, '');
+      eventName = eventName.replace(regexHyphens, '.');
+
+      // Special use case for the 'popups.hide.[id]' event
+      // Ember usage would be '@on-popups-hide-id=(fn)'
+      // https://www.froala.com/wysiwyg-editor/docs/events#popups.show.[id]
+      if (eventName.indexOf('popups.hide.') === 0) {
+        let id = eventName.replace('popups.hide.', '');
+        id = id.replace(regexDots, '-'); // Convert back to hyphens
+        eventName = `popups.hide.[${id}]`;
+      }
+
+      // Wrap the callback to pass the editor in as the first argument
+      callbacks[eventName] = this.args[argumentName];
+
     }
-    return options;
-  }
 
-
-  get argumentCallbacks() {
-    return this.eventCallbacks(this.args);
-  }
-
-
-  get classCallbacks() {
-    return this.eventCallbacks(this);
+    return callbacks;
   }
 
 
@@ -82,8 +107,7 @@ export default class FroalaEditorComponent extends Component {
     return assign(
       {},
       config['ember-froala-editor'],
-      this.options,
-      this.classOptions,
+      this.defaultOptions,
       this.args.options,
       this.argumentOptions
     );
@@ -93,8 +117,8 @@ export default class FroalaEditorComponent extends Component {
   get combinedCallbacks() {
     return assign(
       {},
-      this.classCallbacks,
-      this.argumentCallbacks
+      this.defaultEventCallbacks,
+      this.argumentEventCallbacks
     );
   }
 
@@ -139,49 +163,6 @@ export default class FroalaEditorComponent extends Component {
       htmlSafe(args.content)
     );
 
-  }
-
-
-  eventCallbacks(source) {
-    let callbacks = {};
-
-    // Regex's used for replacing things in the name
-    const regexOnOrHtml = /^on-/g;
-    const regexHyphens  = /-/g;
-    const regexDots     = /\./g;
-
-    for (let sourceName in source) {
-
-      // Only names that start with on- are callbacks
-      if (sourceName.indexOf('on-') !== 0) {
-        continue;
-      }
-
-      assert(
-        `<FroalaEditor> @${sourceName} event callback argument must be a function`,
-        typeof source[sourceName] === 'function'
-      );
-
-      // Convert the name to what the event name would be
-      let eventName = sourceName;
-      eventName = eventName.replace(regexOnOrHtml, '');
-      eventName = eventName.replace(regexHyphens, '.');
-
-      // Special use case for the 'popups.hide.[id]' event
-      // Ember usage would be '@on-popups-hide-id=(fn)'
-      // https://www.froala.com/wysiwyg-editor/docs/events#popups.show.[id]
-      if (eventName.indexOf('popups.hide.') === 0) {
-        let id = eventName.replace('popups.hide.', '');
-        id = id.replace(regexDots, '-'); // Convert back to hyphens
-        eventName = `popups.hide.[${id}]`;
-      }
-
-      // Wrap the callback to pass the editor in as the first argument
-      callbacks[eventName] = source[sourceName];
-
-    }
-
-    return callbacks;
   }
 
 
