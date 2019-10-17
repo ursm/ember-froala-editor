@@ -47,12 +47,6 @@ module.exports = {
     this._super.included.apply( this, arguments );
 
 
-    // Do not import anything if in "fastboot mode"
-    if ( typeof FastBoot !== 'undefined' ) {
-      return;
-    }
-
-
     // For nested usage, build the options up through the entire tree,
     // with priority going up the tree and the "root" app always overriding
     let appOptions = {};
@@ -96,6 +90,12 @@ module.exports = {
 
     // Include the vendor shim to make froala-editor importable
     this.import( path.join( 'vendor', 'shims', 'froala-editor.js' ) );
+
+
+    // Do not import anything else if in "fastboot mode"
+    if ( typeof FastBoot !== 'undefined' ) {
+      return;
+    }
 
 
     // Bucket for import list / details
