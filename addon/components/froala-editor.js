@@ -31,6 +31,20 @@ export default class FroalaEditorComponent extends Component {
   options = {};
 
 
+  get fastboot() {
+    return getOwner(this).lookup('service:fastboot');
+  }
+
+
+  get fastbootContent() {
+    return (
+      isHTMLSafe(this.args.content) ?
+      this.args.content :
+      htmlSafe(this.args.content)
+    );
+  }
+
+
   get argumentOptions() {
     let options = {};
     for (let argumentName in this.args) {

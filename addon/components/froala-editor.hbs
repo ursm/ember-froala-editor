@@ -4,5 +4,9 @@
   {{did-update this.updateContent @content}}
   {{will-destroy this.destroyEditor}}
 >
-  {{this.content}}
+  {{#if this.fastboot.isFastboot}}
+    {{this.fastbootContent}}
+  {{else}}
+    {{this.content}}
+  {{/if}}
 </div>
