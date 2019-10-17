@@ -8,13 +8,13 @@ import { tracked } from '@glimmer/tracking';
 import FroalaEditor from 'froala-editor';
 
 
-export function captureEditorWrapper(callbackFunction) {
+export function captureEditorWrapper(callbackFunction, ...partial) {
   assert(
-    '<FroalaEditor> captureEditorWrapper() must have a function as the first argument',
+    '<FroalaEditor> captureEditorWrapper() requires a function as the first argument',
     typeof callbackFunction === 'function'
   );
   return function captureEditor(...args) {
-    return callbackFunction(this, ...args);
+    return callbackFunction(this, ...partial, ...args);
   };
 }
 
@@ -137,7 +137,7 @@ export default class FroalaEditorComponent extends Component {
     options.events = options.events || {};
 
     // Add the created callback to the proper initialization event
-    options.events[initEventName] = captureEditorWrapper(this.createdEditor);
+    options.events[initEventName] = captureEditorWrapper(this.createdEditor, initEventName);
 
     return options;
   }
@@ -171,7 +171,7 @@ export default class FroalaEditorComponent extends Component {
   }
 
 
-  @action createdEditor(editor, ...args) {
+  @action createdEditor(editor, initEventName, ...args) {
 
     // Save the editor instance now that methods can be called
     this.editor = editor;
@@ -183,13 +183,6 @@ export default class FroalaEditorComponent extends Component {
 
     // Add destroyed callback so the editor can be unreferenced
     this.editor.events.on('destroy', captureEditorWrapper(this.destroyedEditor));
-
-    // Determine which event was used for this callback
-    let initEventName = (
-      this.combinedOptions.initOnClick ?
-      'initializationDelayed' :
-      'initialized'
-    );
 
     // Since we overrode this event callback,
     // call the passed in callback(s) if there are any
