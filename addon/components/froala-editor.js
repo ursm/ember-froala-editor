@@ -4,7 +4,6 @@ import { action } from '@ember/object';
 import { assign } from '@ember/polyfills';
 import { isHTMLSafe, htmlSafe } from '@ember/template';
 import Component from '@glimmer/component';
-import { tracked } from '@glimmer/tracking';
 import FroalaEditor from 'froala-editor';
 
 
@@ -28,9 +27,6 @@ export default class FroalaEditorComponent extends Component {
   defaultEventCallbacks = {};
 
 
-  @tracked content = null;
-
-
   editor = null;
 
 
@@ -39,7 +35,7 @@ export default class FroalaEditorComponent extends Component {
   }
 
 
-  get fastbootContent() {
+  get content() {
     return (
       isHTMLSafe(this.args.content) ?
       this.args.content :
@@ -147,20 +143,12 @@ export default class FroalaEditorComponent extends Component {
     super(owner, args);
 
     assert(
-      '<FroalaEditor> @content agrument must be a string or SafeString from htmlSafe()',
+      '<FroalaEditor> @content argument must be a string or SafeString from htmlSafe()',
       (typeof args.content === 'string' || typeof args.content === 'undefined' || isHTMLSafe(args.content))
     );
     assert(
       '<FroalaEditor> @options argument must be an object',
       (typeof args.options === 'object' || typeof args.options === 'undefined')
-    );
-
-    // Set the initial content state,
-    // changes MUST go through `updateContent()`
-    this.content = (
-      isHTMLSafe(args.content) ?
-      args.content :
-      htmlSafe(args.content)
     );
 
   }
@@ -190,23 +178,24 @@ export default class FroalaEditorComponent extends Component {
       // Mimic default behavior by binding the editor instance to the called context
       this.combinedOptions.events[initEventName].bind(editor)(...args);
     }
-    if (this.combinedCallbacks.events && typeof this.combinedCallbacks.events[initEventName] === 'function') {
+    if (typeof this.combinedCallbacks[initEventName] === 'function') {
       // Mimic a typical on-* callback by passing in the editor as the first arg
-      this.combinedCallbacks.events[initEventName](editor, ...args);
+      this.combinedCallbacks[initEventName](editor, ...args);
     }
 
   }
 
 
   @action updateContent(element, [content]) {
+    let contentStr = (isHTMLSafe(content) ? content.toString() : content);
 
     // When the editor is available,
     // updates should go through `editor.html.set()`
     if (this.editor) {
 
       // Avoid recursive loop, check for changed content
-      if (this.editor.html.get() != content.toString()) {
-        this.editor.html.set(content.toString());
+      if (this.editor.html.get() != contentStr) {
+        this.editor.html.set(contentStr);
       }
 
     // When the editor is NOT available,
@@ -214,8 +203,8 @@ export default class FroalaEditorComponent extends Component {
     } else {
 
       // Avoid recursive loop, check for changed content
-      if (this.content.toString() != content.toString()) {
-        this.content = (isHTMLSafe(content) ? content : htmlSafe(content));
+      if (element.innerHTML != contentStr) {
+        element.innerHTML = contentStr;
       }
 
     }
@@ -223,7 +212,9 @@ export default class FroalaEditorComponent extends Component {
 
 
   @action destroyEditor(/*element*/) {
-    this.editor.destroy();
+    if (this.editor) {
+      this.editor.destroy();
+    }
   }
 
 

@@ -5,8 +5,8 @@
   {{will-destroy this.destroyEditor}}
 >
   {{#if this.fastboot.isFastboot}}
-    {{this.fastbootContent}}
-  {{else}}
     {{this.content}}
+  {{else}}
+    {{unbound this.content}}
   {{/if}}
 </div>
