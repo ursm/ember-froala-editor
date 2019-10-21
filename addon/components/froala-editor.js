@@ -194,7 +194,7 @@ export default class FroalaEditorComponent extends Component {
     if (this.editor) {
 
       // Avoid recursive loop, check for changed content
-      if (this.editor.html.get() != contentStr) {
+      if (this.editor.html.get() !== contentStr) {
         this.editor.html.set(contentStr);
       }
 
@@ -203,7 +203,7 @@ export default class FroalaEditorComponent extends Component {
     } else {
 
       // Avoid recursive loop, check for changed content
-      if (element.innerHTML != contentStr) {
+      if (element.innerHTML !== contentStr) {
         element.innerHTML = contentStr;
       }
 
