@@ -8,9 +8,7 @@ module('Integration | Helper | froala-arg', function(hooks) {
 
   test('bound editor context is returned to the callback as the first arg', function(assert) {
     let editor = { froala:'editor' };
-    let callback = function(editor) {
-      return editor;
-    }
+    let callback = editor => editor;
     assert.deepEqual(froalaArg([callback]).bind(editor)(), editor);
   });
 
@@ -18,9 +16,7 @@ module('Integration | Helper | froala-arg', function(hooks) {
   test('partial application parameters are applied', function(assert) {
     let editor = { froala:'editor' };
     let check = 'foobar';
-    let callback = function(editor, param1) {
-      return param1;
-    }
+    let callback = (editor, param1) => param1;
     assert.equal(froalaArg([callback, check]).bind(editor)(), check);
   });
 
@@ -28,9 +24,7 @@ module('Integration | Helper | froala-arg', function(hooks) {
   test('event arguments are applied', function(assert) {
     let editor = { froala:'editor' };
     let check = 'foobar';
-    let callback = function(editor, param1) {
-      return param1;
-    }
+    let callback = (editor, param1) => param1;
     assert.equal(froalaArg([callback]).bind(editor)(check), check);
   });
 
@@ -39,10 +33,15 @@ module('Integration | Helper | froala-arg', function(hooks) {
     let editor = { froala:'editor' };
     let check1 = 'foobar';
     let check2 = 'foobaz';
-    let callback = function(editor, param1, param2) {
-      return param2;
-    }
+    let callback = (editor, param1, param2) => param2;
     assert.equal(froalaArg([callback, check1]).bind(editor)(check2), check2);
+  });
+
+
+  test('calling the helper twice on the same callback asserts', function(assert) {
+    let callback1 = editor => editor;
+    let callback2 = froalaArg([callback1]);
+    assert.throws(() => froalaArg([callback2]));
   });
 
 

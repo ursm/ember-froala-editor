@@ -6,9 +6,14 @@ export function froalaArg([callback, ...partial]/*, hash*/) {
     '{{froala-arg}} helper requires a function as the first parameter',
     typeof callback === 'function'
   );
-  return function captureEditor(...args) {
+  let wrapper = function captureEditor(...args) {
     return callback(this, ...partial, ...args);
   };
+  assert(
+    '{{froala-arg}} helper should not be call twice on the same callback',
+    wrapper.toString() !== callback.toString()
+  );
+  return wrapper;
 }
 
 export default helper(froalaArg);
