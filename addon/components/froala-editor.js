@@ -4,18 +4,8 @@ import { action } from '@ember/object';
 import { assign } from '@ember/polyfills';
 import { isHTMLSafe, htmlSafe } from '@ember/template';
 import Component from '@glimmer/component';
+import { froalaArg } from 'ember-froala-editor/helpers/froala-arg';
 import FroalaEditor from 'froala-editor';
-
-
-export function captureEditorWrapper(callbackFunction, ...partial) {
-  assert(
-    '<FroalaEditor> captureEditorWrapper() requires a function as the first argument',
-    typeof callbackFunction === 'function'
-  );
-  return function captureEditor(...args) {
-    return callbackFunction(this, ...partial, ...args);
-  };
-}
 
 
 export default class FroalaEditorComponent extends Component {
@@ -133,7 +123,7 @@ export default class FroalaEditorComponent extends Component {
     options.events = options.events || {};
 
     // Add the created callback to the proper initialization event
-    options.events[initEventName] = captureEditorWrapper(this.createdEditor, initEventName);
+    options.events[initEventName] = froalaArg([this.createdEditor, initEventName]);
 
     return options;
   }
@@ -166,11 +156,11 @@ export default class FroalaEditorComponent extends Component {
 
     // Add event handler callbacks, passing in the editor as the first arg
     for (let eventName in this.combinedCallbacks) {
-      this.editor.events.on(eventName, captureEditorWrapper(this.combinedCallbacks[eventName]));
+      this.editor.events.on(eventName, froalaArg([this.combinedCallbacks[eventName]]));
     }
 
     // Add destroyed callback so the editor can be unreferenced
-    this.editor.events.on('destroy', captureEditorWrapper(this.destroyedEditor));
+    this.editor.events.on('destroy', froalaArg([this.destroyedEditor]));
 
     // Since we overrode this event callback,
     // call the passed in callback(s) if there are any
@@ -199,7 +189,7 @@ export default class FroalaEditorComponent extends Component {
       }
 
     // When the editor is NOT available,
-    // updates should go through the template
+    // updates should go through the DOM (directly)
     } else {
 
       // Avoid recursive loop, check for changed content
