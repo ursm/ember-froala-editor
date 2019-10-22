@@ -21,7 +21,7 @@ module('Integration | Helper | froala-html', function(hooks) {
   });
 
 
-  test('helper function called with explicitly passed in editor', async function(assert) {
+  test('helper function called with explicitly passed in editor', function(assert) {
     let editor = { // Mock an editor instance
       html: {
         get() {
@@ -33,7 +33,7 @@ module('Integration | Helper | froala-html', function(hooks) {
   });
 
 
-  test('helper function called with called context as the editor', async function(assert) {
+  test('helper function called with called context as the editor', function(assert) {
     let editor = { // Mock an editor instance
       html: {
         get() {
@@ -45,7 +45,7 @@ module('Integration | Helper | froala-html', function(hooks) {
   });
 
 
-  test('helper function called without any editor asserts', async function(assert) {
+  test('helper function called without any editor asserts', function(assert) {
     assert.throws(() => froalaHtml([]));
   });
 

@@ -6,7 +6,7 @@ module('Integration | Helper | froala-arg', function(hooks) {
   setupRenderingTest(hooks);
 
 
-  test('bound editor context is returned to the callback as the first arg', async function(assert) {
+  test('bound editor context is returned to the callback as the first arg', function(assert) {
     let editor = { froala:'editor' };
     let callback = function(editor) {
       return editor;
@@ -15,7 +15,7 @@ module('Integration | Helper | froala-arg', function(hooks) {
   });
 
 
-  test('partial application parameters are applied', async function(assert) {
+  test('partial application parameters are applied', function(assert) {
     let editor = { froala:'editor' };
     let check = 'foobar';
     let callback = function(editor, param1) {
@@ -25,7 +25,7 @@ module('Integration | Helper | froala-arg', function(hooks) {
   });
 
 
-  test('event arguments are applied', async function(assert) {
+  test('event arguments are applied', function(assert) {
     let editor = { froala:'editor' };
     let check = 'foobar';
     let callback = function(editor, param1) {
@@ -35,7 +35,7 @@ module('Integration | Helper | froala-arg', function(hooks) {
   });
 
 
-  test('partial application parameters and event arguments are applied', async function(assert) {
+  test('partial application parameters and event arguments are applied', function(assert) {
     let editor = { froala:'editor' };
     let check1 = 'foobar';
     let check2 = 'foobaz';
@@ -43,6 +43,11 @@ module('Integration | Helper | froala-arg', function(hooks) {
       return param2;
     }
     assert.equal(froalaArg([callback, check1]).bind(editor)(check2), check2);
+  });
+
+
+  test('helper function called without a callback asserts', function(assert) {
+    assert.throws(() => froalaArg([]));
   });
 
 
