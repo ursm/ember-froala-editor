@@ -5,6 +5,7 @@ import { assign } from '@ember/polyfills';
 import { isHTMLSafe, htmlSafe } from '@ember/template';
 import Component from '@glimmer/component';
 import { froalaArg } from 'ember-froala-editor/helpers/froala-arg';
+import { froalaHtml } from 'ember-froala-editor/helpers/froala-html';
 import FroalaEditor from 'froala-editor';
 
 
@@ -18,6 +19,25 @@ export default class FroalaEditorComponent extends Component {
 
 
   editor = null;
+
+
+  get update() {
+    return this.args.update;
+  }
+
+
+  get updateEvent() {
+    return this.args.updateEvent || 'contentChanged';
+  }
+
+
+  get returnSafeString() {
+    return (
+      typeof this.args.returnSafeString === 'undefined' ?
+      isHTMLSafe(this.args.content) :
+      this.args.returnSafeString
+    );
+  }
 
 
   get fastboot() {
@@ -131,16 +151,26 @@ export default class FroalaEditorComponent extends Component {
 
   constructor(owner, args) {
     super(owner, args);
-
     assert(
       '<FroalaEditor> @content argument must be a string or SafeString from htmlSafe()',
       (typeof args.content === 'string' || typeof args.content === 'undefined' || isHTMLSafe(args.content))
     );
     assert(
+      '<FroalaEditor> @update argument must be a function',
+      (typeof args.update === 'function' || typeof args.update === 'undefined')
+    );
+    assert(
+      '<FroalaEditor> @updateEvent argument must be a string',
+      (typeof args.updateEvent === 'string' || typeof args.updateEvent === 'undefined')
+    );
+    assert(
+      '<FroalaEditor> @returnSafeString argument must be a boolean',
+      (typeof args.returnSafeString === 'boolean' || typeof args.returnSafeString === 'undefined')
+    );
+    assert(
       '<FroalaEditor> @options argument must be an object',
       (typeof args.options === 'object' || typeof args.options === 'undefined')
     );
-
   }
 
 
@@ -154,9 +184,18 @@ export default class FroalaEditorComponent extends Component {
     // Save the editor instance now that methods can be called
     this.editor = editor;
 
+    // Add a reference to this component instance,
+    // needed for the {{froala-html}} helper
+    this.editor.emberComponent = this;
+
     // Add event handler callbacks, passing in the editor as the first arg
     for (let eventName in this.combinedCallbacks) {
       this.editor.events.on(eventName, froalaArg([this.combinedCallbacks[eventName]]));
+    }
+
+    // Add update callback when a setter is passed in
+    if (this.update) {
+      this.editor.events.on(this.updateEvent, froalaHtml([this.update]), true); // true = run first
     }
 
     // Add destroyed callback so the editor can be unreferenced
@@ -202,6 +241,9 @@ export default class FroalaEditorComponent extends Component {
 
 
   @action destroyEditor(/*element*/) {
+    // Guard against someone calling editor.destroy()
+    // from an event callback, which destroyedEditor()
+    // would still trigger and unreference the editor
     if (this.editor) {
       this.editor.destroy();
     }
