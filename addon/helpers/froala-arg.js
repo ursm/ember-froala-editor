@@ -6,7 +6,7 @@ export function froalaArg([callback, ...partial]/*, hash*/) {
     '{{froala-arg}} helper requires a function as the first parameter',
     typeof callback === 'function'
   );
-  let wrapper = function captureEditor(...args) {
+  let wrapper = function froalaArgClosure(...args) {
     return callback(this, ...partial, ...args);
   };
   assert(

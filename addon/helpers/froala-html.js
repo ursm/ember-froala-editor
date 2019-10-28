@@ -3,14 +3,21 @@ import { assert } from '@ember/debug';
 import { htmlSafe } from '@ember/template';
 
 export function froalaHtml([callback, ...partial]/*, hash*/) {
+
   assert(
     '{{froala-html}} helper requires a function as the first parameter',
     typeof callback === 'function'
   );
-  return function returnHtml(...args) {
+
+  return function froalaHtmlClosure(...args) {
+
     // Editor might be passed in as the first arg if also wrapped with {{froala-arg}}
     // Note: Shift editor off args so it isn't "double passed" when args are spread on the callback
-    let editor = (typeof args[0] === 'object' ? args.shift() : this);
+    let editor = (
+      typeof args[0] === 'object' && args[0].emberComponent ?
+      args.shift() :
+      this
+    );
 
     assert(
       '{{froala-html}} helper cannot determine the editor instance',
@@ -26,6 +33,7 @@ export function froalaHtml([callback, ...partial]/*, hash*/) {
     // Call the setter, passing in the html first then all others
     return callback(html, editor, ...partial, ...args);
   };
+
 }
 
 export default helper(froalaHtml);
