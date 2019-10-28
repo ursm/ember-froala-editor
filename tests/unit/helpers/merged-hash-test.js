@@ -1,9 +1,9 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
+import { setupTest } from 'ember-qunit';
 import { mergedHash } from 'ember-froala-editor/helpers/merged-hash';
 
-module('Integration | Helper | merged-hash', function(hooks) {
-  setupRenderingTest(hooks);
+module('Unit | Helper | merged-hash', function(hooks) {
+  setupTest(hooks);
 
   test('returns a passed in hash param', function(assert) {
     let hash = {foo:'bar'};
@@ -42,5 +42,6 @@ module('Integration | Helper | merged-hash', function(hooks) {
     let result = mergedHash([{foo:1},{bar:2}], {baz:3,raz:4});
     assert.deepEqual(result, {foo:1, bar:2, baz:3, raz:4});
   });
+
 
 });

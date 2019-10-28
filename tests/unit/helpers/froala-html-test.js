@@ -1,11 +1,10 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
-import { froalaHtml } from 'ember-froala-editor/helpers/froala-html';
+import { setupTest } from 'ember-qunit';
 import { isHTMLSafe } from '@ember/template';
+import { froalaHtml } from 'ember-froala-editor/helpers/froala-html';
 
-module('Integration | Helper | froala-html', function(hooks) {
-  setupRenderingTest(hooks);
-
+module('Unit | Helper | froala-html', function(hooks) {
+  setupTest(hooks);
 
   test('helper function called with explicitly passed in editor', function(assert) {
     let html = '<p>Foobar</p>';
@@ -21,7 +20,6 @@ module('Integration | Helper | froala-html', function(hooks) {
     let closure = froalaHtml([setter]);
     closure(editor);
   });
-
 
   test('helper function called with called context as the editor', function(assert) {
     let html = '<p>Foobar</p>';
@@ -39,7 +37,6 @@ module('Integration | Helper | froala-html', function(hooks) {
     closure();
   });
 
-
   test('additional arguments passed into the helper are available to the setter', function(assert) {
     let html = '<p>Foobar</p>';
     let editor = { // Mock an editor instance
@@ -56,7 +53,6 @@ module('Integration | Helper | froala-html', function(hooks) {
     closure(editor);
   });
 
-
   test('additional arguments passed into the closure are available to the setter', function(assert) {
     let html = '<p>Foobar</p>';
     let editor = { // Mock an editor instance
@@ -72,7 +68,6 @@ module('Integration | Helper | froala-html', function(hooks) {
     let closure = froalaHtml([setter]);
     closure(editor, html);
   });
-
 
   test('additional arguments passed into the helper and closure are available to the setter', function(assert) {
     assert.expect(2);
@@ -94,7 +89,6 @@ module('Integration | Helper | froala-html', function(hooks) {
     closure(editor, html);
   });
 
-
   test('helper wraps the html in a SafeString when the component returnSafeString is true', function(assert) {
     let html = '<p>Foobar</p>';
     let editor = { // Mock an editor instance
@@ -113,18 +107,15 @@ module('Integration | Helper | froala-html', function(hooks) {
     closure(editor);
   });
 
-
   test('helper function called without any editor asserts', function(assert) {
     let setter = () => {};
     let closure = froalaHtml([setter]);
     assert.throws(() => closure());
   });
 
-
   test('helper function called without any closure asserts', function(assert) {
     // Ex: {{froala-html}}
     assert.throws(() => froalaHtml([]));
   });
-
 
 });

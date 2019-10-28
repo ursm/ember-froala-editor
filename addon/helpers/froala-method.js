@@ -46,7 +46,7 @@ export function froalaMethod([methodName, ...helperParams], helperHash) {
       let eventPos = parseInt(helperHash[propName]);
 
       // If the parameter "name" was found in the helperParams,
-      // and the relative closureParams contains something at that position,
+      // and the relative arguments contains something at that position,
       // then go ahead and replace the param value...
       if (helperPos !== -1 && closureParams.length >= eventPos) {
         methodParams[helperPos] = closureParams[eventPos - 1];
