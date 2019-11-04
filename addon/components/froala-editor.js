@@ -12,10 +12,7 @@ import FroalaEditor from 'froala-editor';
 export default class FroalaEditorComponent extends Component {
 
 
-  defaultOptions = {};
-
-
-  defaultEventCallbacks = {};
+  options = {};
 
 
   editor = null;
@@ -54,6 +51,17 @@ export default class FroalaEditorComponent extends Component {
   }
 
 
+  get propertyOptions() {
+    let options = {};
+    for (let propertyName in this) {
+      if (FroalaEditor.DEFAULTS.hasOwnProperty(propertyName)) {
+        options[propertyName] = this[propertyName];
+      }
+    }
+    return options;
+  }
+
+
   get argumentOptions() {
     let options = {};
     for (let argumentName in this.args) {
@@ -65,7 +73,53 @@ export default class FroalaEditorComponent extends Component {
   }
 
 
-  get argumentEventCallbacks() {
+  get propertyCallbacks() {
+    let callbacks = {};
+
+    // Regex's used for replacing things in the name
+    const regexOnOrHtml = /^on-/g;
+    const regexHyphens  = /-/g;
+    const regexDots     = /\./g;
+
+    // Class methods are not available in a `for (name in this)` loop
+    let propertyNames = Object.getOwnPropertyNames(this.__proto__);
+
+    for (let i in propertyNames) {
+      let propertyName = propertyNames[i];
+
+      // Only names that start with on- are callbacks
+      if (propertyName.indexOf('on-') !== 0) {
+        continue;
+      }
+
+      assert(
+        `<FroalaEditor> @${propertyName} event callback argument must be a function`,
+        typeof this[propertyName] === 'function'
+      );
+
+      // Convert the name to what the event name would be
+      let eventName = propertyName;
+      eventName = eventName.replace(regexOnOrHtml, '');
+      eventName = eventName.replace(regexHyphens, '.');
+
+      // Special use case for the 'popups.hide.[id]' event
+      // Ember usage would be '@on-popups-hide-id=(fn)'
+      // https://www.froala.com/wysiwyg-editor/docs/events#popups.show.[id]
+      if (eventName.indexOf('popups.hide.') === 0) {
+        let id = eventName.replace('popups.hide.', '');
+        id = id.replace(regexDots, '-'); // Convert back to hyphens
+        eventName = `popups.hide.[${id}]`;
+      }
+
+      // Wrap the callback to pass the editor in as the first argument
+      callbacks[eventName] = this[propertyName];
+    }
+
+    return callbacks;
+  }
+
+
+  get argumentCallbacks() {
     let callbacks = {};
 
     // Regex's used for replacing things in the name
@@ -101,7 +155,6 @@ export default class FroalaEditorComponent extends Component {
 
       // Wrap the callback to pass the editor in as the first argument
       callbacks[eventName] = this.args[argumentName];
-
     }
 
     return callbacks;
@@ -113,7 +166,8 @@ export default class FroalaEditorComponent extends Component {
     return assign(
       {},
       config['ember-froala-editor'],
-      this.defaultOptions,
+      this.options,
+      this.propertyOptions,
       this.args.options,
       this.argumentOptions
     );
@@ -123,8 +177,8 @@ export default class FroalaEditorComponent extends Component {
   get combinedCallbacks() {
     return assign(
       {},
-      this.defaultEventCallbacks,
-      this.argumentEventCallbacks
+      this.propertyCallbacks,
+      this.argumentCallbacks
     );
   }
 
@@ -199,7 +253,7 @@ export default class FroalaEditorComponent extends Component {
     }
 
     // Add destroyed callback so the editor can be unreferenced
-    this.editor.events.on('destroy', froalaArg([this.destroyedEditor]));
+    this.editor.events.on('destroy', froalaArg([this.destroyedEditor]), false); // false = run last
 
     // Since we overrode this event callback,
     // call the passed in callback(s) if there are any
