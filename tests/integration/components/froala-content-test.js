@@ -8,12 +8,14 @@ module('Integration | Component | froala-content', function(hooks) {
 
   test('.fr-view class is applied', async function(assert) {
     await render(hbs`<FroalaContent />`);
-    assert.equal(this.element.querySelector('div').getAttribute('class'), 'fr-view');
+    assert.dom('div').hasClass('fr-view');
   });
 
   test('custom class names are applied', async function(assert) {
+    assert.expect(2);
     await render(hbs`<FroalaContent class="foobar" />`);
-    assert.equal(this.element.querySelector('div').getAttribute('class'), 'foobar fr-view');
+    assert.dom('div').hasClass('fr-view');
+    assert.dom('div').hasClass('foobar');
   });
 
   test('@content is output inside the block', async function(assert) {
