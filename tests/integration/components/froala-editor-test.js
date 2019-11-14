@@ -3,6 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { isHTMLSafe, htmlSafe } from '@ember/template';
 import { render, clearRender, settled, click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { fillInFroalaEditor } from 'ember-froala-editor/test-support';
 
 module('Integration | Component | froala-editor', function(hooks) {
   setupRenderingTest(hooks);
@@ -358,6 +359,28 @@ module('Integration | Component | froala-editor', function(hooks) {
         @on-initialized={{this.runAssert}}
       />
     `);
+
+  });
+
+
+  test('fillInFroalaEditor() triggers the @update callback', async function(assert) {
+
+    this.set('runAssert', () => {
+      assert.ok(true);
+    });
+
+    await render(hbs`
+      <FroalaEditor
+        @update={{this.runAssert}}
+        id="myEditor"
+      />
+    `);
+
+    await settled();
+
+    await fillInFroalaEditor('#myEditor', '<p>Foobar</p>');
+
+    await settled();
 
   });
 

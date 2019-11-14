@@ -302,12 +302,50 @@ you must create your own helper to re-export the helper from this addon.
 
 ### `fillInFroalaEditor()` Test Helper
 
-TBD
+Test helper to best simulate content within the editor changing. It uses the
+[`fillIn()` helper provided by `ember-test-helpers`][22] but just ensures the
+correct DOM element is targeted. It requires a selector (string) as the first
+argument and HTML (string or [SafeString][14]) as the second argument. As an
+async function, you should `await` the results before continuing with your test.
+
+```js
+import { fillInFroalaEditor } from 'ember-froala-editor/test-support';
+await fillInFroalaEditor('#editorId', '<p>HTML</p>');
+```
 
 
 ### `getInFroalaEditor()` Test Helper
 
-TBD
+Test helper that grabs the `innerHTML` of the editor content, simple as that.
+
+```js
+import { getInFroalaEditor } from 'ember-froala-editor/test-support';
+let content = getInFroalaEditor('#editorId');
+```
+
+So putting both of these test helpers together, an [Acceptance Test][18] might
+look something like this;
+
+```js
+import { module, test } from 'qunit';
+import { visit } from '@ember/test-helpers';
+import { setupApplicationTest } from 'ember-qunit';
+import { fillInFroalaEditor, getInFroalaEditor } from 'ember-froala-editor/test-support';
+
+module('Acceptance | FroalaEditor', function(hooks) {
+  setupApplicationTest(hooks);
+
+  test('<FroalaEditor> properly updates when content is filled in', async function(assert) {
+    assert.expect(2);
+
+    await visit('/');
+    assert.equal(getInFroalaEditor('#editor'), '<p>Foobar</p>');
+
+    await fillInFroalaEditor('#editor', '<p>Foobaz</p>');
+    assert.equal(getInFroalaEditor('#editor'), '<p>Foobaz</p>');
+  });
+});
+```
 
 
 Defaults for `<FroalaEditor>` component
@@ -402,8 +440,8 @@ export default {
 Upgrading from 2.x
 ------------------------------------------------------------------------------
 
-In addition to the [Froala Editor changes][19] itself, this addon has changes
-between 2.x and 3.x. Mainly, the addon has been updated to use [Ember Octane][18]
+In addition to the [Froala Editor changes][20] itself, this addon has changes
+between 2.x and 3.x. Mainly, the addon has been updated to use [Ember Octane][19]
 features and programing models. Here are the addon changes between 2.x and 3.x:
 
 #### jQuery no longer a required dependency
@@ -573,7 +611,7 @@ function callback(editor, ...args) {
 #### `tagName` no longer supported (at the moment)
 The `{{froala-editor}}` results in a `<div>` element but that previously could
 be changed with the `tagName` attribute. That is not supported out of the box
-with Glimmer Components but is [being worked on with an approved RFC][20].
+with Glimmer Components but is [being worked on with an approved RFC][21].
 
 #### Editor is no longer "wrapped"
 Previously the `{{froala-editor}}` was wrapped in two `<div>`'s, once with the
@@ -713,6 +751,8 @@ For details please see [License Agreement](http://froala.com/wysiwyg-editor/term
 [15]: https://api.emberjs.com/ember/release/functions/@ember%2Fpolyfills/assign
 [16]: https://api.emberjs.com/ember/release/classes/String/methods/camelize?anchor=classify
 [17]: https://guides.emberjs.com/release/applications/initializers/#toc_application-initializers
-[18]: https://emberjs.com/editions/octane/
-[19]: https://www.froala.com/wysiwyg-editor/changelog
-[20]: https://github.com/emberjs/rfcs/blob/master/text/0389-dynamic-tag-names.md
+[18]: https://guides.emberjs.com/release/testing/acceptance/
+[19]: https://emberjs.com/editions/octane/
+[20]: https://www.froala.com/wysiwyg-editor/changelog
+[21]: https://github.com/emberjs/rfcs/blob/master/text/0389-dynamic-tag-names.md
+[22]: https://github.com/emberjs/ember-test-helpers/blob/master/API.md#fillin
