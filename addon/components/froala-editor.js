@@ -93,7 +93,7 @@ export default class FroalaEditorComponent extends Component {
       }
 
       assert(
-        `<FroalaEditor> @${propertyName} event callback argument must be a function`,
+        `<FroalaEditor> ${propertyName} event callback property must be a function`,
         typeof this[propertyName] === 'function'
       );
 
@@ -235,12 +235,9 @@ export default class FroalaEditorComponent extends Component {
 
   @action createdEditor(editor, initEventName, ...args) {
 
-    // Save the editor instance now that methods can be called
+    // Add a reference to each other so they accessible from either
+    editor.emberComponent = this;
     this.editor = editor;
-
-    // Add a reference to this component instance,
-    // needed for the {{froala-html}} helper
-    this.editor.emberComponent = this;
 
     // Add event handler callbacks, passing in the editor as the first arg
     for (let eventName in this.combinedCallbacks) {
@@ -270,15 +267,15 @@ export default class FroalaEditorComponent extends Component {
 
 
   @action updateContent(element, [content]) {
-    let contentStr = (isHTMLSafe(content) ? content.toString() : content);
+    let html = (isHTMLSafe(content) ? content.toString() : content);
 
     // When the editor is available,
     // updates should go through `editor.html.set()`
     if (this.editor) {
 
       // Avoid recursive loop, check for changed content
-      if (this.editor.html.get() !== contentStr) {
-        this.editor.html.set(contentStr);
+      if (this.editor.html.get() !== html) {
+        this.editor.html.set(html);
       }
 
     // When the editor is NOT available,
@@ -286,8 +283,8 @@ export default class FroalaEditorComponent extends Component {
     } else {
 
       // Avoid recursive loop, check for changed content
-      if (element.innerHTML !== contentStr) {
-        element.innerHTML = contentStr;
+      if (element.innerHTML !== html) {
+        element.innerHTML = html;
       }
 
     }
@@ -298,6 +295,7 @@ export default class FroalaEditorComponent extends Component {
     // Guard against someone calling editor.destroy()
     // from an event callback, which destroyedEditor()
     // would still trigger and unreference the editor
+    // before this callback had a chance to run
     if (this.editor) {
       this.editor.destroy();
     }
