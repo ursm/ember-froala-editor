@@ -1,3 +1,7 @@
 import Component from '@glimmer/component';
+import { setComponentTemplate } from '@ember/component';
+import layout from '../templates/components/froala-content';
 
-export default class FroalaContentComponent extends Component {}
+export class FroalaContentComponent extends Component {}
+
+export default setComponentTemplate(layout, FroalaContentComponent);

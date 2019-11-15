@@ -1,4 +1,5 @@
 import { getOwner } from '@ember/application';
+import { setComponentTemplate } from '@ember/component';
 import { assert } from '@ember/debug';
 import { action } from '@ember/object';
 import { assign } from '@ember/polyfills';
@@ -7,9 +8,10 @@ import Component from '@glimmer/component';
 import { froalaArg } from 'ember-froala-editor/helpers/froala-arg';
 import { froalaHtml } from 'ember-froala-editor/helpers/froala-html';
 import FroalaEditor from 'froala-editor';
+import layout from '../templates/components/froala-editor';
 
 
-export default class FroalaEditorComponent extends Component {
+export class FroalaEditorComponent extends Component {
 
 
   options = {};
@@ -297,3 +299,6 @@ export default class FroalaEditorComponent extends Component {
 
 
 }
+
+
+export default setComponentTemplate(layout, FroalaEditorComponent);
