@@ -267,6 +267,27 @@ In the above example, the "on-save-error" event callback would have received
 and told it to use the second argument, which is `error`.
 
 
+### `{{html-safe}}` Template Helper
+
+Since the `<FroalaEditor>` requires that `@content` be a SafeString from
+[`htmlSafe()`][14], this helper can provide a way to convert a content *string*
+when passing to the editor component. However, you should also sanitize the
+content going in to guard against XSS exploits.
+
+Note: This helper is **NOT** automatically imported into the app. Rather,
+you must create your own helper to re-export the helper from this addon.
+
+1. `ember generate helper html-safe`
+2. Change `app/helpers/html-safe.js` to `export { default } from 'ember-froala-editor/helpers/html-safe';`
+3. Use `{{html-safe}}` in your app templates
+
+```hbs
+<FroalaEditor
+  @content={{html-safe this.content}}
+/>
+```
+
+
 ### `{{merged-hash}}` Template Helper
 
 This helper is a little out-of-scope for this addon, but can be very useful
