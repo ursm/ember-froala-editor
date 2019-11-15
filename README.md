@@ -288,6 +288,29 @@ you must create your own helper to re-export the helper from this addon.
 ```
 
 
+### `{{to-string}}` Template Helper
+
+Since the `<FroalaEditor>` requires that `@content` to be a SafeString, it will
+also return a SafeString from the `@update` callback (and any callbacks that
+use the `{{froala-html}}` helper). This helper will convert that SafeString
+back to a normal string. However, you should also sanitize the content coming
+back to guard against XSS exploits.
+
+Note: This helper is **NOT** automatically imported into the app. Rather,
+you must create your own helper to re-export the helper from this addon.
+
+1. `ember generate helper to-string`
+2. Change `app/helpers/to-string.js` to `export { default } from 'ember-froala-editor/helpers/to-string';`
+3. Use `{{to-string}}` in your app templates
+
+```hbs
+<FroalaEditor
+  @content={{html-safe this.content}}
+  @update={{to-string (fn (mut this.content))}}
+/>
+```
+
+
 ### `{{merged-hash}}` Template Helper
 
 This helper is a little out-of-scope for this addon, but can be very useful
