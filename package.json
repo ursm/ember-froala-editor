@@ -41,17 +41,14 @@
   },
   "dependencies": {
     "@ember/render-modifiers": "^1.0.2",
-    "@glimmer/component": "^1.0.0-beta.1",
-    "ember-angle-bracket-invocation-polyfill": "^2.0.2",
     "ember-cli-babel": "^7.12.0",
     "ember-cli-htmlbars": "^4.0.8",
-    "ember-decorators-polyfill": "^1.1.1",
-    "ember-modifier-manager-polyfill": "^1.2.0",
     "froala-editor": "^3.0.6"
   },
   "devDependencies": {
     "@ember/edition-utils": "^1.1.1",
     "@ember/optional-features": "^1.1.0",
+    "@glimmer/component": "^1.0.0-beta.2",
     "babel-eslint": "^10.0.3",
     "broccoli-asset-rev": "^3.0.0",
     "ember-cli": "~3.14.0",
@@ -82,7 +79,7 @@
     "configPath": "tests/dummy/config",
     "demoURL": "http://www.emberwysiwygeditor.com/",
     "versionCompatibility": {
-      "ember": ">=2.12.0"
+      "ember": ">=3.13.0"
     }
   }
 }
