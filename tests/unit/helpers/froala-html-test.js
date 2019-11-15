@@ -9,7 +9,7 @@ module('Unit | Helper | froala-html', function(hooks) {
   test('helper function called with explicitly passed in editor', function(assert) {
     let html = '<p>Foobar</p>';
     let editor = { // Mock an editor instance
-      emberComponent: {}, // Added by <FroalaEditor>
+      component: {}, // Added by <FroalaEditor>
       html: {
         get() {
           return html;
@@ -24,7 +24,7 @@ module('Unit | Helper | froala-html', function(hooks) {
   test('helper function called with called context as the editor', function(assert) {
     let html = '<p>Foobar</p>';
     let editor = { // Mock an editor instance
-      emberComponent: {}, // Added by <FroalaEditor>
+      component: {}, // Added by <FroalaEditor>
       html: {
         get() {
           return html;
@@ -40,7 +40,7 @@ module('Unit | Helper | froala-html', function(hooks) {
   test('additional arguments passed into the helper are available to the setter', function(assert) {
     let html = '<p>Foobar</p>';
     let editor = { // Mock an editor instance
-      emberComponent: {}, // Added by <FroalaEditor>
+      component: {}, // Added by <FroalaEditor>
       html: {
         get() {
           return html;
@@ -56,7 +56,7 @@ module('Unit | Helper | froala-html', function(hooks) {
   test('additional arguments passed into the closure are available to the setter', function(assert) {
     let html = '<p>Foobar</p>';
     let editor = { // Mock an editor instance
-      emberComponent: {}, // Added by <FroalaEditor>
+      component: {}, // Added by <FroalaEditor>
       html: {
         get() {
           return html;
@@ -73,7 +73,7 @@ module('Unit | Helper | froala-html', function(hooks) {
     assert.expect(2);
     let html = '<p>Foobar</p>';
     let editor = { // Mock an editor instance
-      emberComponent: {}, // Added by <FroalaEditor>
+      component: {}, // Added by <FroalaEditor>
       html: {
         get() {
           return html;
@@ -92,7 +92,7 @@ module('Unit | Helper | froala-html', function(hooks) {
   test('helper wraps the html in a SafeString when the component returnSafeString is true', function(assert) {
     let html = '<p>Foobar</p>';
     let editor = { // Mock an editor instance
-      emberComponent: { // Added by <FroalaEditor>
+      component: { // Added by <FroalaEditor>
         returnSafeString: true
       },
       html: {

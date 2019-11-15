@@ -13,7 +13,7 @@ module('Unit | Helper | froala-method', function(hooks) {
   test('method closure works when editor is bound', function(assert) {
     let html = '<p>Foobar</p>';
     let editor = { // Mock an editor instance
-      emberComponent: {}, // Added by <FroalaEditor>
+      component: {}, // Added by <FroalaEditor>
       html: {
         get() {
           return html;
@@ -27,7 +27,7 @@ module('Unit | Helper | froala-method', function(hooks) {
   test('method closure works when editor is passed in', function(assert) {
     let html = '<p>Foobar</p>';
     let editor = { // Mock an editor instance
-      emberComponent: {}, // Added by <FroalaEditor>
+      component: {}, // Added by <FroalaEditor>
       html: {
         get() {
           return html;
@@ -42,7 +42,7 @@ module('Unit | Helper | froala-method', function(hooks) {
   test('arguments passed into the helper are applied to the method', function(assert) {
     let helperParam = 'foobar';
     let editor = { // Mock an editor instance
-      emberComponent: {}, // Added by <FroalaEditor>
+      component: {}, // Added by <FroalaEditor>
       callback(methodParam) {
         assert.equal(methodParam, helperParam);
       }
@@ -55,7 +55,7 @@ module('Unit | Helper | froala-method', function(hooks) {
   test('arguments replaced with event callback arguments', function(assert) {
     let eventParam = 'foobar';
     let editor = { // Mock an editor instance
-      emberComponent: {}, // Added by <FroalaEditor>
+      component: {}, // Added by <FroalaEditor>
       callback(methodParam) {
         assert.equal(methodParam, eventParam);
       }

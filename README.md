@@ -584,7 +584,7 @@ function callback(component, ...params) {
 **To**
 ```js
 function callback(editor, ...params) {
-  let component = editor.emberComponent;
+  let component = editor.component;
 }
 ```
 

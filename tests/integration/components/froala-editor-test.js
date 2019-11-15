@@ -1,9 +1,10 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { isHTMLSafe, htmlSafe } from '@ember/template';
-import { render, clearRender, settled, click } from '@ember/test-helpers';
+import { render, clearRender, settled, click, find, waitUntil } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { fillInFroalaEditor } from 'ember-froala-editor/test-support';
+import FroalaEditor from 'froala-editor';
 
 module('Integration | Component | froala-editor', function(hooks) {
   setupRenderingTest(hooks);
@@ -381,6 +382,25 @@ module('Integration | Component | froala-editor', function(hooks) {
     await fillInFroalaEditor('#myEditor', '<p>Foobar</p>');
 
     await settled();
+
+  });
+
+
+  test('FroalaEditor does not have a component property', async function(assert) {
+
+    await render(hbs`<div id="editor"><p>Foobar</p></div>`);
+
+    let element = find('#editor');
+
+    let editor = null;
+
+    new FroalaEditor(element, {}, function() {
+      editor = this;
+    });
+
+    await waitUntil(() => editor !== null);
+
+    assert.equal(typeof editor.component, 'undefined');
 
   });
 

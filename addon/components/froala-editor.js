@@ -197,7 +197,7 @@ export default class FroalaEditorComponent extends Component {
     options.events = options.events || {};
 
     // Add the created callback to the proper initialization event
-    options.events[initEventName] = froalaArg([this.createdEditor, initEventName]);
+    options.events[initEventName] = froalaArg([this.setupEditor, initEventName]);
 
     return options;
   }
@@ -233,10 +233,10 @@ export default class FroalaEditorComponent extends Component {
   }
 
 
-  @action createdEditor(editor, initEventName, ...args) {
+  @action setupEditor(editor, initEventName, ...args) {
 
     // Add a reference to each other so they accessible from either
-    editor.emberComponent = this;
+    editor.component = this;
     this.editor = editor;
 
     // Add event handler callbacks, passing in the editor as the first arg
@@ -250,7 +250,7 @@ export default class FroalaEditorComponent extends Component {
     }
 
     // Add destroyed callback so the editor can be unreferenced
-    this.editor.events.on('destroy', froalaArg([this.destroyedEditor]), false); // false = run last
+    this.editor.events.on('destroy', froalaArg([this.teardownEditor]), false); // false = run last
 
     // Since we overrode this event callback,
     // call the passed in callback(s) if there are any
@@ -293,7 +293,7 @@ export default class FroalaEditorComponent extends Component {
 
   @action destroyEditor(/*element*/) {
     // Guard against someone calling editor.destroy()
-    // from an event callback, which destroyedEditor()
+    // from an event callback, which teardownEditor()
     // would still trigger and unreference the editor
     // before this callback had a chance to run
     if (this.editor) {
@@ -302,7 +302,8 @@ export default class FroalaEditorComponent extends Component {
   }
 
 
-  @action destroyedEditor(/*editor, ...args*/) {
+  @action teardownEditor(editor/*, ...args*/) {
+    delete editor.component;
     this.editor = null;
   }
 

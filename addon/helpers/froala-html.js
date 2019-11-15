@@ -14,7 +14,7 @@ export function froalaHtml([callback, ...partial]/*, hash*/) {
     // Editor might be passed in as the first arg if also wrapped with {{froala-arg}}
     // Note: Shift editor off args so it isn't "double passed" when args are spread on the callback
     let editor = (
-      typeof args[0] === 'object' && args[0].emberComponent ?
+      typeof args[0] === 'object' && args[0].component ?
       args.shift() :
       this
     );
@@ -25,7 +25,7 @@ export function froalaHtml([callback, ...partial]/*, hash*/) {
     );
 
     // The ember component knows if the @content in isHTMLSafe() or not
-    let returnSafeString = (editor.emberComponent && editor.emberComponent.returnSafeString);
+    let returnSafeString = (editor.component && editor.component.returnSafeString);
 
     // Get the html content from the editor, making it a SafeString if needed
     let html = (returnSafeString ? htmlSafe(editor.html.get()) : editor.html.get());

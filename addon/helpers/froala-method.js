@@ -14,14 +14,14 @@ export function froalaMethod([methodName, ...helperParams], helperHash) {
 
     // Editor might be passed in as the first arg if also wrapped with {{froala-arg}}
     let editor = (
-      typeof closureParams[0] === 'object' && closureParams[0].emberComponent ?
+      typeof closureParams[0] === 'object' && closureParams[0].component ?
       closureParams[0] :
       this
     );
 
     assert(
       '{{froala-method}} helper cannot determine the editor instance',
-      typeof editor === 'object' && editor.emberComponent
+      typeof editor === 'object' && editor.component
     );
 
     // Get the actual method using ember.get() so that nested paths work here
