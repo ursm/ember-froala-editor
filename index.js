@@ -2,9 +2,8 @@
 
 
 // Module requirements
-var fs             = require('fs');
-var path           = require('path');
-var VersionChecker = require('ember-cli-version-checker');
+var fs   = require('fs');
+var path = require('path');
 
 
 // Resolve the froala-editor node path once..
@@ -23,21 +22,6 @@ module.exports = {
     plugins   : false,
     themes    : false
   },
-
-
-  // https://github.com/ember-cli/ember-cli-version-checker#forember
-  init() {
-    this._super.init.apply( this, arguments );
-    let checker = new VersionChecker( this );
-    checker.for('ember-cli').assertAbove(
-      '2.15.0',
-      'To use ember-froala-editor you must have ember-cli 2.15.0 or later!'
-    ); // https://emberjs.com/blog/2017/09/01/ember-2-15-released.html#toc_app-import-files-within-node_modules
-    checker.forEmber().assertAbove(
-      '3.13.0',
-      'To use ember-froala-editor you must have ember 3.13.0 or later!'
-    ); // https://blog.emberjs.com/2019/09/25/ember-3-13-released.html (tracked properties)
-  }, // init()
 
 
   included( app ) {
