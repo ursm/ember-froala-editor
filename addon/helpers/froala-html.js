@@ -2,7 +2,7 @@ import { helper } from '@ember/component/helper';
 import { assert } from '@ember/debug';
 import { htmlSafe } from '@ember/template';
 
-export function froalaHtml([callback, ...partial]/*, hash*/) {
+export function froalaHtml([callback, ...partial], {returnSafeString=true}) {
 
   assert(
     '{{froala-html}} helper requires a function as the first parameter',
@@ -23,9 +23,6 @@ export function froalaHtml([callback, ...partial]/*, hash*/) {
       '{{froala-html}} helper cannot determine the editor instance',
       (editor.html && typeof editor.html.get === 'function')
     );
-
-    // The ember component knows if the @content in isHTMLSafe() or not
-    let returnSafeString = (editor.component && editor.component.returnSafeString);
 
     // Get the html content from the editor, making it a SafeString if needed
     let html = (returnSafeString ? htmlSafe(editor.html.get()) : editor.html.get());

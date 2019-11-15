@@ -77,30 +77,13 @@ component will handle proper setup and teardown.
 Pass-in existing HTML/content via the `@content` argument and capture changes
 from the `@update` argument (which should be a setter, including `{{mut}}`).
 However, when using `{{mut}}` it must be wrapped in `{{fn}}` to retain the
-function (setter) aspect. Ex:
+function (setter) aspect. The `@content` must be a SafeString from
+[`htmlSafe`][14] and `@update` will also return a SafeString.
 
 ```hbs
 <FroalaEditor
   @content=this.content
   @update={{fn (mut this.content)}}
-/>
-```
-
-**Security note: Since this editor generates HTML, this component treats the 
-`@content` as [`htmlSafe()`][14] and will output the value *unescaped*. It
-is up to you to properly sanitize the content, safeguarding against XXS.**
-
-The `@content` argument can be a string or SafeString from [`htmlSafe()`][14].
-And the value given to `@update` will be the same type. So, SafeString in,
-SafeString out. To explicitly return one or the other, use `@returnSafeString`.
-This would be helpful when the passed in `@content` might be undefined (new)
-but you want it to be a SafeString when there *is* content.
-
-```hbs
-<FroalaEditor
-  @content=this.maybeUndefined
-  @update={{fn (mut this.maybeUndefined)}}
-  @returnSafeString=true
 />
 ```
 
@@ -158,10 +141,8 @@ function commandsCallback(editor, cmd, param1, param2) {}
 According to the [Froala Editor documentation][12], content created from the
 editor should be contained within an element with the `.fr-view` class. This
 is simply a component that applies the class. It can be used in either inline
-(with the `@content` argument) or block form.
-
-Note: When using block form, you must explicitly apply [`htmlSafe()`][14] to
-render the content as HTML, whereas the `@content` argument will do this for you.
+(with the `@content` argument) or block form, but either should be SafeString
+from the [`htmlSafe()`][14].
 
 ```hbs
 {{!-- this.content = htmlSafe('<p>Content here</p>') --}}
@@ -361,6 +342,7 @@ await fillInFroalaEditor('#editorId', '<p>HTML</p>');
 ### `getInFroalaEditor()` Test Helper
 
 Test helper that grabs the `innerHTML` of the editor content, simple as that.
+It returns the HTML as a string and *not* a SafeString, unlike `{{froala-html}}`.
 
 ```js
 import { getInFroalaEditor } from 'ember-froala-editor/test-support';
@@ -597,6 +579,31 @@ the argument name when passing in `@content`, `@update`, and `@options`.
 />
 ```
 
+#### `@content` must now be a SafeString
+Previously the `content` could be a string or SafeString an the component would
+properly handle either type. Now the component requires that `@content` be a
+SafeString to indicate the incoming content has been properly guarded against
+potential XSS exploits. This addon now provides a couple helpers to work around
+this change but are opt-in only by importing them into your app (they are not
+automatically available). Take a look at the documentation for `{{html-safe}}`
+and `{{to-string}}` above. So if you still plan on using strings;
+
+**From**
+```hbs
+{{froala-editor
+  content=this.htmlString
+  update=(action (mut this.htmlString))
+}}
+```
+
+**To**
+```hbs
+<FroalaEditor
+  @content={{html-safe this.htmlString}}
+  @update={{to-string (fn (mut this.htmlSafe))}}
+/>
+```
+
 #### `on-*-getHtml` callbacks replaced with `{{froala-html}}` helper
 The 2.x series of this addon provided a special way to get the editors current
 html/content as the first argument in action callbacks. This functionality has
@@ -748,6 +755,14 @@ on how to explicitly enable two-way binding in some manor, possibly by
 a "boxing" a value with a setter. The `<FroalaEditor>` was designed with
 this in mind, where the `@update` argument could look for a setter on
 `@content`, without needing to pass in the setter explicitly/separately.
+
+#### Why can't `@content` be a regular string anymore?
+There has been some debate on if the `<FroalaEditor>` itself should automatically
+display `@content` unescaped by applying [`htmlSafe()`][14]. Rather, the user
+of the component should indicate that the `@content` is Ok to display in its'
+current form. Additionally, by requiring a SafeString, the addon was able to
+allow greater backwards compatibility without resorting to computeds. We can
+always go back on this decision but it was a good change to make at v3.
 
 #### Why is it recommended to depend upon a minor version and not major?
 Ex: `~3.0.0` instead of `^3.0.0`. Froala would like this addon (and other

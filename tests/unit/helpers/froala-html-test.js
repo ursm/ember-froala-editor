@@ -9,22 +9,22 @@ module('Unit | Helper | froala-html', function(hooks) {
   test('helper function called with explicitly passed in editor', function(assert) {
     let html = '<p>Foobar</p>';
     let editor = { // Mock an editor instance
-      component: {}, // Added by <FroalaEditor>
+      component: {}, // Mock the component reference
       html: {
         get() {
           return html;
         }
       }
     };
-    let setter = content => assert.equal(content, html);
-    let closure = froalaHtml([setter]);
+    let setter = content => assert.equal(content.toString(), html);
+    let closure = froalaHtml([setter], {});
     closure(editor);
   });
 
   test('helper function called with called context as the editor', function(assert) {
     let html = '<p>Foobar</p>';
     let editor = { // Mock an editor instance
-      component: {}, // Added by <FroalaEditor>
+      component: {}, // Mock the component reference
       html: {
         get() {
           return html;
@@ -32,15 +32,15 @@ module('Unit | Helper | froala-html', function(hooks) {
       }
     };
     // Ex: {{froala-html this.setter}}
-    let setter = content => assert.equal(content, html);
-    let closure = froalaHtml([setter]).bind(editor);
+    let setter = content => assert.equal(content.toString(), html);
+    let closure = froalaHtml([setter], {}).bind(editor);
     closure();
   });
 
   test('additional arguments passed into the helper are available to the setter', function(assert) {
     let html = '<p>Foobar</p>';
     let editor = { // Mock an editor instance
-      component: {}, // Added by <FroalaEditor>
+      component: {}, // Mock the component reference
       html: {
         get() {
           return html;
@@ -49,14 +49,14 @@ module('Unit | Helper | froala-html', function(hooks) {
     };
     // Ex: {{froala-html this.setter this.htmlHere}}
     let setter = (content, editor, htmlHere) => assert.equal(htmlHere, html);
-    let closure = froalaHtml([setter, html]);
+    let closure = froalaHtml([setter, html], {});
     closure(editor);
   });
 
   test('additional arguments passed into the closure are available to the setter', function(assert) {
     let html = '<p>Foobar</p>';
     let editor = { // Mock an editor instance
-      component: {}, // Added by <FroalaEditor>
+      component: {}, // Mock the component reference
       html: {
         get() {
           return html;
@@ -65,7 +65,7 @@ module('Unit | Helper | froala-html', function(hooks) {
     };
     // Ex: @on-paste-afterCleanup={{froala-html this.setter}}
     let setter = (content, editor, clipboard_html) => assert.equal(clipboard_html, html);
-    let closure = froalaHtml([setter]);
+    let closure = froalaHtml([setter], {});
     closure(editor, html);
   });
 
@@ -73,7 +73,7 @@ module('Unit | Helper | froala-html', function(hooks) {
     assert.expect(2);
     let html = '<p>Foobar</p>';
     let editor = { // Mock an editor instance
-      component: {}, // Added by <FroalaEditor>
+      component: {}, // Mock the component reference
       html: {
         get() {
           return html;
@@ -85,37 +85,35 @@ module('Unit | Helper | froala-html', function(hooks) {
       assert.equal(check1, html);
       assert.equal(check2, html);
     };
-    let closure = froalaHtml([setter, html]);
+    let closure = froalaHtml([setter, html], {});
     closure(editor, html);
   });
 
-  test('helper wraps the html in a SafeString when the component returnSafeString is true', function(assert) {
+  test('helper returns a strign when the returnSafeString named param is false', function(assert) {
     let html = '<p>Foobar</p>';
     let editor = { // Mock an editor instance
-      component: { // Added by <FroalaEditor>
-        returnSafeString: true
-      },
+      component: {}, // Mock the component reference
       html: {
         get() {
           return html;
         }
       }
     };
-    // Ex: @content={{safe-string this.html}} @on-some-event={{froala-html this.setter}}
-    let setter = content => assert.ok(isHTMLSafe(content));
-    let closure = froalaHtml([setter]);
+    // Ex: @on-some-event={{froala-html this.setter returnSafeString=false}}
+    let setter = content => assert.notOk(isHTMLSafe(content));
+    let closure = froalaHtml([setter], {returnSafeString:false});
     closure(editor);
   });
 
   test('helper function called without any editor asserts', function(assert) {
     let setter = () => {};
-    let closure = froalaHtml([setter]);
+    let closure = froalaHtml([setter], {});
     assert.throws(() => closure());
   });
 
   test('helper function called without any closure asserts', function(assert) {
     // Ex: {{froala-html}}
-    assert.throws(() => froalaHtml([]));
+    assert.throws(() => froalaHtml([], {}));
   });
 
 });

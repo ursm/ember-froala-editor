@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { isHTMLSafe, htmlSafe } from '@ember/template';
+import { htmlSafe } from '@ember/template';
 import { render, clearRender, settled, click, find, waitUntil } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { fillInFroalaEditor } from 'ember-froala-editor/test-support';
@@ -13,7 +13,7 @@ module('Integration | Component | froala-editor', function(hooks) {
   test('@on-initialized event callback is triggered', async function(assert) {
 
     this.set('initializedCallback', () => {
-      assert.ok(true, 'initialized callback reached');
+      assert.ok(true);
     });
 
     await render(hbs`
@@ -27,7 +27,7 @@ module('Integration | Component | froala-editor', function(hooks) {
   test('@on-initializationDelayed event callback is triggered when using the initOnClick option', async function(assert) {
 
     this.set('initializedCallback', () => {
-      assert.ok(true, 'initializationDelayed callback reached');
+      assert.ok(true);
     });
 
     await render(hbs`
@@ -43,7 +43,7 @@ module('Integration | Component | froala-editor', function(hooks) {
   test('@on-initialized event action is fired after editor is clicked when using the initOnClick option', async function(assert) {
 
     this.set('initializedCallback', () => {
-      assert.ok(true, 'initialized callback reached');
+      assert.ok(true);
     });
 
     await render(hbs`
@@ -60,8 +60,8 @@ module('Integration | Component | froala-editor', function(hooks) {
 
   test('@content changes while the editor is NOT initialized', async function(assert) {
 
-    let foobar = '<p>Foobar</p>';
-    let foobaz = '<p>Foobaz</p>';
+    let foobar = htmlSafe('<p>Foobar</p>');
+    let foobaz = htmlSafe('<p>Foobaz</p>');
 
     this.set('foo', foobar);
 
@@ -83,14 +83,14 @@ module('Integration | Component | froala-editor', function(hooks) {
 
   test('@content changes while the editor is initialized', async function(assert) {
 
-    let foobar = '<p>Foobar</p>';
-    let foobaz = '<p>Foobaz</p>';
+    let foobar = htmlSafe('<p>Foobar</p>');
+    let foobaz = htmlSafe('<p>Foobaz</p>');
 
     this.set('foo', foobar);
 
     this.set('initializedCallback', editor => {
       this.set('foo', foobaz);
-      assert.equal(editor.html.get(), foobaz);
+      assert.equal(editor.html.get(), foobaz.toString());
     });
 
     await render(hbs`
@@ -105,18 +105,18 @@ module('Integration | Component | froala-editor', function(hooks) {
 
   test('@updated setter called when content changes', async function(assert) {
 
-    let foobar = '<p>Foobar</p>';
-    let foobaz = '<p>Foobaz</p>';
+    let foobar = htmlSafe('<p>Foobar</p>');
+    let foobaz = htmlSafe('<p>Foobaz</p>');
 
     this.set('foo', foobar);
 
     this.set('initializedCallback', editor => {
-      editor.html.set(foobaz);
+      editor.html.set(foobaz.toString());
       editor.undo.saveStep();
     });
 
     this.set('setFoo', html => {
-      assert.equal(html, foobaz);
+      assert.equal(html.toString(), foobaz.toString());
     });
 
     await render(hbs`
@@ -132,18 +132,18 @@ module('Integration | Component | froala-editor', function(hooks) {
 
   test('@updated setter works with a different event name', async function(assert) {
 
-    let foobar = '<p>Foobar</p>';
-    let foobaz = '<p>Foobaz</p>';
+    let foobar = htmlSafe('<p>Foobar</p>');
+    let foobaz = htmlSafe('<p>Foobaz</p>');
 
     this.set('foo', foobar);
 
     this.set('initializedCallback', editor => {
-      editor.html.set(foobaz);
+      editor.html.set(foobaz.toString());
       editor.events.trigger('blur');
     });
 
     this.set('setFoo', html => {
-      assert.equal(html, foobaz);
+      assert.equal(html.toString(), foobaz.toString());
     });
 
     await render(hbs`
@@ -160,19 +160,19 @@ module('Integration | Component | froala-editor', function(hooks) {
 
   test('@updated setter called when editor is destroyed but content changed', async function(assert) {
 
-    let foobar = '<p>Foobar</p>';
-    let foobaz = '<p>Foobaz</p>';
+    let foobar = htmlSafe('<p>Foobar</p>');
+    let foobaz = htmlSafe('<p>Foobaz</p>');
 
     this.set('foo', foobar);
 
     this.set('initializedCallback', editor => {
-      editor.html.set(foobaz);
+      editor.html.set(foobaz.toString());
       editor.undo.saveStep();
       editor.destroy();
     });
 
     this.set('setFoo', html => {
-      assert.equal(html, foobaz);
+      assert.equal(html.toString(), foobaz.toString());
     });
 
     await render(hbs`
@@ -189,17 +189,17 @@ module('Integration | Component | froala-editor', function(hooks) {
   test('multiple contentChanged callbacks are called', async function(assert) {
     assert.expect(2);
 
-    let foobar = '<p>Foobar</p>';
-    let foobaz = '<p>Foobaz</p>';
+    let foobar = htmlSafe('<p>Foobar</p>');
+    let foobaz = htmlSafe('<p>Foobaz</p>');
 
     this.set('foo', foobar);
 
     this.set('runAssert', () => {
-      assert.ok(true, 'contentChanged callback reached');
+      assert.ok(true);
     });
 
     this.set('initializedCallback', editor => {
-      editor.html.set(foobaz);
+      editor.html.set(foobaz.toString());
       editor.undo.saveStep();
     });
 
@@ -217,38 +217,11 @@ module('Integration | Component | froala-editor', function(hooks) {
 
   test('@on-destroy callback is triggered when un-rendered', async function(assert) {
     this.set('destroyedCallback', () => {
-      assert.ok(true, '@on-destroy callback reached');
+      assert.ok(true);
     });
     await render(hbs`<FroalaEditor @on-destroy={{this.destroyedCallback}} />`);
     await settled();
     await clearRender();
-  });
-
-
-  test('SafeString in, SafeString out', async function(assert) {
-
-    let foobar = '<p>Foobar</p>';
-    let foobaz = '<p>Foobaz</p>';
-
-    this.set('foo', htmlSafe(foobar));
-
-    this.set('initializedCallback', editor => {
-      editor.html.set(foobaz);
-      editor.undo.saveStep();
-    });
-
-    this.set('setFoo', html => {
-      assert.ok(isHTMLSafe(html), 'html is SafeString');
-    });
-
-    await render(hbs`
-      <FroalaEditor
-        @content={{this.foo}}
-        @update={{this.setFoo}}
-        @on-initialized={{this.initializedCallback}}
-      />
-    `);
-
   });
 
 
@@ -335,7 +308,7 @@ module('Integration | Component | froala-editor', function(hooks) {
   test('extended defaultEventCallbacks are properly called', async function(assert) {
 
     this.set('runAssert', () => {
-      assert.ok(true, 'runAssert callback reached');
+      assert.ok(true);
     });
 
     await render(hbs`
@@ -352,7 +325,7 @@ module('Integration | Component | froala-editor', function(hooks) {
   test('overridden extended defaultEventCallbacks are properly called', async function(assert) {
 
     this.set('runAssert', () => {
-      assert.ok(true, 'runAssert callback reached');
+      assert.ok(true);
     });
 
     await render(hbs`

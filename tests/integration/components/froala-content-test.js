@@ -2,6 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { htmlSafe } from '@ember/template';
 
 module('Integration | Component | froala-content', function(hooks) {
   setupRenderingTest(hooks);
@@ -19,18 +20,14 @@ module('Integration | Component | froala-content', function(hooks) {
   });
 
   test('@content is output inside the block', async function(assert) {
-    await render(hbs`<FroalaContent @content="foobar" />`);
-    assert.equal(this.element.textContent.trim(), 'foobar');
-  });
-
-  test('@content is marked htmlSafe()', async function(assert) {
-    this.set('content', '<p>foobar</p>');
+    this.set('content', htmlSafe('foobar'))
     await render(hbs`<FroalaContent @content={{this.content}} />`);
     assert.equal(this.element.textContent.trim(), 'foobar');
   });
 
   test("block content is properly yield'ed", async function(assert) {
-    await render(hbs`<FroalaContent>foobar</FroalaContent>`);
+    this.set('content', htmlSafe('foobar'))
+    await render(hbs`<FroalaContent>{{this.content}}</FroalaContent>`);
     assert.equal(this.element.textContent.trim(), 'foobar');
   });
 

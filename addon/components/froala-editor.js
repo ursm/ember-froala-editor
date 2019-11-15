@@ -2,7 +2,7 @@ import { getOwner } from '@ember/application';
 import { assert } from '@ember/debug';
 import { action } from '@ember/object';
 import { assign } from '@ember/polyfills';
-import { isHTMLSafe, htmlSafe } from '@ember/template';
+import { isHTMLSafe } from '@ember/template';
 import Component from '@glimmer/component';
 import { froalaArg } from 'ember-froala-editor/helpers/froala-arg';
 import { froalaHtml } from 'ember-froala-editor/helpers/froala-html';
@@ -28,26 +28,8 @@ export default class FroalaEditorComponent extends Component {
   }
 
 
-  get returnSafeString() {
-    return (
-      typeof this.args.returnSafeString === 'undefined' ?
-      isHTMLSafe(this.args.content) :
-      this.args.returnSafeString
-    );
-  }
-
-
   get fastboot() {
     return getOwner(this).lookup('service:fastboot');
-  }
-
-
-  get content() {
-    return (
-      isHTMLSafe(this.args.content) ?
-      this.args.content :
-      htmlSafe(this.args.content)
-    );
   }
 
 
@@ -206,8 +188,8 @@ export default class FroalaEditorComponent extends Component {
   constructor(owner, args) {
     super(owner, args);
     assert(
-      '<FroalaEditor> @content argument must be a string or SafeString from htmlSafe()',
-      (typeof args.content === 'string' || typeof args.content === 'undefined' || isHTMLSafe(args.content))
+      '<FroalaEditor> @content argument must be a SafeString from htmlSafe()',
+      (isHTMLSafe(args.content) || args.content === null || typeof args.content === 'undefined')
     );
     assert(
       '<FroalaEditor> @update argument must be a function',
@@ -246,7 +228,7 @@ export default class FroalaEditorComponent extends Component {
 
     // Add update callback when a setter is passed in
     if (this.update) {
-      this.editor.events.on(this.updateEvent, froalaHtml([this.update]), true); // true = run first
+      this.editor.events.on(this.updateEvent, froalaHtml([this.update], {}), true); // true = run first
     }
 
     // Add destroyed callback so the editor can be unreferenced
@@ -267,7 +249,13 @@ export default class FroalaEditorComponent extends Component {
 
 
   @action updateContent(element, [content]) {
-    let html = (isHTMLSafe(content) ? content.toString() : content);
+    assert(
+      '<FroalaEditor> updated @content argument must be a SafeString from htmlSafe()',
+      (isHTMLSafe(content) || content === null || typeof content === 'undefined')
+    );
+
+    // content should be undefined or a SafeString
+    let html = (isHTMLSafe(content) ? content.toString() : '');
 
     // When the editor is available,
     // updates should go through `editor.html.set()`

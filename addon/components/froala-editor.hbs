@@ -5,9 +5,9 @@
   {{will-destroy this.destroyEditor}}
 >
   {{#if this.fastboot.isFastboot}}
-    {{this.content}}
+    {{@content}}
   {{else}}
     {{! template-lint-disable no-unbound }}
-    {{unbound this.content}}
+    {{unbound @content}}
   {{/if}}
 </div>
