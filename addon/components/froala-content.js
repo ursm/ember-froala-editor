@@ -1,16 +1,3 @@
-import Component from '@ember/component';
-import layout from '../templates/components/froala-content';
+import Component from '@glimmer/component';
 
-
-const FroalaContentComponent = Component.extend({
-  layout,
-  classNames: ['fr-view']
-});
-
-
-FroalaContentComponent.reopenClass({
-  positionalParams: ['content']
-});
-
-
-export default FroalaContentComponent;
+export default class FroalaContentComponent extends Component {}

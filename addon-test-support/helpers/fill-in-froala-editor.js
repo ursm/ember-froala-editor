@@ -1,31 +1,26 @@
-import $ from 'jquery';
-import { run } from '@ember/runloop';
+import { isHTMLSafe } from '@ember/template';
 import { registerAsyncHelper } from '@ember/test';
-import { settled } from '@ember/test-helpers';
+import { find, fillIn } from '@ember/test-helpers';
 
 export default registerAsyncHelper('fillInFroalaEditor', function(app, selector, html) {
-  fillInFroalaEditor(selector, html);
+  return fillInFroalaEditor(selector, html);
 });
 
 export async function fillInFroalaEditor(selector, html) {
 
-  // Get the editor element of the selector
-  let $editor = $('.froala-editor-instance', selector);
+  let element = find(`${selector} [contenteditable]`);
 
-  // Convert SafeStrings to regular string
+  if (element === null) {
+    throw `[contenteditable] DOM element not found within the selector '${selector}'. ` +
+      "Try adding 'await settled();' in your test before and after using 'fillInFroalaEditor()'";
+  }
+
   html = (
-    html && typeof html.toString === 'function' ?
+    isHTMLSafe(html) ?
     html.toString() :
-    ''
+    html
   );
 
-  // Apply html via Froala Editor method and trigger a change event
-  run(() => {
-    $editor.froalaEditor('html.set', html);
-    $editor.froalaEditor('undo.saveStep');
-  });
-
-  // Wait for the above runloop to finish
-  return settled();
+  return fillIn(element, html);
 
 }

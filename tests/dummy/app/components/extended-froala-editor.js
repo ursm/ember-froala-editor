@@ -1,22 +1,17 @@
 import FroalaEditorComponent from 'ember-froala-editor/components/froala-editor';
+import { action } from '@ember/object';
 
-export default FroalaEditorComponent.extend({
 
-  // eslint-disable-next-line ember/avoid-leaking-state-in-ember-objects
-  options : {
-    theme         : "red",
-    toolbarSticky : false
-  },
+export default class ExtendedFroalaEditorComponent extends FroalaEditorComponent {
 
-  // NOT ideal when applying default options,
-  // use the options:{} example above instead
-  charCounterCount : false,
+  options = {
+    theme: 'gray'
+  }
 
-  'on-contentChanged' : function() {
-    let runAssert = this.get('runAssert');
-    if ( typeof runAssert === 'function' ) {
-      runAssert();
+  @action 'on-initialized'(/*editor*/) {
+    if (typeof this.args.runAssert === 'function') {
+      this.args.runAssert();
     }
   }
 
-});
+}

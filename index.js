@@ -2,9 +2,8 @@
 
 
 // Module requirements
-var fs             = require('fs');
-var path           = require('path');
-var VersionChecker = require('ember-cli-version-checker');
+var fs   = require('fs');
+var path = require('path');
 
 
 // Resolve the froala-editor node path once..
@@ -25,32 +24,11 @@ module.exports = {
   },
 
 
-  // https://github.com/ember-cli/ember-cli-version-checker#forember
-  init() {
-    this._super.init.apply( this, arguments );
-    let checker = new VersionChecker( this );
-    checker.for('ember-cli').assertAbove(
-      '2.15.0',
-      'To use ember-froala-editor you must have ember-cli 2.15.0 or later!'
-    ); // https://emberjs.com/blog/2017/09/01/ember-2-15-released.html#toc_app-import-files-within-node_modules
-    checker.forEmber().assertAbove(
-      '2.15.0',
-      'To use ember-froala-editor you must have ember 2.15.0 or later!'
-    ); // https://emberjs.com/blog/2017/09/01/ember-2-15-released.html#toc_public-router-service-phase-1
-  }, // init()
-
-
   included( app ) {
 
 
     // https://ember-cli.com/extending/#addon-entry-point
     this._super.included.apply( this, arguments );
-
-
-    // Do not import anything if in "fastboot mode"
-    if ( typeof FastBoot !== 'undefined' ) {
-      return;
-    }
 
 
     // For nested usage, build the options up through the entire tree,
@@ -92,6 +70,16 @@ module.exports = {
     this.import( path.join( nodePath, 'js', 'froala_editor.min.js' ) );
     this.import( path.join( nodePath, 'css', 'froala_editor.css' ) );
     this.import( path.join( nodePath, 'css', 'froala_style.css' ) );
+
+
+    // Include the vendor shim to make froala-editor importable
+    this.import( path.join( 'vendor', 'shims', 'froala-editor.js' ) );
+
+
+    // Do not import anything else if in "fastboot mode"
+    if ( typeof FastBoot !== 'undefined' ) {
+      return;
+    }
 
 
     // Bucket for import list / details

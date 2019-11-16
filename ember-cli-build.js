@@ -12,13 +12,6 @@ module.exports = function(defaults) {
       ],
       languages: false,
       themes   : true
-    },
-
-    // Use Bootswatch in the "dummy" app
-    // to resemble the Froala Editor Website
-    'ember-cli-bootswatch': {
-      theme: 'materia',
-      importJS: ['util','collapse']
     }
 
   });

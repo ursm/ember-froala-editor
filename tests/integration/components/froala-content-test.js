@@ -1,45 +1,34 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
-import hbs from 'htmlbars-inline-precompile';
-import $ from 'jquery';
+import { hbs } from 'ember-cli-htmlbars';
+import { htmlSafe } from '@ember/template';
 
 module('Integration | Component | froala-content', function(hooks) {
   setupRenderingTest(hooks);
 
   test('.fr-view class is applied', async function(assert) {
-
-    await render(hbs`{{froala-content elementId="editor"}}`);
-
-    assert.ok($('#editor', this.element).hasClass('fr-view'));
-
+    await render(hbs`<FroalaContent />`);
+    assert.dom('div').hasClass('fr-view');
   });
 
+  test('custom class names are applied', async function(assert) {
+    assert.expect(2);
+    await render(hbs`<FroalaContent class="foobar" />`);
+    assert.dom('div').hasClass('fr-view');
+    assert.dom('div').hasClass('foobar');
+  });
 
-  test("'content' is output inside the block", async function(assert) {
-
-    await render(hbs`{{froala-content content="foobar"}}`);
-
+  test('@content is output inside the block', async function(assert) {
+    this.set('content', htmlSafe('foobar'))
+    await render(hbs`<FroalaContent @content={{this.content}} />`);
     assert.equal(this.element.textContent.trim(), 'foobar');
-
   });
-
-
-  test("positional param 'content' is output inside the block", async function(assert) {
-
-    await render(hbs`{{froala-content "foobar"}}`);
-
-    assert.equal(this.element.textContent.trim(), 'foobar');
-
-  });
-
 
   test("block content is properly yield'ed", async function(assert) {
-
-    await render(hbs`{{#froala-content}}foobar{{/froala-content}}`);
-
+    this.set('content', htmlSafe('foobar'))
+    await render(hbs`<FroalaContent>{{this.content}}</FroalaContent>`);
     assert.equal(this.element.textContent.trim(), 'foobar');
-
   });
 
 });
